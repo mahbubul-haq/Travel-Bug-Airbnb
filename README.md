@@ -10,3 +10,28 @@
 3. Md. Mahbubul Haque\
 1605051@ugrad.cse.buet.ac.bd
 
+## Steps to Run the Project
+### For the First Time
+```
+# Front End
+git clone git@github.com:kawshikbuet17/CSE-408-Project-Travel-Bug.git
+cd CSE-408-Project-Travel-Bug/
+cd travel-bug-frontend/
+npm install
+npm start
+
+# Back End
+cd ../travel-bug-backend/
+npm install
+node index
+```
+### Otherwise
+```
+# Front End
+cd travel-bug-frontend/
+npm start
+
+# Back End
+cd ../travel-bug-backend/
+node index
+```
