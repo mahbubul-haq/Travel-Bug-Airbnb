@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
-const mongoURI = "mongodb://localhost:27017/";
+const mongoURI = "mongodb://localhost:27017/travel-bug-db";
 
-const connectToMongo = ()=>{
-    mongoose.connect(mongoURI, ()=>{
+const connectToMongo = () => {
+    mongoose.connect(mongoURI, () => {
         console.log('Connected to MongoDB successfully');
     });
 }
