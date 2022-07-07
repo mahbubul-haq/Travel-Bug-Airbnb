@@ -1,0 +1,13 @@
+localhost:5000/api/auth/login POST
+Content-Type: application/json
+In body:
+
+{
+    "email": "kawshik.kumar.paul@gmail.com",
+    "password": "kawshik.kumar.paul@gmail.com"
+}
+
+Receive Auth Token as response.
+{
+  "authToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJjNjlmOTU1MTkyNzg0N2QxY2RiY2M4In0sImlhdCI6MTY1NzE5MTQ3N30.7HS-QeVq-IAKJZDiDTy9RIE_CkAif-DSTcU9YUiHdeo"
+}
