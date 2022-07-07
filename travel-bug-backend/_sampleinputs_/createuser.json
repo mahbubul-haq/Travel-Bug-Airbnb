@@ -1,4 +1,6 @@
-[{
+[
+
+{
     "email": "kawshik.kumar.paul@gmail.com",
     "password": "kawshik.kumar.paul@gmail.com",
     "firstName": "Kawshik",
@@ -18,4 +20,19 @@
     "firstName": "Mahbubul",
     "lastName": "Haque"
 }
+,
+{
+    "email": "iftekharhakimkaowsar88@gmail.com",
+    "password": "iftekharhakimkaowsar88@gmail.com",
+    "firstName": "Iftekhar",
+    "lastName": "Hakim"
+}
+,
+{
+    "email": "1705002@ugrad.cse.buet.ac.bd",
+    "password": "1705002@ugrad.cse.buet.ac.bd",
+    "firstName": "Fahim",
+    "lastName": "Hakim"
+}
+
 ]
