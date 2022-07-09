@@ -18,14 +18,16 @@ function App() {
     <>
       <Router>
         <Navbar />
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/about" element={<About />} />
-          <Route exact path="/experiences" element={<Experiences />} />
-          <Route exact path="/transportguidelines" element={<TransportGuidelines />} />
-          <Route exact path="/signup" element={<SignUp />} />
-          <Route exact path="/login" element={<Login />} />
-        </Routes>
+        <div className='container'>
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route exact path="/about" element={<About />} />
+            <Route exact path="/experiences" element={<Experiences />} />
+            <Route exact path="/transportguidelines" element={<TransportGuidelines />} />
+            <Route exact path="/signup" element={<SignUp />} />
+            <Route exact path="/login" element={<Login />} />
+          </Routes>
+        </div>
       </Router>
     </>
   );
