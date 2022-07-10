@@ -49,7 +49,7 @@ const UserSchema = new Schema({
   ],
   location: {
     type: mongoose.Types.ObjectId,
-    required: true,
+    // required: true,
     ref: "Location",
   },
 });
