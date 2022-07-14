@@ -1,27 +1,25 @@
-import './App.css';
 import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  // Link
+  BrowserRouter as Router, Route, Routes
 } from "react-router-dom";
-import Navbar from './components/Navbar';
-import Home from './components/Home';
+import './App.css';
 import About from './components/About';
-import Experiences from './components/Experiences';
-import TransportGuidelines from './components/TransportGuidelines';
-import SignUp from './components/Signup';
-import Login from './components/Login';
-import Hostings from './components/hostings/Hostings';
 import Account from './components/account/Account';
-import Messages from './components/messages/Messages';
-import Notifications from './components/notifications/Notifications';
-import Profile from './components/account/Profile';
 import Payments from './components/account/Payments';
+import Profile from './components/account/Profile';
 import Bookings from './components/bookings/Bookings';
+import Experiences from './components/Experiences';
+import Home from './components/Home';
+import Hostings from './components/hostings/Hostings';
+import Login from './components/Login';
 import Conversation from './components/messages/Conversation';
+import Messages from './components/messages/Messages';
+import Navbar from './components/Navbar';
+import Notifications from './components/notifications/Notifications';
+import SignUp from './components/Signup';
+import TransportGuidelines from './components/TransportGuidelines';
 
 function App() {
+  
   return (
     <>
       <Router>
