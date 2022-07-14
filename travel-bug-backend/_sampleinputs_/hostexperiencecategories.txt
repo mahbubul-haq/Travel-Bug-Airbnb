@@ -1,0 +1,15 @@
+localhost:5000/host/experience/categories GET method
+
+http headers:
+
+auth-token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJjNjlmOTU1MTkyNzg0N2QxY2RiY2M4In0sImlhdCI6MTY1NzgxNTgzN30.fV_oy59DKb_adKODysEdtLVcLHt1ImKgUjrx3c1bIdg
+
+as response:
+{
+  "categories": [
+    {
+      "_id": "62d0813487d0a34b684d9096",
+      "categoryName": "Experience"
+    }
+  ]
+}

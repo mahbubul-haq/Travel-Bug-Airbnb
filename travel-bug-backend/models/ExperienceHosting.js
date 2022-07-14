@@ -1,5 +1,6 @@
 //dependencies
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const ExperienceHostingSchema = new Schema({
   hostingTitle: {
@@ -9,20 +10,23 @@ const ExperienceHostingSchema = new Schema({
 
   description: {
     type: String,
-    //required: true,
+    required: true,
   },
   hostingDate: {
-    type: Date.now,
+    type: Date,
+    default: Date.now,
     required: true,
   },
   draft: {
     type: Boolean,
+    default: true,
     required: true,
   },
-  indivisualOrTeam: {
+  individualOrTeam: {
     type: String,
-    enum: ["indivisual", "team"],
-    //required: true,
+    default: "individual",
+    enum: ["individual", "team"],
+    required: true,
   },
   totalCost: {
     type: Number,
@@ -37,6 +41,7 @@ const ExperienceHostingSchema = new Schema({
   maxGroupSize: {
     type: Number,
     min: 1,
+    default: 1,
     required: true,
   },
   minAge: {
@@ -53,19 +58,19 @@ const ExperienceHostingSchema = new Schema({
     min: 5,
   },
   host: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
   categories: [
     {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
     },
   ],
   activities: [
     {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Activity",
     },
   ],
