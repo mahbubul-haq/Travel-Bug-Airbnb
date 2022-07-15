@@ -20,11 +20,14 @@ import Nav from './components/Nav';
 import Notifications from './components/notifications/Notifications';
 import SignUp from './components/Signup';
 import TransportGuidelines from './components/TransportGuidelines';
+import HostingState from './context/hostings/HostingState';
+
+
 function App() {
-  
-  
+    
   return (
     <>
+      <HostingState>
       <Router>
         <Nav />
         <div>
@@ -53,6 +56,7 @@ function App() {
           </Routes>
           </div>
       </Router>
+      </HostingState>
     </>
   );
 }
