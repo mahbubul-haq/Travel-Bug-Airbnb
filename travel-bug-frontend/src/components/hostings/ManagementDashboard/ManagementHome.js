@@ -18,7 +18,7 @@ const ManagementHome = () => {
   };
   return (
     <>
-      <Card>
+      <Card className="card-style-9">
         <Card.Title className="text-light my-10">
           <div className="container">
             <h3>Today</h3>
@@ -26,7 +26,7 @@ const ManagementHome = () => {
         </Card.Title>
         <Card.Body>
           <div className="container">
-            <button type="button" class="btn btn-outline-primary btn-lg">
+            <button type="button" className="btn btn-outline-primary btn-lg">
               Complete Your Listing
             </button>
           </div>
@@ -71,22 +71,22 @@ const ManagementHome = () => {
           <div className="container my-10">
             <br />
             <br />
-            <ul class="list-group">
-              <Link to="#" class="list-group-item list-group-item-info">
-                <div class="d-flex w-100 justify-content-between">
+            <ul className="list-group">
+              <Link to="#" className="list-group-item list-group-item-info">
+                <div className="d-flex w-100 justify-content-between">
                   <h4 className="mb-1">Booked By</h4>
                   <small># of guests</small>
                 </div>
-                <p class="mb-1">Hosting Title </p>
+                <p className="mb-1">Hosting Title </p>
                 <small>paid/partially paid</small>
               </Link>
 
-              <Link to="#" class="list-group-item list-group-item-info">
-                <div class="d-flex w-100 justify-content-between">
+              <Link to="#" className="list-group-item list-group-item-info">
+                <div className="d-flex w-100 justify-content-between">
                   <h4 className="mb-1">Booked By</h4>
                   <small># of guests</small>
                 </div>
-                <p class="mb-1">Hosting Title </p>
+                <p className="mb-1">Hosting Title </p>
                 <small>paid/partially paid</small>
               </Link>
             </ul>
@@ -96,8 +96,8 @@ const ManagementHome = () => {
           <div className="container my-10">
             <br />
             <br />
-            <ul class="list-group">
-              <li class="list-group-item list-group-item-info">
+            <ul className="list-group">
+              <li className="list-group-item list-group-item-info">
                 This is a currently hosting
               </li>
             </ul>
@@ -107,8 +107,8 @@ const ManagementHome = () => {
           <div className="container my-10">
             <br />
             <br />
-            <ul class="list-group">
-              <li class="list-group-item list-group-item-info">
+            <ul className="list-group">
+              <li className="list-group-item list-group-item-info">
                 This is a arriving soon
               </li>
             </ul>
@@ -117,8 +117,8 @@ const ManagementHome = () => {
         {listType === "upcoming" && (
           <div className="container my-10">
             <br /> <br />
-            <ul class="list-group">
-              <li class="list-group-item list-group-item-info">
+            <ul className="list-group">
+              <li className="list-group-item list-group-item-info">
                 This is a upcoming
               </li>
             </ul>
