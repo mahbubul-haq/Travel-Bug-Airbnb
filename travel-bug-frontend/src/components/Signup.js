@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
-import { useNavigate } from 'react-router-dom'
-
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import '../App.css';
 const Signup = () => {
     const [credentials, setCredentials] = useState({email: "", password: "", cpassword: "", firstName: "", lastName: ""}) ;
     let navigate = useNavigate();
@@ -37,7 +37,7 @@ const Signup = () => {
 
     return (
         <div className='container'>
-            <form onSubmit={handleSubmit}>
+            <form className="form-style-9" onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
                     <input type="email" className="form-control" id="email" name='email' aria-describedby="emailHelp" onChange={onChange}/>
