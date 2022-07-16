@@ -1,0 +1,80 @@
+localhost:5000/experience/all GET
+
+as response
+[
+  {
+    "_id": "62d05584c3357ae729d0d491",
+    "hostingTitle": "Keokradong Tour",
+    "description": "Bandarban to Bogalake to Keokradong to Nilachol",
+    "hostingDate": "2022-07-14T17:42:28.712Z",
+    "draft": true,
+    "totalCost": 25000,
+    "itemsToBring": [],
+    "maxGroupSize": 5,
+    "minAge": 20,
+    "additionalRequirements": [],
+    "hostingPhotos": [],
+    "host": {
+      "emergencyContacts": [],
+      "_id": "62c69f9551927847d1cdbcc8",
+      "email": "kawshik.kumar.paul@gmail.com",
+      "firstName": "Kawshik",
+      "lastName": "Paul",
+      "__v": 0
+    },
+    "categories": [],
+    "activities": [],
+    "__v": 0,
+    "individualOrTeam": "individual"
+  },
+  {
+    "_id": "62d06411c2710259b39b1a21",
+    "hostingTitle": "Nafakhum Tour",
+    "description": "Bandarban to Bogalake to Keokradong to Nilachol",
+    "hostingDate": "2022-07-14T18:44:33.723Z",
+    "draft": true,
+    "totalCost": 25000,
+    "itemsToBring": [],
+    "maxGroupSize": 5,
+    "minAge": 20,
+    "additionalRequirements": [],
+    "hostingPhotos": [],
+    "host": {
+      "emergencyContacts": [],
+      "_id": "62c69f9551927847d1cdbcc8",
+      "email": "kawshik.kumar.paul@gmail.com",
+      "firstName": "Kawshik",
+      "lastName": "Paul",
+      "__v": 0
+    },
+    "categories": [],
+    "activities": [],
+    "__v": 0,
+    "individualOrTeam": "individual"
+  },
+  {
+    "_id": "62d06434c2710259b39b1a23",
+    "hostingTitle": "Amiakhum Tour",
+    "description": "Bandarban to Bogalake to Keokradong to Nilachol",
+    "hostingDate": "2022-07-14T18:45:08.111Z",
+    "draft": true,
+    "totalCost": 25000,
+    "itemsToBring": [],
+    "maxGroupSize": 5,
+    "minAge": 20,
+    "additionalRequirements": [],
+    "hostingPhotos": [],
+    "host": {
+      "emergencyContacts": [],
+      "_id": "62c69f9551927847d1cdbcc8",
+      "email": "kawshik.kumar.paul@gmail.com",
+      "firstName": "Kawshik",
+      "lastName": "Paul",
+      "__v": 0
+    },
+    "categories": [],
+    "activities": [],
+    "__v": 0,
+    "individualOrTeam": "individual"
+  }
+]
