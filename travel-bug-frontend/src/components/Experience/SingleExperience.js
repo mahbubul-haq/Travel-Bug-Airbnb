@@ -148,9 +148,10 @@ const SingleExperience = () => {
                         <br /><br />
                         <div className='row md-6'>
                             <h2>Things to Know</h2>
+                            
                             <div className='col'>
                                 <Container>
-
+                                <br/><br/>
                                     <ul class="list-group">
                                         <li class="list-group-item"><h4>House Rules</h4></li>
                                         <li class="list-group-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-alarm-fill" viewBox="0 0 16 16">
@@ -167,6 +168,7 @@ const SingleExperience = () => {
 
                             <div className='col'>
                                 <Container>
+                                <br/><br/>
                                     <ul class="list-group">
                                         <li class="list-group-item"><h4>Cancellation Policy</h4></li>
                                         <li class="list-group-item"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmarks-fill" viewBox="0 0 16 16">

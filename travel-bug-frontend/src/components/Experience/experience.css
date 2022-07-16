@@ -43,6 +43,10 @@
      margin-bottom: 7%;
      
   }
+  .row-style-7 {
+    box-shadow: 1px 1px 25px rgba(20, 104, 160, 0.35);
+    
+  }
   .form-style-9 {
     max-width: 450px;
     background: #f7fafb;
