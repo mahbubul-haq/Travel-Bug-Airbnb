@@ -1,21 +1,16 @@
 import React from 'react'
-
+import { Link } from 'react-router-dom';
 const HostitemCard = (props) => {
     const { hostItem } = props;
 
     return (
-        <div className='col-md-3'>
-            <div className="card border-info my-2">
-                <img src="/logo512.png" className="card-img-top" alt="..." />
-                <div className="card-body">
-                    <h5 className="card-title">Hosting Title: {hostItem.hostingTitle}</h5>
-                    <p className="card-text">Description: {hostItem.description}</p>
+        <Link to="#" class="list-group-item list-group-item-primary">
+                <div class="d-flex w-100 justify-content-between">
+                  <h3 className="mb-1"> {hostItem.hostingTitle}</h3>
+                  <small>Date: {hostItem.hostingDate}</small>
                 </div>
-                <div className="card-footer">
-                    <small className="text-muted">Hosting Date: {hostItem.hostingDate}</small>
-                </div>
-            </div>
-        </div>
+                <p class="mb-1"><h7>{hostItem.description} </h7></p>
+            </Link>
     )
 }
 

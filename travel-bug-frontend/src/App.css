@@ -74,10 +74,17 @@
 .card-style-5 {
   background-color: rgb(160, 231, 245);
   height: 65vh;
-  width: 52vh;
+  width: 90%;
   text-decoration: none;
+  position: relative;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 5%;
+  margin-bottom: 5%;
 }
 .card-style-5 img {
-  height: 48vh;
-  width: 52vh;
+  height: 70%;
+  width: 100%;
+
+
 }
