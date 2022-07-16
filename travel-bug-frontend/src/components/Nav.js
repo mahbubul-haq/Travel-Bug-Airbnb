@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Navbar, NavbarBrand, NavItem } from 'react-bootstrap';
 import { Link, useNavigate } from "react-router-dom";
+import userContext from '../context/user/userContext';
 import '../App.css';
 const Nav = () => {
+    const context = useContext(userContext);
+    const { user, getUser } = context;
+
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
+            getUser();
+        }
+    }, []);
+
     let navigate = useNavigate();
     const handleLogout = () => {
         localStorage.removeItem('isHost');
@@ -72,7 +82,7 @@ const Nav = () => {
                                     }
                                     <div className="btn-group">
                                         <button type="button" className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                            User
+                                            {user.firstName+" "+user.lastName}
                                         </button>
                                         <ul className="dropdown-menu">
                                             <li><button className="dropdown-item" onClick={handleMessages}>Messages</button></li>

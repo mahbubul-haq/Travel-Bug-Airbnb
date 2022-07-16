@@ -24,12 +24,14 @@ import SignUp from './components/Signup';
 import TransportGuidelines from './components/TransportGuidelines';
 import ExperienceState from './context/experiences/ExperienceState';
 import HostingState from './context/hostings/HostingState';
+import UserState from './context/user/UserState';
 
 
 function App() {
 
   return (
     <>
+    <UserState>
       <ExperienceState>
         <HostingState>
           <Router>
@@ -64,6 +66,7 @@ function App() {
           </Router>
         </HostingState>
       </ExperienceState>
+      </UserState>
     </>
   );
 }
