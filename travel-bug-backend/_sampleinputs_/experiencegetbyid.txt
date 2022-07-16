@@ -1,0 +1,28 @@
+localhost:5000/experience/hostingid/62d05584c3357ae729d0d491 (this is hosting id of an experience)  GET
+
+as response
+{
+  "_id": "62d05584c3357ae729d0d491",
+  "hostingTitle": "Keokradong Tour",
+  "description": "Bandarban to Bogalake to Keokradong to Nilachol",
+  "hostingDate": "2022-07-14T17:42:28.712Z",
+  "draft": true,
+  "totalCost": 25000,
+  "itemsToBring": [],
+  "maxGroupSize": 5,
+  "minAge": 20,
+  "additionalRequirements": [],
+  "hostingPhotos": [],
+  "host": {
+    "emergencyContacts": [],
+    "_id": "62c69f9551927847d1cdbcc8",
+    "email": "kawshik.kumar.paul@gmail.com",
+    "firstName": "Kawshik",
+    "lastName": "Paul",
+    "__v": 0
+  },
+  "categories": [],
+  "activities": [],
+  "__v": 0,
+  "individualOrTeam": "individual"
+}

@@ -16,6 +16,7 @@ app.use(express.json());
 //available routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/host/experience', require('./routes/host'));
+app.use('/experience', require('./routes/experience'));
 
 // app.get('/', (req, res) => {
 //   res.send('Hello Travel Bug!');
