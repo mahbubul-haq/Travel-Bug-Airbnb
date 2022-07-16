@@ -1,5 +1,5 @@
 import React from "react";
-import { Container } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 import "../App.css";
 import greece from "../images/greece.jpg";
 import maldives from "../images/maldives.jpg";
@@ -17,9 +17,15 @@ const Experiences = () => {
             <div className="card-body">
               <h5 className="card-title">Location</h5>
               <p className="card-text">Durotto (calculated from map)</p>
-              <small className="card-text">
-                <h8>Cost</h8>
-              </small>
+              <div className="card-text d-flex w-100 justify-content-between">
+                <h8 className="mb-1">Cost</h8>
+                <Link to='#' >
+                  <h1 ><strong> &#10132;</strong>
+                  </h1>
+                  </Link>
+                
+                 
+              </div>
             </div>
           </div>
         </div>
@@ -29,7 +35,7 @@ const Experiences = () => {
             <div className="card-body">
               <h5 className="card-title">Location</h5>
               <p className="card-text">Durotto (calculated from map)</p>
-              <small className="card-text">
+              <small className="card-text ">
                 <h8>Cost</h8>
               </small>
             </div>
