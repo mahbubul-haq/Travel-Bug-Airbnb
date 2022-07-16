@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import userContext from '../context/user/userContext';
 import '../App.css';
 const Signup = () => {
+    const context = useContext(userContext);
+    const { getUser } = context;
+
     const [credentials, setCredentials] = useState({email: "", password: "", cpassword: "", firstName: "", lastName: ""}) ;
     let navigate = useNavigate();
 
@@ -24,6 +28,7 @@ const Signup = () => {
         if (json.success){
             // Save the auth token and redirect
             localStorage.setItem('token', json.authToken); 
+            getUser();
             navigate("/");
         }
         else{

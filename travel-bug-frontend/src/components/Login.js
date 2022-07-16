@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import userContext from '../context/user/userContext';
 import '../App.css';
 
 const Login = (props) => {
+    const context = useContext(userContext);
+    const { getUser } = context;
+
     const [credentials, setCredentials] = useState({email: "", password: ""}) ;
     let navigate = useNavigate();
 
@@ -20,6 +24,7 @@ const Login = (props) => {
         if (json.success){
             // Save the auth token and redirect
             localStorage.setItem('token', json.authToken); 
+            getUser();
             navigate("/");
         }
         else{
