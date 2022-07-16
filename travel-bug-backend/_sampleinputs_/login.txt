@@ -11,3 +11,9 @@ Receive Auth Token as response.
 {
   "authToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJjNjlmOTU1MTkyNzg0N2QxY2RiY2M4In0sImlhdCI6MTY1NzE5MTQ3N30.7HS-QeVq-IAKJZDiDTy9RIE_CkAif-DSTcU9YUiHdeo"
 }
+----------------------------------------------------------------
+{
+    "email": "maisharahman494@gmail.com",
+    "password": "maisharahman494@gmail.com"  
+}
+"authToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJkMjY0NGE0MGYzNTdjODRkYTdiYzEwIn0sImlhdCI6MTY1Nzk1NjIwM30.dB5Co4PaG3_Bg9YzH0kmJaKYyRUOisxVFj7Lg9MD3vw"
