@@ -145,7 +145,7 @@ const SingleExperience = () => {
                         </div>
                     </Container>
                     <Container>
-                        <br/><br/>
+                        <br /><br />
                         <div className='row md-6'>
                             <h2>Things to Know</h2>
                             <div className='col'>
@@ -181,7 +181,7 @@ const SingleExperience = () => {
                     </Container>
                 </Container>
             </Container>
-           <br/><br/>
+            <br /><br />
         </div>
     )
 }

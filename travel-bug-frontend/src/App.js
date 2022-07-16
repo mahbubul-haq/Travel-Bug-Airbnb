@@ -9,6 +9,7 @@ import Account from './components/account/Account';
 import Payments from './components/account/Payments';
 import Profile from './components/account/Profile';
 import Bookings from './components/bookings/Bookings';
+import SingleExperience from './components/Experience/SingleExperience';
 import Experiences from './components/Experiences';
 import Home from './components/Home';
 import Hostings from './components/hostings/Hostings';
@@ -21,8 +22,8 @@ import Nav from './components/Nav';
 import Notifications from './components/notifications/Notifications';
 import SignUp from './components/Signup';
 import TransportGuidelines from './components/TransportGuidelines';
-import HostingState from './context/hostings/HostingState';
 import ExperienceState from './context/experiences/ExperienceState';
+import HostingState from './context/hostings/HostingState';
 
 
 function App() {
@@ -57,6 +58,7 @@ function App() {
                 <Route exact path="/hostings" element={<ManagementHome />} />
                 <Route exact path="/hostings/listings" element={<Listings />} />
                 <Route exact path="/newlisting" element={<Hostings />} />
+                <Route exact path="/experiences/:id" element={<SingleExperience />} />
               </Routes>
             </div>
           </Router>
