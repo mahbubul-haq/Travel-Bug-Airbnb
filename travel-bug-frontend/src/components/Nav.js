@@ -53,7 +53,7 @@ const Nav = () => {
                                 <Link className="nav-link text-dark" to={localStorage.getItem('isHost') ? '/hostings/listings' : '/about'}>{localStorage.getItem('isHost') ? 'Listings' : 'About'}</Link>
                             </NavItem>
                             <NavItem>
-                                <Link className="nav-link text-dark" to={localStorage.getItem('isHost') ? '' : '/experiences'}>{localStorage.getItem('isHost') ? 'Create New Listing' : 'Experiences'}</Link>
+                                <Link className="nav-link text-dark" to={localStorage.getItem('isHost') ? '/newlisting' : '/experiences'}>{localStorage.getItem('isHost') ? 'Create New Listing' : 'Experiences'}</Link>
                             </NavItem>
                             <NavItem>
                                 <Link className="nav-link text-dark" to={localStorage.getItem('isHost') ? '/messages' : '/transportguidelines'}>{localStorage.getItem('isHost') ? 'Inbox' : 'Transport Guidelines'}</Link>

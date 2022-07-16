@@ -1,0 +1,63 @@
+.card_container11 {
+  align-self: center;
+  width: 100%;
+  height: auto;
+  box-shadow: 0 0 15px -5px;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.image_container11 > img {
+  height: auto;
+  max-height: 350px;
+  width: 100%;
+  margin-bottom: 10px;
+  border-radius: 20px;
+}
+
+.card_title11 > h1 {
+  font-size: 30px;
+  margin-bottom: 30px;
+}
+.card_text11 {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.card_text11 > p {
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.card_owner11 {
+  font-size: 140%;
+}
+
+.card_description11 {
+  font-size: 80%;
+}
+
+.card_facilities11 > h3 {
+  font-size: 120%;
+}
+.card_location11 > h3 {
+  font-size: 120%;
+}
+
+.card_facilities11 table,
+tr {
+  width: 100%;
+}
+.card_facilities11 td {
+  opacity: 85%;
+  font-size: 80%;
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgb(231, 231, 231);
+}
+
+.card_location11 {
+  margin-top: 10px;
+}

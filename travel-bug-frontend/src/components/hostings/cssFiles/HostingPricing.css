@@ -1,0 +1,265 @@
+#middle10 {
+  overflow-y: scroll;
+  box-sizing: border-box;
+}
+
+#animation10 {
+  display: grid;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 10%;
+  width: 100%;
+  grid-template-columns: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  animation: fadeIn 2s;
+  -webkit-animation: fadeIn 2s;
+  -moz-animation: fadeIn 2s;
+  -o-animation: fadeIn 2s;
+  -ms-animation: fadeIn 2s;
+  animation: moveIn 2s;
+  -webkit-animation: moveIn 2s;
+  -moz-animation: moveIn 2s;
+  -o-animation: moveIn 2s;
+  -ms-animation: moveIn 2s;
+}
+
+#price10 {
+  text-align: center;
+  border: none;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.circular10 {
+  background-color: white;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  border: 1px solid rgb(117, 117, 117);
+  display: inline-block;
+  padding-bottom: 2px;
+  color: rgb(117, 117, 117);
+  font-weight: bold;
+}
+
+.circular10:hover {
+  border: 1px solid black;
+  color: black;
+}
+
+#priceBox10 {
+  font-size: 38px;
+  border-radius: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+  display: inline-block;
+  padding: 5px 20px 10px 40px;
+  height: 90px;
+  width: 50%;
+  border: 2px solid rgb(121, 121, 121);
+}
+
+#priceValue10 {
+  display: inline-block;
+  border: none;
+  outline: none;
+  overflow: hidden;
+  overflow-y: hidden;
+  min-width: 100px;
+  max-width: 80%;
+  overflow-x: scroll;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+#perNight10 {
+  text-align: center;
+  opacity: 80%;
+}
+
+#cancellationPolicy10 {
+  border: 1px solid rgb(197, 197, 197);
+  margin-left: 10%;
+  margin-right: 10%;
+  border-radius: 10px;
+
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 60% 40%;
+  grid-template-rows: 100%;
+}
+
+#instruction10 {
+  margin-top: 5%;
+  font-weight: bold;
+  padding-left: 10%;
+}
+#partialPermission10 {
+  margin-top: 3%;
+  padding-left: 10%;
+}
+#partialPermission10 input {
+  display: inline-block;
+  margin-right: 10px;
+  height: 16px;
+  width: 16px;
+  text-align: center;
+  vertical-align: text-top;
+}
+#partialPermission10 p {
+  display: inline-block;
+
+  margin: 0;
+  padding: 0;
+}
+#partialPermission10 input:hover {
+}
+
+#cancellationText10 {
+  margin-top: 0px;
+  display: inline-block;
+  width: 100%;
+
+  padding-right: 10%;
+}
+
+#alignText10 {
+  padding-top: 3%;
+  padding-bottom: 3%;
+  padding-left: 3%;
+  padding-right: 3%;
+  display: inline-block;
+  border-right: 1px solid rgb(197, 197, 197);
+}
+
+#alignRight10 {
+  padding-top: 3%;
+  padding-bottom: 3%;
+  padding-left: 3%;
+  padding-right: 3%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circular10small {
+  background-color: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgb(117, 117, 117);
+  display: inline-block;
+  color: rgb(117, 117, 117);
+  font-weight: bold;
+}
+
+.circular10small:hover {
+  border: 1px solid black;
+  color: black;
+}
+#count10 {
+  display: inline-block;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 150%;
+}
+
+@media screen and (max-width: 800px) {
+}
+
+@keyframes moveIn {
+  0% {
+    margin-top: 1000px;
+  }
+  100% {
+    margin-top: 0;
+  }
+}
+@-moz-keyframes moveIn {
+  0% {
+    margin-top: 1000px;
+  }
+  100% {
+    margin-top: 0;
+  }
+}
+@-webkit-keyframes moveIn {
+  0% {
+    margin-top: 1000px;
+  }
+  100% {
+    margin-top: 0;
+  }
+}
+@-o-keyframes moveIn {
+  0% {
+    margin-top: 1000px;
+  }
+  100% {
+    margin-top: 0;
+  }
+}
+@-ms-keyframes moveIn {
+  0% {
+    margin-top: 1000px;
+  }
+  100% {
+    margin-top: 0;
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-ms-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

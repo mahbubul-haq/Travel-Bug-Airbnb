@@ -87,9 +87,12 @@
 .card-style-5 img {
   height: 70%;
   width: 100%;
-
-
 }
-a:link{
+a:link {
   text-decoration: none;
+}
+
+.leaflet-container {
+  width: 80%;
+  height: 500px;
 }

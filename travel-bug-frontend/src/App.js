@@ -11,6 +11,7 @@ import Profile from './components/account/Profile';
 import Bookings from './components/bookings/Bookings';
 import Experiences from './components/Experiences';
 import Home from './components/Home';
+import Hostings from './components/hostings/Hostings';
 import Listings from './components/hostings/ManagementDashboard/Listings';
 import ManagementHome from './components/hostings/ManagementDashboard/ManagementHome';
 import Login from './components/Login';
@@ -55,6 +56,7 @@ function App() {
 
                 <Route exact path="/hostings" element={<ManagementHome />} />
                 <Route exact path="/hostings/listings" element={<Listings />} />
+                <Route exact path="/newlisting" element={<Hostings />} />
               </Routes>
             </div>
           </Router>
