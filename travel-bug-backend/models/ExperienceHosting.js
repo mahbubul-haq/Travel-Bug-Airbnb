@@ -53,10 +53,11 @@ const ExperienceHostingSchema = new Schema({
       type: String,
     },
   ],
-  hostingPhotos: {
-    type: [String],
-    min: 5,
-  },
+  hostingPhotos: [
+    {
+      type: String,
+    }
+  ],
   host: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

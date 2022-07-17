@@ -16,6 +16,13 @@ const CategorySchema = new Schema({
     type: String,
     //required: true,
   },
+  experiences: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ExperienceHosting",
+    }
+  ],
 });
 
-module.exports = mongoose.model("Category", CategorySchema);
+const Category = mongoose.model("Category", CategorySchema);
+module.exports = Category;

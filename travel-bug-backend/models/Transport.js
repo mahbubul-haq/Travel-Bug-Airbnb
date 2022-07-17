@@ -1,5 +1,6 @@
 //dependencies
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const TransportSchema = new Schema({
   transportName: {
@@ -42,4 +43,5 @@ const TransportSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Transport", TransportSchema);
+const Transport = mongoose.model("Transport", TransportSchema);
+module.exports = Transport;

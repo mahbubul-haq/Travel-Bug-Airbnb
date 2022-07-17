@@ -1,5 +1,6 @@
 //dependencies
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const LocationSchema = new Schema({
   country: {
@@ -24,4 +25,6 @@ const LocationSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Location", LocationSchema);
+const Location = mongoose.model("Location", LocationSchema);
+
+module.exports = Location;

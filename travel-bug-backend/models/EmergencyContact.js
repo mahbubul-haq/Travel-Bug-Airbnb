@@ -1,6 +1,6 @@
 //dependencies
 const mongoose = require("mongoose");
-const User = require("./User");
+const { Schema } = mongoose;
 
 const EmergencyContactSchema = new Schema({
   name: {
@@ -19,11 +19,8 @@ const EmergencyContactSchema = new Schema({
     type: String,
     required: true,
   },
-  // user:{
-  //     type: mongoose.Types.ObjectId,
-  //     required: true,
-  //     ref: "User",
-  // },
 });
 
-module.exports = mongoose.model("EmergencyContact", EmergencyContactSchema);
+const EmergencyContact = mongoose.model("EmergencyContact", EmergencyContactSchema);
+
+module.exports = EmergencyContact;

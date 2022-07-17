@@ -1,25 +1,28 @@
 //dependencies
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const MessageSchema = new Schema({
-  notificationText: {
+  messageText: {
     type: String,
     required: true,
   },
   timeStamp: {
-    type: Date.now,
+    type: Date,
+    default: Date.now,
     required: true,
   },
   sender: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
   receiver: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
 });
 
-module.exports = mongoose.model("Message", MessageSchema);
+const Message = mongoose.model("Message", MessageSchema);
+module.exports = Message;

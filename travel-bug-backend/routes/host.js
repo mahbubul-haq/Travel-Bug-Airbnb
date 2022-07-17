@@ -1,7 +1,6 @@
 const express = require('express');
 const User = require('../models/User');
 const ExperienceHosting = require("../models/ExperienceHosting");
-const Category = require('../models/Category');
 const fetchuser = require("../middleware/fetchUser");
 const { body, validationResult } = require('express-validator');
 router = express.Router();
@@ -26,7 +25,7 @@ router.post('/', fetchuser, [
             description: req.body.description,
             hostingDate: req.body.hostingDate,
             draft: req.body.draft,
-            indivisualOrTeam: req.body.indivisualOrTeam,
+            individualOrTeam: req.body.individualOrTeam,
             totalCost: req.body.totalCost,
             itemsToBring: req.body.itemsToBring,
             maxGroupSize: req.body.maxGroupSize,
@@ -90,25 +89,6 @@ router.get('/hostingid:id', fetchuser, async (req, res) => {
         res.status(500).send('Internal Server Error from get experience hosting');
     }
 });
-
-// ROUTE 4 Get all categories of hosting using : GET "host/experience/categories". Login required
-router.get('/categories', fetchuser, async (req, res) => {
-    try {
-        //get all the categories
-        const categories = await Category.find();
-
-        //send a response after getting categories
-        res.json({
-            categories: categories,
-        });
-
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).send('Internal Server Error from host/experience/categories');
-    }
-});
-
-        
 
 
 module.exports = router;

@@ -1,5 +1,6 @@
 //dependencies
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const BookingSchema = new Schema({
   bookingStartDate: {
@@ -16,7 +17,7 @@ const BookingSchema = new Schema({
     required: true,
   },
   user: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },

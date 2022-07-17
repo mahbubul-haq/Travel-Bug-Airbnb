@@ -1,5 +1,6 @@
 //dependencies
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const NotificationSchema = new Schema({
   notificationTitle: {
@@ -7,7 +8,8 @@ const NotificationSchema = new Schema({
     required: true,
   },
   timeStamp: {
-    type: Date.now,
+    type: Date,
+    default: Date.now,
     required: true,
   },
   destinationLink: {
@@ -15,10 +17,11 @@ const NotificationSchema = new Schema({
     required: true,
   },
   user: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
 });
 
-module.exports = mongoose.model("Notification", NotificationSchema);
+const Notification = mongoose.model("Notification", NotificationSchema);
+module.exports = Notification;

@@ -1,5 +1,6 @@
 //dependencies
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const PaymentInfoSchema = new Schema({
   paidAmount: {
@@ -12,10 +13,11 @@ const PaymentInfoSchema = new Schema({
     required: true,
   },
   billingAddress: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "Location",
     required: true,
   },
 });
 
-module.exports = mongoose.model("PaymentInfo", PaymentInfoSchema);
+const PaymentInfo = mongoose.model("PaymentInfo", PaymentInfoSchema);
+module.exports = PaymentInfo;

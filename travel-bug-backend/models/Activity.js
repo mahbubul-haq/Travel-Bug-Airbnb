@@ -1,5 +1,6 @@
 //dependencies
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
 const ActivitySchema = new Schema({
   activityTitle: {
@@ -38,4 +39,5 @@ const ActivitySchema = new Schema({
   ],
 });
 
-module.exports = mongoose.model("Activity", ActivitySchema);
+const Activity = mongoose.model("Activity", ActivitySchema);
+module.exports = Activity;
