@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import userContext from '../context/user/userContext';
-import '../App.css';
+import userContext from '../../context/user/userContext';
+import '../../App.css';
 const Signup = () => {
     const context = useContext(userContext);
     const { getUser } = context;

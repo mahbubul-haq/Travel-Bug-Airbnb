@@ -68,8 +68,8 @@ router.get('/all', fetchuser, async (req, res) => {
     }
 });
 
-// ROUTE 3 - Get an experience hosting using: GET "host/experience/hostingid:id". Login required
-router.get('/hostingid:id', fetchuser, async (req, res) => {
+// ROUTE 3 - Get an experience hosting using: GET "host/experience/hostingid/:id". Login required
+router.get('/hostingid/:id', fetchuser, async (req, res) => {
     try {
          //get the user data
          const userId = req.user.id;

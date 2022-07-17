@@ -1,4 +1,4 @@
-localhost:5000/host/experience/hostingid62d05584c3357ae729d0d491 GET method
+localhost:5000/host/experience/hostingid/62d05584c3357ae729d0d491 GET method
 
 http headers:
 auth-token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJjNjlmOTU1MTkyNzg0N2QxY2RiY2M4In0sImlhdCI6MTY1NzgxNTgzN30.fV_oy59DKb_adKODysEdtLVcLHt1ImKgUjrx3c1bIdg

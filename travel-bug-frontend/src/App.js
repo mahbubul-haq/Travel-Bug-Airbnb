@@ -4,24 +4,24 @@ import {
   BrowserRouter as Router, Route, Routes
 } from "react-router-dom";
 
-import About from './components/About';
+import About from './components/home/About';
 import Account from './components/account/Account';
 import Payments from './components/account/Payments';
 import Profile from './components/account/Profile';
 import Bookings from './components/bookings/Bookings';
-import SingleExperience from './components/Experience/SingleExperience';
-import Experiences from './components/Experiences';
-import Home from './components/Home';
+import SingleExperience from './components/experiences/SingleExperience';
+import Experiences from './components/experiences/Experiences';
+import Home from './components/home/Home';
 import Hostings from './components/hostings/Hostings';
 import Listings from './components/hostings/ManagementDashboard/Listings';
 import ManagementHome from './components/hostings/ManagementDashboard/ManagementHome';
-import Login from './components/Login';
+import Login from './components/authentication/Login';
 import Conversation from './components/messages/Conversation';
 import Messages from './components/messages/Messages';
-import Nav from './components/Nav';
+import Nav from './components/nav/Nav';
 import Notifications from './components/notifications/Notifications';
-import SignUp from './components/Signup';
-import TransportGuidelines from './components/TransportGuidelines';
+import SignUp from './components/authentication/Signup';
+import TransportGuidelines from './components/transportguidelines/TransportGuidelines';
 import ExperienceState from './context/experiences/ExperienceState';
 import HostingState from './context/hostings/HostingState';
 import UserState from './context/user/UserState';

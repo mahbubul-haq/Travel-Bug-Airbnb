@@ -1,10 +1,10 @@
 import React from "react";
 import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import guideline from "../images/guideline.jpg";
-import travel from "../images/travel.jpg";
+import guideline from "../../images/guideline.jpg";
+import travel from "../../images/travel.jpg";
 import './home.css';
-import SearchBar from "./SearchBar";
+import SearchBar from "../search/SearchBar";
 const Home = () => {
   let navigate = useNavigate();
   const handleGuideline = (e) => {
