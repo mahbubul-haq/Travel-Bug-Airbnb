@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Card, Container } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import reservationContext from '../../context/booking/reservationContext';
+import userContext from '../../context/user/userContext';
 import greece from "../../images/greece.jpg";
 import greece1 from "../../images/greece1.jpg";
 import greece2 from "../../images/greece2.jpg";
@@ -8,21 +10,39 @@ import greece3 from "../../images/greece3.jpg";
 import greece4 from "../../images/greece4.jpg";
 import hostProfilePic from "../../images/person.jpg";
 import './experience.css';
-
 const SingleExperience = () => {
+    let navigate = useNavigate();
     const [experience, setExperience] = useState({});
     const [host, setHost] = useState({});
+    const context = useContext(reservationContext);
+    const { reservation, setReservation } = context;
+    var reservationCopy=reservation;
+    
+    const context1 = useContext(userContext);
+    const { user, getUser } = context1;
 
     //get current id of url    
     const { id } = useParams();
+    reservationCopy.hostingID=id;
+    reservationCopy.user=user._id;
+    setReservation(reservationCopy);
+    
 
     // fetch the experience data from the server
     useEffect(() => {
         if(id){
-            fetchData();
+            fetchData();         
         }
     }, []);
-
+    const onChange = (e)=>{
+        setReservation({...reservation, [e.target.name]: e.target.value})
+        console.log(reservation);
+    }
+    const handleClick=(e)=>
+    {
+        e.preventDefault();
+        navigate('/addBookingdetails');
+    }
     const hostAddress = 'http://localhost:5000';
     const fetchData = async () => {
         const response = await fetch(`${hostAddress}/experience/hostingid/${id}`, {
@@ -134,23 +154,18 @@ const SingleExperience = () => {
                                 <div className="form-group">
                                     <div className="mb-3">
                                         <label htmlFor="checkin">Check In </label>
-                                        <input type="date" className="form-control" id="checkin" aria-describedby="emailHelp" placeholder="Enter checkin Date" />
+                                        <input type="date" className="form-control" id="bookingStartDate" name="bookingStartDate" aria-describedby="emailHelp" placeholder="Enter checkin Date" onChange={onChange}/>
                                     </div>
                                 </div>
-                                <div className="form-group">
-                                    <div className="mb-3">
-                                        <label htmlFor="checkout">CheckOut</label>
-                                        <input type="date" className="form-control" id="checkout" placeholder="Enter checkin Date" />
-                                    </div>
-                                </div>
+                                
                                 <div className="form-group">
                                     <div className="mb-3">
                                         <label htmlFor="noOfGuests">No Of Guests</label>
-                                        <input type="number" className="form-control" id="noOfGuests" placeholder="Enter No Of Guests" />
+                                        <input type="number" className="form-control" id="noOfGuests" name="noOfGuests" placeholder="Enter No Of Guests" onChange={onChange} />
                                     </div>
                                 </div>
                                 <div className="mb-3">
-                                    <button type="submit" className="btn btn-primary btn-lg">Reserve</button>
+                                    <button type="submit" className="btn btn-primary btn-lg" onClick={handleClick} >View More Details</button>
                                 </div>
                             </div>
                         </div>
