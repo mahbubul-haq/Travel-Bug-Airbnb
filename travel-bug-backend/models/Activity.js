@@ -10,15 +10,15 @@ const ActivitySchema = new Schema({
   dayTimeSlots: [
     {
       startTime: {
-        type: Date,
+        type: String,
         required: true,
       },
       endTime: {
-        type: Date,
+        type: String,
         required: true,
       },
-    },
-  ],
+    },],
+  
   activityDuration: {
     noOfHours: {
       type: Number,
@@ -28,7 +28,7 @@ const ActivitySchema = new Schema({
     },
   },
   activityCost: {
-    type: String,
+    type: Number,
     required: true,
     min: 1,
   },
@@ -37,6 +37,11 @@ const ActivitySchema = new Schema({
       type: String,
     },
   ],
+  hostingId :
+  {
+    type: mongoose.Schema.Types.ObjectId,
+    ref:"ExperienceHosting"
+  }
 });
 
 const Activity = mongoose.model("Activity", ActivitySchema);

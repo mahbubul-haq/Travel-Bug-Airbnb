@@ -1,0 +1,11 @@
+.col-style-1{
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    box-shadow: 1px 1px 25px rgba(124, 12, 132, 0.35);
+    border: 0.01px solid #080d10;
+}
+.form-style-11 input[type='date']:after {
+    content: attr(placeholder)
+  }

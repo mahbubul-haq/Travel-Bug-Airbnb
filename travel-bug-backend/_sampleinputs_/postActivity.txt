@@ -1,0 +1,47 @@
+localhost:5000/host/experience/activity/hostingID(some objectid) POST method
+
+http headers:
+auth-token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJjNjlmOTU1MTkyNzg0N2QxY2RiY2M4In0sImlhdCI6MTY1NzgxNTgzN30.fV_oy59DKb_adKODysEdtLVcLHt1ImKgUjrx3c1bIdg
+Content-Type = application/json
+
+Body:
+{
+"activityTitle": "Snorkling",
+"dayTimeSlots":[{
+    "startTime":"11AM",
+    "endTime":"4PM"
+},{
+    "startTime":"7AM",
+    "endTime":"9PM"
+}],
+"noOfHours":1,
+"noOfDays":0,
+"activityCost":100,
+"additionalRequirements":["Life Jacket","Sunglasses"]
+}
+
+Response
+{
+  "activity": {
+    "activityTitle": "Snorkling",
+    "dayTimeSlots": [
+      {
+        "startTime": "11AM",
+        "endTime": "4PM",
+        "_id": "62dc21e11ac33eaf2896b8f5"
+      },
+      {
+        "startTime": "7AM",
+        "endTime": "9PM",
+        "_id": "62dc21e11ac33eaf2896b8f6"
+      }
+    ],
+    "activityCost": 100,
+    "additionalRequirements": [
+      "Life Jacket",
+      "Sunglasses"
+    ],
+    "_id": "62dc21e11ac33eaf2896b8f4",
+    "__v": 0
+  }
+}

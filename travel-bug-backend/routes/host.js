@@ -1,6 +1,7 @@
 const express = require('express');
 const User = require('../models/User');
 const ExperienceHosting = require("../models/ExperienceHosting");
+const Activity=require("../models/Activity");
 const fetchuser = require("../middleware/fetchUser");
 const { body, validationResult } = require('express-validator');
 router = express.Router();
@@ -89,6 +90,38 @@ router.get('/hostingid/:id', fetchuser, async (req, res) => {
         res.status(500).send('Internal Server Error from get experience hosting');
     }
 });
+// ROUTE 4 posting an activity using : POST "host/activity".
+router.post('/activity/:id',[
+    body('activityTitle', 'Enter a valid hosting title').isLength({ min: 1 }),
+], async (req, res) => {
+    try {
+        //if error, return bad request as response
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
 
+
+        //create experience hosting
+        const activity = await Activity.create({
+            activityTitle:req.body.activityTitle,
+            dayTimeSlots:req.body.dayTimeSlots,
+            activityDuration:req.body.activityDuration,
+            activityCost:req.body.activityCost,
+            additionalRequirements:req.body.additionalRequirements,
+            hostingId:req.params.id
+
+        });
+
+        //send a response after creating experience hosting
+        res.json({
+            activity:activity,
+        });
+
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send('Internal Server Error from host');
+    }
+});
 
 module.exports = router;

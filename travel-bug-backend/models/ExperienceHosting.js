@@ -69,12 +69,6 @@ const ExperienceHostingSchema = new Schema({
       ref: "Category",
     },
   ],
-  activities: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Activity",
-    },
-  ],
 });
 
 module.exports = mongoose.model("ExperienceHosting", ExperienceHostingSchema);

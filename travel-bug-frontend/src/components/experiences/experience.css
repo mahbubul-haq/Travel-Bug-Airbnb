@@ -47,6 +47,19 @@
     box-shadow: 1px 1px 25px rgba(20, 104, 160, 0.35);
     
   }
+  .card-style-13{
+    background-color: rgb(218, 241, 246);
+    height: 40vh;
+    width: 40vh;
+    text-decoration: none;
+    position: relative;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    margin-left: 1vh;
+    margin-right: 1vh;
+    
+    
+  }
   .form-style-9 {
     max-width: 450px;
     background: #f7fafb;

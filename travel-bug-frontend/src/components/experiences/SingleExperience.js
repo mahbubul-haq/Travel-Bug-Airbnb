@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Card, Container } from 'react-bootstrap';
+import { Card, Col, Container, Row } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import reservationContext from '../../context/booking/reservationContext';
 import userContext from '../../context/user/userContext';
@@ -10,36 +10,50 @@ import greece3 from "../../images/greece3.jpg";
 import greece4 from "../../images/greece4.jpg";
 import hostProfilePic from "../../images/person.jpg";
 import './experience.css';
+
 const SingleExperience = () => {
     let navigate = useNavigate();
     const [experience, setExperience] = useState({});
     const [host, setHost] = useState({});
     const context = useContext(reservationContext);
     const { reservation, setReservation } = context;
-    var reservationCopy=reservation;
-    
     const context1 = useContext(userContext);
     const { user, getUser } = context1;
+    const {activeActivtyNO,setActiveActivtyNO}=useState(0);
+
+
 
     //get current id of url    
     const { id } = useParams();
-    reservationCopy.hostingID=id;
-    reservationCopy.user=user._id;
-    setReservation(reservationCopy);
-    
+
+    //console.log(reservation);
+
 
     // fetch the experience data from the server
     useEffect(() => {
-        if(id){
-            fetchData();         
+        if (id) {
+            fetchData();
+            var reservationCopy = {
+                hostingID: "",
+                bookingStartDate: "",
+                bookingEndDate: "",
+                noOfGuests: 0,
+                user: "",
+                paymentInfo: "",
+                selectedActivities: [],
+
+            };
+            reservationCopy.hostingID = id;
+            reservationCopy.user = user._id;
+            setReservation(reservationCopy);
+            console.log(reservation);
         }
     }, []);
-    const onChange = (e)=>{
-        setReservation({...reservation, [e.target.name]: e.target.value})
+    const onChange = (e) => {
+        setReservation({ ...reservation, [e.target.name]: e.target.value })
         console.log(reservation);
     }
-    const handleClick=(e)=>
-    {
+    const handleClick = (e) => {
         e.preventDefault();
         navigate('/addBookingdetails');
     }
@@ -114,37 +128,29 @@ const SingleExperience = () => {
                             <div className='col-style-3 '>
                                 <h4>Activities</h4>
                                 <br />
-                                <ul className="list-group ">
-                                    <div className='list-group-item list-group-item-primary'>
-                                        <div className="d-flex w-100 justify-content-between">
-                                            <h6 className="mb-1"><strong>Activity Name</strong></h6>
-                                            <small>#duration</small>
-                                        </div>
+                                <Row>
+                                    <Col className='md-0.01'>
+                                        <br/> <br/> <br/> <br/>
+                                        <h1><strong><center>&#8617;</center></strong></h1>
+                                    </Col>
+                                    <Col className='md-0.01'>
+                                    <Card className='card-style-13'>
+                                <center>
+                                    <Card.Title>Activity Name</Card.Title>
+                                    <Card.Body>
+                                        Time Slots
+                                    </Card.Body>
+                                </center>
 
-                                        <h6 className="mb-1">Start Time - End Time</h6>
-
-                                    </div>
-                                    <div className='list-group-item list-group-item-primary'>
-                                        <div className="d-flex w-100 justify-content-between">
-                                            <h6 className="mb-1"><strong>Activity Name</strong></h6>
-                                            <small>#duration</small>
-                                        </div>
-
-                                        <h6 className="mb-1">Start Time - End Time</h6>
-
-
-                                    </div>
-                                    <div className='list-group-item list-group-item-primary'>
-                                        <div className="d-flex w-100 justify-content-between">
-                                            <h6 className="mb-1"><strong>Activity Name</strong></h6>
-                                            <small>#duration</small>
-                                        </div>
-
-                                        <h6 className="mb-1">Start Time - End Time</h6>
-
-
-                                    </div>
-                                </ul>
+                               </Card>
+                                    </Col>
+                                    <Col className='md-0.01'>
+                                    <br/> <br/> <br/> <br/>
+                                        <h1><strong><center>&#8618;</center></strong></h1>
+                                    </Col>
+                                    
+                                </Row>
+                               
                             </div>
                             <div className='col form-style-9'>
                                 <h2><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-currency-dollar" viewBox="0 0 16 16">
@@ -154,10 +160,10 @@ const SingleExperience = () => {
                                 <div className="form-group">
                                     <div className="mb-3">
                                         <label htmlFor="checkin">Check In </label>
-                                        <input type="date" className="form-control" id="bookingStartDate" name="bookingStartDate" aria-describedby="emailHelp" placeholder="Enter checkin Date" onChange={onChange}/>
+                                        <input type="date" className="form-control" id="bookingStartDate" name="bookingStartDate" aria-describedby="emailHelp"  onChange={onChange} />
                                     </div>
                                 </div>
-                                
+
                                 <div className="form-group">
                                     <div className="mb-3">
                                         <label htmlFor="noOfGuests">No Of Guests</label>
