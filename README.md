@@ -1,17 +1,20 @@
 ##  CSE 408 - Software Development Sessional
 
-## Project Title: Travel Bug
+## Project Title - Travel Bug
 
-## Contributors
+### Contributors
 1. Kawshik Kumar Paul\
 1705043@ugrad.cse.buet.ac.bd
 2. Maisha Rahman Mim\
 1705060@ugrad.cse.buet.ac.bd
 3. Md. Mahbubul Haque\
 1605051@ugrad.cse.buet.ac.bd
-## Supervisor
+
+### Supervisor
 Mohammad Tawhidul Hasan Bhuiyan\
-Lecturer, Dept of CSE, BUET\
+Lecturer,\
+Dept of Computer Science & Engineering (CSE),\
+Bangladesh University of Engineering & Technology (BUET)\
 tawhid@cse.buet.ac.bd
 
 ## Steps to Run the Project
