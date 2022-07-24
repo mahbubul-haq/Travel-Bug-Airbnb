@@ -55,7 +55,7 @@ const HostingPage1 = (props) => {
     useEffect(() => {
       categories.map(({category, id}) => {
         //console.log("cat: " + category);
-          if (category == props.selectedCategory())
+          if (props.selectedCategory() && category == props.selectedCategory().category)
           {
               setSelectedIdx(id);
               changeStyle(id);
@@ -103,7 +103,7 @@ const HostingPage1 = (props) => {
                       <tr
                         key={idx}
                         onClick={() => {
-                          props.selectCategory(category);
+                          props.selectCategory({category, id});
                           setSelectedIdx(id);
                           changeStyle(id);
                         }}

@@ -2,6 +2,7 @@ const express = require('express');
 const User = require('../models/User');
 const ExperienceHosting = require("../models/ExperienceHosting");
 const Activity=require("../models/Activity");
+const Category=require("../models/Category");
 const fetchuser = require("../middleware/fetchUser");
 const { body, validationResult } = require('express-validator');
 router = express.Router();
@@ -27,7 +28,9 @@ router.post('/', fetchuser, [
         }
 
         const userId = req.user.id;
-        console.log("userId: ++", userId);
+        const categoryIds = req.body.category.map((category) => category.id);
+        console.log(categoryIds)
+        const subCategoryIds = req.body.subCategory.map((subCategory) => subCategory.id);
 
         //create experience hosting
         const experienceHosting = await ExperienceHosting.create({
@@ -37,12 +40,16 @@ router.post('/', fetchuser, [
             draft: req.body.draft,
             individualOrTeam: req.body.individualOrTeam,
             totalCost: req.body.totalCost,
+            maxRefundDays: req.body.maxRefundDays,
+            partialPayAllowed: req.body.partialPayAllowed,
             itemsToBring: req.body.itemsToBring,
             maxGroupSize: req.body.maxGroupSize,
             minAge: req.body.minAge,
             additionalRequirements: req.body.additionalRequirements,
             hostingPhotos: req.body.hostingPhotos,
             host: userId,
+            categories: categoryIds,
+            subCategories: subCategoryIds,
         });
         success = true;
 

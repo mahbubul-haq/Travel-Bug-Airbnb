@@ -21,7 +21,7 @@ const HostingPage2 = (props) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              category : props.selectedCategory()
+              category : props.selectedCategory().category
             }
             )
         })
@@ -39,7 +39,7 @@ const HostingPage2 = (props) => {
         .then(data => { 
             console.log(data);
             const cats = data.map(cat => {
-              return {category: cat.subCategoryName, id: cat._id};});
+              return {subCategoryName: cat.subCategoryName, id: cat._id, categoryName: cat.categoryName};});
             console.log(cats);
 
             setSubCategories(cats);
@@ -54,7 +54,7 @@ const HostingPage2 = (props) => {
     useEffect(() => {
       subCategories.map(({category, id}) => {
         //console.log("cat: " + category);
-          if (category == props.selectedSubCategory())
+          if (props.selectSubCategory() && category == props.selectedSubCategory().subCategoryName)
           {
               setSelectedIdx(id);
               changeStyle(id);
@@ -94,7 +94,7 @@ const HostingPage2 = (props) => {
 
               <div id="middle">
                 <table>
-                  {subCategories.map(({category, id}) => {
+                  {subCategories.map(({subCategoryName, id, categoryName}) => {
                     idx = idx + 1;
                     //console.log(category.category);
 
@@ -102,12 +102,12 @@ const HostingPage2 = (props) => {
                       <tr
                         key={idx}
                         onClick={() => {
-                          props.selectSubCategory(category);
+                          props.selectSubCategory({subCategoryName, id, categoryName});
                           setSelectedIdx(id);
                           changeStyle(id);
                         }}
                       >
-                        <td className={"id" + id}>{category}</td>
+                        <td className={"id" + id}>{subCategoryName}</td>
 
                         {/* <td className={"tr" + id}>{category}</td> */}
                       </tr>

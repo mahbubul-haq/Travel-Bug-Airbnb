@@ -48,6 +48,13 @@ const ExperienceHostingSchema = new Schema({
     type: Number,
     min: 1,
   },
+  maxRefundDays: {
+    type: Number,
+    min: 1,
+  },
+  partialPayAllowed: {
+    type: Boolean,
+  },
   additionalRequirements: [
     {
       type: String,
@@ -69,6 +76,12 @@ const ExperienceHostingSchema = new Schema({
       ref: "Category",
     },
   ],
+  subCategories: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "SubCategory",
+    }
+  ]
 });
 
 module.exports = mongoose.model("ExperienceHosting", ExperienceHostingSchema);

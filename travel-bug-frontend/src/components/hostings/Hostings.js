@@ -65,8 +65,8 @@ const Hostings = () => {
                 'auth-token': localStorage.getItem('token')
       },
       body: JSON.stringify({
-        category: selectedCategory,
-        subCategory: selectedSubCategory,
+        category: [selectedCategory],
+        subCategory: [selectedSubCategory],
         location: location,
         hostingTitle: title,
         description: description,
