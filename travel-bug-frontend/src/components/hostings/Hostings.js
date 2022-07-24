@@ -33,6 +33,7 @@ const Hostings = () => {
   const [totalCost, setTotalCost] = useState(25);
   const [partialPayAllowed, setPartialPayAllowed] = useState(false);
   const [maxRefundDays, setMaxRefundDays] = useState(10);
+  const [draft, setDraft] = useState(false);
 
 
 
@@ -55,9 +56,51 @@ const Hostings = () => {
     console.log(maxRefundDays);
   });
 
-  const publishHosting = () => {
-    
+  const publishHosting = async () => {
+    try {
+    const response = await fetch("http://localhost:5000/host/experience", {
+      method: 'POST',
+      headers: {
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem('token')
+      },
+      body: JSON.stringify({
+        category: selectedCategory,
+        subCategory: selectedSubCategory,
+        location: location,
+        hostingTitle: title,
+        description: description,
+        duration: hostingDuration,
+        dayTimeSlot: dayTimeSlot,
+        totalCost: totalCost,
+        maxGroupSize: maxGroupSize,
+        minAge: minAgeRequirement,
+        itemsToBring: [itemsToBring],
+        additionalRequirements: [additionalRequirements],
+        partialPayAllowed: partialPayAllowed,
+        maxRefundDays: maxRefundDays,
+        draft: draft,
+        hostingPhotos:['one', 'two', 'three'],
+        hostingDate: new Date(),
+      })
+      
+    });
+    const json = await response.json();
+    console.log("got it back");
+    console.log(json);
+    if (json.success){
+      console.log("sucess");
+      setPageNo(11);
+    }
+    else {
+      console.log("failure tut");
+    }
+  } catch (error) {
+    console.log("error fetch");
   }
+
+  }
+
 
   const setmaxRefundDays = (flag) => {
     if (flag)
@@ -230,6 +273,7 @@ const Hostings = () => {
         selectSubCategory = {(category) => {
           selectSubCategory(category);
         }}
+        selectedCategory = {() => selectedCategory}
         selectedSubCategory = {() => selectedSubCategory}
         />
     </div>

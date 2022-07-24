@@ -15,7 +15,39 @@ const HostingPage1 = (props) => {
 
   useEffect(() => {
     //console.log("ca: " + props.selectedCategory());
-      setCategories([{category: "Animal", id : 7 },{category: "Science", id : 6}, {category: "Nature & outdoors", id : 1}, {category: "Astronomy", id : 2}, {category : "Laboratory", id : 3}, {category : "Ancient Architecture", id: 4}])
+
+  
+        fetch("http://localhost:5000/experience/categories", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((res) => {
+          if (res.ok) return res;
+          else {
+            throw new Error("Something went wrong");
+          }
+        })
+        .then(res => {
+            //console.log(res.json());
+            return res.json();
+        })
+        .then(data => { 
+            console.log(data);
+            const cats = data.map(cat => {
+              return {category: cat.categoryName, id: cat._id};});
+            console.log(cats);
+
+            setCategories(cats);
+          
+        })
+        .catch(err => {
+            console.log(err);
+        })
+        
+    
+      //setCategories([{category: "Animal", id : 7 },{category: "Science", id : 6}, {category: "Nature & outdoors", id : 1}, {category: "Astronomy", id : 2}, {category : "Laboratory", id : 3}, {category : "Ancient Architecture", id: 4}])
       //console.log(categories);
       
     }, []);

@@ -49,7 +49,7 @@ const HostingCheckEverything = (props) => {
               <button
                 id="nextButton"
                 onClick={() => {
-                  props.nextPage();
+                  props.publishHosting();
                 }}
               >
                 Publish
