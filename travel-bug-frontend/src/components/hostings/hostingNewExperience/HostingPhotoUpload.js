@@ -1,11 +1,11 @@
+import axios from "axios";
 import React, { useEffect } from "react";
 import { Link } from 'react-router-dom';
-
-
 
 import ImageIcon from "../../../images/imageIcon.png";
 import "../cssFiles/HostingPage1Base.css";
 import "../cssFiles/HostingPhotoUpload.css";
+const imageUrl = "http://localhost:5000/host/experience/getimage/";
 
 //F:\MEGA\Level4Term1\CSE408\clone2\CSE-408-Project-Travel-Bug\travel-bug-frontend\src\images
 
@@ -27,7 +27,7 @@ const HostingPhotoUpload = (props) => {
   
 
     const files = document.getElementById("uploadPhoto7");
-    formData.append("file", files.files[0]);
+    formData.append("image", files.files[0]);
     
     
     console.log(files.files[0]);
@@ -39,29 +39,28 @@ const HostingPhotoUpload = (props) => {
 
     // const response = await fetch("http://localhost:5000/host/experience/upload", {
     //         method: 'POST',
-    //         headers: {
-    //             "Content-Type": "multipart/form-data",
-    //         },
-    //         body: JSON.stringify({file: files.files[0]}),
+    //         headers: { "Content-Type": "multipart/form-data" },
+    //         body: formData
     //     });
 
     //     const json = await response.json()
     //     console.log(json);
 
 
-    // axios.post("http://localhost:5000/host/experience/upload", formData,
-    // {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //   })
-    //   .then(res =>{ return res.data
-    //   })
-    // .then(res => {
-    //   //props.setSelectedImages("uploads/" + res);
-    //   console.log("data ", res)
-    // })
-    // .catch(err => console.log("error here axios", err));
+    axios.post("http://localhost:5000/host/experience/upload", formData,
+    {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(res =>{ return res.data
+      })
+    .then(res => {
+      //props.setSelectedImages("uploads/" + res);
+      console.log("data ", res)
+      props.setSelectedImages(imageUrl + res);
+    })
+    .catch(err => console.log("error here axios", err));
 
     // event.preventDefault();
     //let url = baseUrl + "users/photo-upload/";
@@ -144,20 +143,18 @@ const HostingPhotoUpload = (props) => {
                     >
                       Upload Image
                     </label>
-                    <form onSubmit={handleImageChange}>
+                    
                     <input
                       style={{ visibility: "hidden", display: "none" }}
                       type="file"
                       id="uploadPhoto7"
                       accept="image/png, image/jpeg"
                       onChange={(event) => {
-                        //event.preventDefault()
-                        //handleImageChange(event);
+                        event.preventDefault()
+                        handleImageChange(event);
                         changeStyle();
                       }}
                     />
-                    <input type="submit" value="Upload" />
-                    </form>
                   </div>
 
                   <div id="imageContainer7">

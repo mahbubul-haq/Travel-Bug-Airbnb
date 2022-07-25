@@ -8,9 +8,7 @@ const { body, validationResult } = require('express-validator');
 router = express.Router();
 const multer = require("multer");
 const path = require("path");
-const fs = require("fs");
-const {promisify} = require("util");
-const pipeline = promisify(require("stream").pipeline)
+
 
 //ROUTE 1 - Post an experience hosting using: POST "host/experience". Login required
 router.post('/', fetchuser, [
@@ -146,12 +144,15 @@ router.post('/activity/:id',[
 });
 
 //ROUTE 5 - upload a photo
-const storage = multer.diskStorage({
+const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, './');
+       
+        //console.log(`../${__dirname}/uploads`);
+        cb(null, `${__dirname}/uploads`);
+        //cb(null, '../../travel-bug-backend/uploads/');
     },
     filename: (req, file, cb) => {
-        cb(null, file.originalname);
+        cb(null, Date.now() + "-" + file.originalname);
         
         // const fileExtension = path.extname(file.originalname);
         // const fileName = file.originalname
@@ -163,20 +164,35 @@ const storage = multer.diskStorage({
     }
 });
 const upload = multer({
-    //storage: storage,
+    storage: fileStorage,
 });
 
-router.post('/upload', upload.single("file"), async (req, res) => {
-   // console.log(req.body.file);
-    //console.log(req.body.title);
-    console.log(req);
-    res.send(req.body);
+router.post('/upload', upload.single("image"), (req, res) => {
+   
+    console.log(req.file);
+     console.log(path.dirname(path.basename(__dirname)));
+    res.send(req.file.filename);
+})
 
-    
-   // console.log(filename);
-    //console.log(req.file);
-    //console.log(fileName);
-    //res.send(req.file.originalname);
+router.get('/getimage/:name', (req, res) => {
+
+    // const protocol = req.protocol;
+    // const host = req.hostname;
+    // const url = req.originalUrl;
+    // const port = process.env.PORT || 5000;
+
+    // const lastPart = url.split("/").pop();
+    // console.log(lastPart)
+
+    // const fullUrl = `${protocol}://${host}:${port}${url}`
+    // console.log(fullUrl);
+    // //console.log(path.join(__dirname, '/uploads', req.body.filename));
+    // console.log("dirname", __dirname);
+    //res.send(__dirname + "/uploads/" + req.body.filename);
+    //console.log(req.url);
+    //.log(req.url);
+    //res.send(fullUrl);
+    res.sendFile(path.join(__dirname, '/uploads/', req.params.name));
 })
 
 module.exports = router;

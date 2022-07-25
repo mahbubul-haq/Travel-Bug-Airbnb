@@ -80,7 +80,7 @@ const Hostings = () => {
         partialPayAllowed: partialPayAllowed,
         maxRefundDays: maxRefundDays,
         draft: draft,
-        hostingPhotos:['one', 'two', 'three'],
+        hostingPhotos: selectedImages,
         hostingDate: new Date(),
       })
       
