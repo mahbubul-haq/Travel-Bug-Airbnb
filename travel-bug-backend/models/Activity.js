@@ -7,25 +7,12 @@ const ActivitySchema = new Schema({
     type: String,
     required: true,
   },
-  dayTimeSlots: [
-    {
-      startTime: {
-        type: String,
-        required: true,
-      },
-      endTime: {
-        type: String,
-        required: true,
-      },
-    },],
-  
+  dayTimeSlots: {
+    type: Object
+  }
+  ,
   activityDuration: {
-    noOfHours: {
-      type: Number,
-    },
-    noOfDays: {
-      type: Number,
-    },
+   type: Object,
   },
   activityCost: {
     type: Number,
