@@ -3,12 +3,19 @@ const User = require('../models/User');
 const ExperienceHosting = require("../models/ExperienceHosting");
 const Activity=require("../models/Activity");
 const Category=require("../models/Category");
+const SubCategory=require("../models/SubCategory");
 const fetchuser = require("../middleware/fetchUser");
 const { body, validationResult } = require('express-validator');
 router = express.Router();
 const multer = require("multer");
 const path = require("path");
 
+const updateCategory = async (categoryId, experienceId) => {
+    await Category.updateOne({ _id: categoryId }, { $push: { experiences: experienceId } });
+}
+const updateSubCategory = async (subCategoryId, experienceId) => {
+    await SubCategory.updateOne({ _id: subCategoryId }, { $push: { experiences: experienceId } });
+}
 
 //ROUTE 1 - Post an experience hosting using: POST "host/experience". Login required
 router.post('/', fetchuser, [
@@ -52,6 +59,15 @@ router.post('/', fetchuser, [
             hostingDuration: req.body.duration,
         });
         success = true;
+
+        //update category with experience id
+        for (let i = 0; i < categoryIds.length; i++) {
+            await updateCategory(categoryIds[i], experienceHosting._id);
+        }
+        // update subcategory with experience id
+        for (let i = 0; i < subCategoryIds.length; i++) {
+            await updateSubCategory(subCategoryIds[i], experienceHosting._id);
+        }
 
         //send a response after creating experience hosting
         res.json({
@@ -133,6 +149,8 @@ router.post('/activity/:id',[
             hostingId:req.params.id
 
         });
+
+        await ExperienceHosting.updateOne({_id:req.params.id},{$push:{activities:activity._id}})
 
         //send a response after creating experience hosting
         res.json({
