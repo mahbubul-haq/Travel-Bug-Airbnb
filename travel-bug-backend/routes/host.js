@@ -48,6 +48,8 @@ router.post('/', fetchuser, [
             host: userId,
             categories: categoryIds,
             subCategories: subCategoryIds,
+            hostAvailability: req.body.dayTimeSlot,
+            hostingDuration: req.body.duration,
         });
         success = true;
 
@@ -124,7 +126,7 @@ router.post('/activity/:id',[
         //create experience hosting
         const activity = await Activity.create({
             activityTitle:req.body.activityTitle,
-            dayTimeSlots:req.body.dayTimeSlots,
+            dayTimeSlots:req.body.activityDayTimeSlot,
             activityDuration:req.body.activityDuration,
             activityCost:req.body.activityCost,
             additionalRequirements:req.body.additionalRequirements,

@@ -23,9 +23,9 @@ const HostingPricing = (props) => {
     if (props.partialPayAllowed() == 1) {
       document.getElementById("partialPayCheck10").checked = true;
     } else document.getElementById("partialPayCheck10").checked = false;
-    // if (props.hostPermission() == 1) {
-    //   document.getElementById("hostPermission10").checked = true;
-    // } else document.getElementById("hostPermission10").checked = false;
+    if (props.individual() == "team") {
+      document.getElementById("individual10").checked = true;
+    } else document.getElementById("individual10").checked = false;
   }
 
 
@@ -104,6 +104,29 @@ const HostingPricing = (props) => {
                   />
                   <label for="hostPermission10">Host permission required</label> */}
                 </div>
+
+                  <div id="partialPermission10">
+                  <input
+                    id="individual10"
+                    type="checkbox"
+                    name="individual10"
+                    onClick={() => {
+                      props.setIndividual();
+                    }}
+                  />
+                  <label for="individual10">Hosted by a team</label>
+                  {/* <br />
+                  <input
+                    id="hostPermission10"
+                    type="checkbox"
+                    name="hostPermission10"
+                    onClick={() => {
+                      props.changeHostPermission();
+                    }}
+                  />
+                  <label for="hostPermission10">Host permission required</label> */}
+                </div>
+
                 <div id="instruction10">Cancellation policy:</div>
                 <div id="cancellationPolicy10">
                   <div id="alignText10">

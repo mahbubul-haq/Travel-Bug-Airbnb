@@ -38,6 +38,12 @@ const ExperienceHostingSchema = new Schema({
       type: String,
     },
   ],
+  hostingDuration: {
+      type: Object,
+  },
+  hostAvailability: {
+    type: Object,
+  },
   maxGroupSize: {
     type: Number,
     min: 1,
@@ -81,7 +87,13 @@ const ExperienceHostingSchema = new Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "SubCategory",
     }
-  ]
+  ],
+  activitys: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Activity",
+    }
+  ],
 });
 
 module.exports = mongoose.model("ExperienceHosting", ExperienceHostingSchema);
