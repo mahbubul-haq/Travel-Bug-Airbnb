@@ -104,6 +104,7 @@ router.get('/hostingid/:id', fetchuser, async (req, res) => {
         res.json({
             experienceHosting: experienceHosting,
             user: user,
+           
         });
 
     } catch (error) {

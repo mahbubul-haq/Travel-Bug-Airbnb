@@ -32,7 +32,7 @@ const SingleExperience = () => {
     useEffect(() => {
         if (id) {
             fetchData();
-            fetchActivities();
+           // fetchActivities();
             var reservationCopy = {
                 hostingID: "",
                 bookingStartDate: "",
@@ -66,13 +66,13 @@ const SingleExperience = () => {
             method: "GET",
         });
         const data = await response.json();
-        // console.log(data);
+        console.log(data);
         setExperience(data);
         setHost(data.host);
 
 
     }
-    const fetchActivities = async () => {
+    /*const fetchActivities = async () => {
         const response = await fetch(`${hostAddress}/host/experience/activity/${id}`, {
             method: "GET",
         });
@@ -81,7 +81,7 @@ const SingleExperience = () => {
         setActivities(data);
 
 
-    }
+    }*/
 
 
     return (
@@ -145,7 +145,7 @@ const SingleExperience = () => {
                                 <h4>Activities</h4>
                                 <br />
                                 <Row >
-                                
+                               
                                     <Col className='md-0.01 '>
                                         <Card className='card-style-13 md-2'>
                                             <center>
