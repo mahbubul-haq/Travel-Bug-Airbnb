@@ -74,7 +74,7 @@ const Hostings = () => {
           activityDayTimeSlot: activity.dayTimeSlot,
           activityDuration: activity.duration,
           activityCost: activity.activityCost,
-          additionalRequirements: activity.additionalRequirements,
+          additionalRequirements: [activity.additionalRequirements],
         }),
       });
       const data = await response.json();
