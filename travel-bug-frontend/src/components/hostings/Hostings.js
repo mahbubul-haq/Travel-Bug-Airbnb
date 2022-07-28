@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import HostingActivities from './hostingNewExperience/HostingActivities';
 import HostingCheckEverything from './hostingNewExperience/HostingCheckEverything';
 import HostingComplete from './hostingNewExperience/HostingComplete';
 import HostingGuestRequirements from './hostingNewExperience/HostingGuestRequirements';
@@ -33,7 +34,9 @@ const Hostings = () => {
   const [totalCost, setTotalCost] = useState(25);
   const [partialPayAllowed, setPartialPayAllowed] = useState(false);
   const [maxRefundDays, setMaxRefundDays] = useState(10);
-
+  const [draft, setDraft] = useState(false);
+  const [individual, setIndividual] = useState("individual");
+  const [activities, setActivities] = useState([]);
 
 
   useEffect(() => {
@@ -53,11 +56,86 @@ const Hostings = () => {
     console.log(totalCost);
     console.log(partialPayAllowed);
     console.log(maxRefundDays);
+    console.log(individual);
+    console.log(activities);
   });
 
-  const publishHosting = () => {
-    
+  const publishActivity = async (experienceId, activity) => {
+    console.log("publishActivity");
+    try {
+      const response = await fetch(`http://localhost:5000/host/experience/activity/${experienceId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          'auth-token': localStorage.getItem('token')
+        },
+        body: JSON.stringify({
+          activityTitle: activity.title,
+          activityDayTimeSlot: activity.dayTimeSlot,
+          activityDuration: activity.duration,
+          activityCost: activity.activityCost,
+          additionalRequirements: activity.additionalRequirements,
+        }),
+      });
+      const data = await response.json();
+      console.log("activity", data);
+    }
+    catch (err) {
+      console.log(err);
+    }
   }
+
+  const publishHosting = async () => {
+    try {
+    const response = await fetch("http://localhost:5000/host/experience", {
+      method: 'POST',
+      headers: {
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem('token')
+      },
+      body: JSON.stringify({
+        category: [selectedCategory],
+        subCategory: [selectedSubCategory],
+        location: location,
+        hostingTitle: title,
+        description: description,
+        duration: hostingDuration,
+        dayTimeSlot: dayTimeSlot,
+        totalCost: totalCost,
+        maxGroupSize: maxGroupSize,
+        minAge: minAgeRequirement,
+        itemsToBring: [itemsToBring],
+        additionalRequirements: [additionalRequirements],
+        partialPayAllowed: partialPayAllowed,
+        maxRefundDays: maxRefundDays,
+        draft: draft,
+        hostingPhotos: selectedImages,
+        hostingDate: new Date(),
+        individualOrTeam: individual,
+      })
+      
+    });
+    const json = await response.json();
+    console.log("got it back");
+    console.log(json);
+    if (json.success){
+      console.log("sucess");
+
+      for (let i = 0; i < activities.length; i++){
+        publishActivity(json.experienceHosting._id, activities[i]);
+      }
+
+      setPageNo(12);
+    }
+    else {
+      console.log("failure tut");
+    }
+  } catch (error) {
+    console.log("error fetch");
+  }
+
+  }
+
 
   const setmaxRefundDays = (flag) => {
     if (flag)
@@ -74,9 +152,37 @@ const Hostings = () => {
     }
   }
 
+  const setactivities = (activity) => {
+    setActivities((prev) => { 
+      return [...prev, activity];
+    }
+    )
+  }
+  const removeActivity = (title) => {
+    setActivities((prev) => { 
+      return prev.filter((activity) => {
+        return activity.title !== title;
+      }
+      )
+    }
+    )
+  }
+
   const setpartialPayAllowed = (flag) => 
   {
     setPartialPayAllowed(!partialPayAllowed);
+  }
+
+  const setindividual = () => {
+      setIndividual((prev) => {
+        if (prev == "individual")
+        {
+          return "team";
+        }
+        else {
+          return "individual";
+        }
+      })
   }
 
   const settotalCost = (cost, flag) => 
@@ -230,6 +336,7 @@ const Hostings = () => {
         selectSubCategory = {(category) => {
           selectSubCategory(category);
         }}
+        selectedCategory = {() => selectedCategory}
         selectedSubCategory = {() => selectedSubCategory}
         />
     </div>
@@ -383,6 +490,10 @@ const Hostings = () => {
           }
         }
         partialPayAllowed = {() => partialPayAllowed}
+        setIndividual = {() => {
+          setindividual();
+        }}
+        individual = {() => individual}
         maxRefundDays = {() => maxRefundDays}
         setMaxRefundDays = {(flag) => {
           setmaxRefundDays(flag);
@@ -394,8 +505,29 @@ const Hostings = () => {
   
     }
 
-    
     else if (pageNo == 10)
+    {
+      return (
+    <div>
+      <HostingActivities
+        nextPage = {nextPage} 
+        prevPage = {prevPage}
+        activities = {() => activities}
+        setActivities = {(act) => {
+          setactivities(act);
+        }}
+        removeActivity = {(title) => {
+          removeActivity(title);
+        }}
+        
+        />
+        
+    </div>
+  )
+  
+    }
+    
+    else if (pageNo == 11)
     {
       return (
     <div>
@@ -421,7 +553,7 @@ const Hostings = () => {
   
     }
 
-    else if (pageNo == 11)
+    else if (pageNo == 12)
     {
       return (
     <div>

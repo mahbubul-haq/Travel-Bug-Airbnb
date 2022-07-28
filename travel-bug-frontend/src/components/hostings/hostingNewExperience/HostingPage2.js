@@ -14,16 +14,47 @@ const HostingPage2 = (props) => {
 
 
   useEffect(() => {
-   // console.log("ca: " + props.selectedSubCategory());
-      setSubCategories([{category: "Snakes", id : 1}, {category: "Scorpion", id : 2}, {category : "Crocodile", id : 3}, {category : "Insects", id: 4}])
-      //console.log(subCategories);
+    console.log('here', props.selectedCategory());
+    fetch("http://localhost:5000/experience/subcategories", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              category : props.selectedCategory().category
+            }
+            )
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.ok) return res;
+          else {
+            throw new Error("Something went wrong");
+          }
+        })
+        .then(res => {
+            //console.log(res.json());
+            return res.json();
+        })
+        .then(data => { 
+            console.log(data);
+            const cats = data.map(cat => {
+              return {subCategoryName: cat.subCategoryName, id: cat._id, categoryName: cat.categoryName};});
+            console.log(cats);
+
+            setSubCategories(cats);
+          
+        })
+        .catch(err => {
+            console.log(err);
+        })
       
     }, []);
 
     useEffect(() => {
       subCategories.map(({category, id}) => {
         //console.log("cat: " + category);
-          if (category == props.selectedSubCategory())
+          if (props.selectSubCategory() && category == props.selectedSubCategory().subCategoryName)
           {
               setSelectedIdx(id);
               changeStyle(id);
@@ -63,7 +94,7 @@ const HostingPage2 = (props) => {
 
               <div id="middle">
                 <table>
-                  {subCategories.map(({category, id}) => {
+                  {subCategories.map(({subCategoryName, id, categoryName}) => {
                     idx = idx + 1;
                     //console.log(category.category);
 
@@ -71,12 +102,12 @@ const HostingPage2 = (props) => {
                       <tr
                         key={idx}
                         onClick={() => {
-                          props.selectSubCategory(category);
+                          props.selectSubCategory({subCategoryName, id, categoryName});
                           setSelectedIdx(id);
                           changeStyle(id);
                         }}
                       >
-                        <td className={"id" + id}>{category}</td>
+                        <td className={"id" + id}>{subCategoryName}</td>
 
                         {/* <td className={"tr" + id}>{category}</td> */}
                       </tr>

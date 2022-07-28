@@ -38,6 +38,12 @@ const ExperienceHostingSchema = new Schema({
       type: String,
     },
   ],
+  hostingDuration: {
+      type: Object,
+  },
+  hostAvailability: {
+    type: Object,
+  },
   maxGroupSize: {
     type: Number,
     min: 1,
@@ -47,6 +53,13 @@ const ExperienceHostingSchema = new Schema({
   minAge: {
     type: Number,
     min: 1,
+  },
+  maxRefundDays: {
+    type: Number,
+    min: 1,
+  },
+  partialPayAllowed: {
+    type: Boolean,
   },
   additionalRequirements: [
     {
@@ -68,6 +81,18 @@ const ExperienceHostingSchema = new Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
     },
+  ],
+  subCategories: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "SubCategory",
+    }
+  ],
+  activitys: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Activity",
+    }
   ],
 });
 

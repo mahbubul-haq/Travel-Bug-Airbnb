@@ -1,14 +1,13 @@
+import axios from "axios";
 import React, { useEffect } from "react";
 import { Link } from 'react-router-dom';
-
-
 
 import ImageIcon from "../../../images/imageIcon.png";
 import "../cssFiles/HostingPage1Base.css";
 import "../cssFiles/HostingPhotoUpload.css";
+const imageUrl = "http://localhost:5000/host/experience/getimage/";
 
 //F:\MEGA\Level4Term1\CSE408\clone2\CSE-408-Project-Travel-Bug\travel-bug-frontend\src\images
-import { imagePath } from "../../../index";
 
 const HostingPhotoUpload = (props) => {
 
@@ -17,15 +16,53 @@ const HostingPhotoUpload = (props) => {
     changeStyle();
   }, [])
 
-  const handleImageChange= (files) => {
+  const handleImageChange=  async(event) => {
+    event.preventDefault();
+
     changeStyle();
     let formData = new FormData();
-    formData.append("image", files[0], files[0].name);
+    //formData.append("image", files[0], files[0].name);
     // formData.append('title', files[0].name);
-    console.log(files[0].name);
-    console.log(files[0]);
-    console.log(files[0].path);
-    console.log(formData.get("image"));
+
+  
+
+    const files = document.getElementById("uploadPhoto7");
+    formData.append("image", files.files[0]);
+    
+    
+    console.log(files.files[0]);
+    
+    //console.log(files[0].name);
+   // console.log(files[0]);
+   // console.log(files[0].path);
+    //console.log(formData.get("file"));
+
+    // const response = await fetch("http://localhost:5000/host/experience/upload", {
+    //         method: 'POST',
+    //         headers: { "Content-Type": "multipart/form-data" },
+    //         body: formData
+    //     });
+
+    //     const json = await response.json()
+    //     console.log(json);
+
+
+    axios.post("http://localhost:5000/host/experience/upload", formData,
+    {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(res =>{ return res.data
+      })
+    .then(res => {
+      //props.setSelectedImages("uploads/" + res);
+      console.log("data ", res)
+      props.setSelectedImages(imageUrl + res);
+    })
+    .catch(err => console.log("error here axios", err));
+
+    // event.preventDefault();
     //let url = baseUrl + "users/photo-upload/";
     /*axios
       .post(url, formData, {
@@ -55,10 +92,11 @@ const HostingPhotoUpload = (props) => {
       })
       .catch((err) => alert(err));*/
 
-      props.setSelectedImages(imagePath + files[0].name);
-    var element = document.getElementById("imgIconContainer7");
-    element.style.display = "flex";
+      //props.setSelectedImages(imagePath + files[0].name);
+   // var element = document.getElementById("imgIconContainer7");
+    //element.style.display = "flex";
   }
+
   const changeStyle = () => {
     var element = document.getElementById("dummy7");
     console.log(props.images.length);
@@ -105,13 +143,15 @@ const HostingPhotoUpload = (props) => {
                     >
                       Upload Image
                     </label>
+                    
                     <input
                       style={{ visibility: "hidden", display: "none" }}
                       type="file"
                       id="uploadPhoto7"
                       accept="image/png, image/jpeg"
                       onChange={(event) => {
-                        handleImageChange(event.target.files);
+                        event.preventDefault()
+                        handleImageChange(event);
                         changeStyle();
                       }}
                     />

@@ -2,23 +2,33 @@ const express = require('express');
 const User = require('../models/User');
 const ExperienceHosting = require("../models/ExperienceHosting");
 const Activity=require("../models/Activity");
+const Category=require("../models/Category");
 const fetchuser = require("../middleware/fetchUser");
 const { body, validationResult } = require('express-validator');
 router = express.Router();
+const multer = require("multer");
+const path = require("path");
+
 
 //ROUTE 1 - Post an experience hosting using: POST "host/experience". Login required
 router.post('/', fetchuser, [
     body('hostingTitle', 'Enter a valid hosting title').isLength({ min: 1 }),
     body('description', 'Enter a valid description').isLength({ min: 1 }),
 ], async (req, res) => {
+    var success = false;
     try {
         //if error, return bad request as response
+        //console.log("before validation");
         const errors = validationResult(req);
+        //console.log("after validation");
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
+            return res.status(400).json({ errors: errors.array(), success: success });
         }
 
         const userId = req.user.id;
+        const categoryIds = req.body.category.map((category) => category.id);
+        console.log(categoryIds)
+        const subCategoryIds = req.body.subCategory.map((subCategory) => subCategory.id);
 
         //create experience hosting
         const experienceHosting = await ExperienceHosting.create({
@@ -28,22 +38,33 @@ router.post('/', fetchuser, [
             draft: req.body.draft,
             individualOrTeam: req.body.individualOrTeam,
             totalCost: req.body.totalCost,
+            maxRefundDays: req.body.maxRefundDays,
+            partialPayAllowed: req.body.partialPayAllowed,
             itemsToBring: req.body.itemsToBring,
             maxGroupSize: req.body.maxGroupSize,
             minAge: req.body.minAge,
             additionalRequirements: req.body.additionalRequirements,
             hostingPhotos: req.body.hostingPhotos,
             host: userId,
+            categories: categoryIds,
+            subCategories: subCategoryIds,
+            hostAvailability: req.body.dayTimeSlot,
+            hostingDuration: req.body.duration,
         });
+        success = true;
 
         //send a response after creating experience hosting
         res.json({
+            success: success,
             experienceHosting: experienceHosting,
         });
 
     } catch (error) {
         console.log(error.message);
-        res.status(500).send('Internal Server Error from host');
+        res.status(500).json({
+            success: success,
+            error: "Experience not hosted"
+        });
     }
 });
 
@@ -105,7 +126,7 @@ router.post('/activity/:id',[
         //create experience hosting
         const activity = await Activity.create({
             activityTitle:req.body.activityTitle,
-            dayTimeSlots:req.body.dayTimeSlots,
+            dayTimeSlots:req.body.activityDayTimeSlot,
             activityDuration:req.body.activityDuration,
             activityCost:req.body.activityCost,
             additionalRequirements:req.body.additionalRequirements,
@@ -140,5 +161,57 @@ router.get('/activity/:id',[], async (req, res) => {
         res.status(500).send('Internal Server Error from get experience hosting');
     }
 });
+
+//ROUTE 5 - upload a photo
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+       
+        //console.log(`../${__dirname}/uploads`);
+        cb(null, `${__dirname}/uploads`);
+        //cb(null, '../../travel-bug-backend/uploads/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + "-" + file.originalname);
+        
+        // const fileExtension = path.extname(file.originalname);
+        // const fileName = file.originalname
+        //         .replace(fileExtension, "")
+        //         .toLowerCase()
+        //         .split(" ")
+        //         .join("-") + "-" + Date.now() + fileExtension;
+        // cb(null, fileName);
+    }
+});
+const upload = multer({
+    storage: fileStorage,
+});
+
+router.post('/upload', upload.single("image"), (req, res) => {
+   
+    console.log(req.file);
+     console.log(path.dirname(path.basename(__dirname)));
+    res.send(req.file.filename);
+})
+
+router.get('/getimage/:name', (req, res) => {
+
+    // const protocol = req.protocol;
+    // const host = req.hostname;
+    // const url = req.originalUrl;
+    // const port = process.env.PORT || 5000;
+
+    // const lastPart = url.split("/").pop();
+    // console.log(lastPart)
+
+    // const fullUrl = `${protocol}://${host}:${port}${url}`
+    // console.log(fullUrl);
+    // //console.log(path.join(__dirname, '/uploads', req.body.filename));
+    // console.log("dirname", __dirname);
+    //res.send(__dirname + "/uploads/" + req.body.filename);
+    //console.log(req.url);
+    //.log(req.url);
+    //res.send(fullUrl);
+    res.sendFile(path.join(__dirname, '/uploads/', req.params.name));
+})
 
 module.exports = router;

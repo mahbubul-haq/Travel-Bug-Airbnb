@@ -33,7 +33,7 @@ const HostingCheckEverything = (props) => {
                     // owner={sessionStorage.getItem('firstname') + ' ' + sessionStorage.getItem('lastname')}
 
                     description={props.description()}
-                    category={props.category()}
+                    category={props.category().category}
                     location={
                       props.location()
                     }
@@ -49,7 +49,7 @@ const HostingCheckEverything = (props) => {
               <button
                 id="nextButton"
                 onClick={() => {
-                  props.nextPage();
+                  props.publishHosting();
                 }}
               >
                 Publish

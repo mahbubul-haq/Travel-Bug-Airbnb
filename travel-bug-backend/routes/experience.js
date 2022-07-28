@@ -1,6 +1,7 @@
 const express = require('express');
 const ExperienceHosting = require("../models/ExperienceHosting");
 const Category = require('../models/Category');
+const SubCategory = require('../models/SubCategory');
 
 router = express.Router();
 
@@ -48,6 +49,22 @@ router.get('/categories', async (req, res) => {
     } catch (error) {
         console.log(error.message);
         res.status(500).send('Internal Server Error from host/experience/categories');
+    }
+});
+// ROUTE 4 Get all experience subcategories of hosting using : POST "experience/subcategories". Login not required
+router.post('/subcategories', async (req, res) => {
+    console.log("body: ", req.body);
+    try {
+        //get all the categories
+        console.log(req.body.category);
+        const subCategories = await SubCategory.find({categoryName: req.body.category});
+
+        //send a response after getting categories
+        res.json(subCategories);
+
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send('Internal Server Error from host/experience/subCategories');
     }
 });
 
