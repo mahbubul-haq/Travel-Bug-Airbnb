@@ -1,11 +1,13 @@
-import React from 'react'
+import React from 'react';
+import { useLoadScript } from '@react-google-maps/api';
+import Maps from './Maps';
 
 const TransportGuidelines = () => {
   return (
     <div>
-      This is TransportGuidelines
+      <Maps/>
     </div>
   )
 }
 
-export default TransportGuidelines
+export default TransportGuidelines;
