@@ -14,15 +14,14 @@ import './experience.css';
 const SingleExperience = () => {
     let navigate = useNavigate();
     const [experience, setExperience] = useState({});
+
     const [host, setHost] = useState({});
     const context = useContext(reservationContext);
     const { reservation, setReservation } = context;
     const context1 = useContext(userContext);
     const { user, getUser } = context1;
-    const {activeActivtyNO,setActiveActivtyNO}=useState(0);
-
-
-
+    const { activities, setActivities } = useState([]);
+    const { cardIter, setCardIter } = useState(0);
     //get current id of url    
     const { id } = useParams();
 
@@ -33,6 +32,7 @@ const SingleExperience = () => {
     useEffect(() => {
         if (id) {
             fetchData();
+           // fetchActivities();
             var reservationCopy = {
                 hostingID: "",
                 bookingStartDate: "",
@@ -46,7 +46,10 @@ const SingleExperience = () => {
             reservationCopy.hostingID = id;
             reservationCopy.user = user._id;
             setReservation(reservationCopy);
-            console.log(reservation);
+            //console.log(reservation);
+
+
+
         }
     }, []);
     const onChange = (e) => {
@@ -66,7 +69,20 @@ const SingleExperience = () => {
         console.log(data);
         setExperience(data);
         setHost(data.host);
+
+
     }
+    /*const fetchActivities = async () => {
+        const response = await fetch(`${hostAddress}/host/experience/activity/${id}`, {
+            method: "GET",
+        });
+        const data = await response.json();
+        console.log(data);
+        setActivities(data);
+
+
+    }*/
+
 
     return (
         <div>
@@ -110,7 +126,7 @@ const SingleExperience = () => {
                         <h4>Hosted By {host.firstName + " " + host.lastName}</h4>
                         <small> Maximum {experience.maxGroupSize}  Guests   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-suit-diamond-fill" viewBox="0 0 16 16">
                             <path d="M2.45 7.4 7.2 1.067a1 1 0 0 1 1.6 0L13.55 7.4a1 1 0 0 1 0 1.2L8.8 14.933a1 1 0 0 1-1.6 0L2.45 8.6a1 1 0 0 1 0-1.2z" />
-                        </svg> Minimum Agge {experience.minAge} Years Old</small>
+                        </svg> Minimum Age {experience.minAge} Years Old</small>
                     </Container>
                     <Container>
                         <br /><br />
@@ -128,31 +144,25 @@ const SingleExperience = () => {
                             <div className='col-style-3 '>
                                 <h4>Activities</h4>
                                 <br />
-                                <Row>
-                                    <Col className='md-0.01'>
-                                        <br/> <br/> <br/> <br/>
-                                        <h1><strong><center>&#8617;</center></strong></h1>
-                                    </Col>
-                                    <Col className='md-0.01'>
-                                    <Card className='card-style-13'>
-                                <center>
-                                    <Card.Title>Activity Name</Card.Title>
-                                    <Card.Body>
-                                        Time Slots
-                                    </Card.Body>
-                                </center>
+                                <Row >
+                               
+                                    <Col className='md-0.01 '>
+                                        <Card className='card-style-13 md-2'>
+                                            <center>
+                                                <Card.Title>activity.activityTitle</Card.Title>
+                                                <Card.Body>
+                                                    Time Slots
+                                                </Card.Body>
+                                            </center>
 
-                               </Card>
-                                    </Col>
-                                    <Col className='md-0.01'>
-                                    <br/> <br/> <br/> <br/>
-                                        <h1><strong><center>&#8618;</center></strong></h1>
+                                        </Card>
                                     </Col>
                                     
+                                
                                 </Row>
-                               
+
                             </div>
-                            <div className='col form-style-9'>
+                            <div className='col form-style-17'>
                                 <h2><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-currency-dollar" viewBox="0 0 16 16">
                                     <path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718H4zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73l.348.086z" />
                                 </svg> {experience.totalCost}</h2>
@@ -160,7 +170,7 @@ const SingleExperience = () => {
                                 <div className="form-group">
                                     <div className="mb-3">
                                         <label htmlFor="checkin">Check In </label>
-                                        <input type="date" className="form-control" id="bookingStartDate" name="bookingStartDate" aria-describedby="emailHelp"  onChange={onChange} />
+                                        <input type="date" className="form-control" id="bookingStartDate" name="bookingStartDate" aria-describedby="emailHelp" onChange={onChange} />
                                     </div>
                                 </div>
 

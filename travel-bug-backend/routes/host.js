@@ -3,12 +3,19 @@ const User = require('../models/User');
 const ExperienceHosting = require("../models/ExperienceHosting");
 const Activity=require("../models/Activity");
 const Category=require("../models/Category");
+const SubCategory=require("../models/SubCategory");
 const fetchuser = require("../middleware/fetchUser");
 const { body, validationResult } = require('express-validator');
 router = express.Router();
 const multer = require("multer");
 const path = require("path");
 
+const updateCategory = async (categoryId, experienceId) => {
+    await Category.updateOne({ _id: categoryId }, { $push: { experiences: experienceId } });
+}
+const updateSubCategory = async (subCategoryId, experienceId) => {
+    await SubCategory.updateOne({ _id: subCategoryId }, { $push: { experiences: experienceId } });
+}
 
 //ROUTE 1 - Post an experience hosting using: POST "host/experience". Login required
 router.post('/', fetchuser, [
@@ -52,6 +59,15 @@ router.post('/', fetchuser, [
             hostingDuration: req.body.duration,
         });
         success = true;
+
+        //update category with experience id
+        for (let i = 0; i < categoryIds.length; i++) {
+            await updateCategory(categoryIds[i], experienceHosting._id);
+        }
+        // update subcategory with experience id
+        for (let i = 0; i < subCategoryIds.length; i++) {
+            await updateSubCategory(subCategoryIds[i], experienceHosting._id);
+        }
 
         //send a response after creating experience hosting
         res.json({
@@ -104,6 +120,7 @@ router.get('/hostingid/:id', fetchuser, async (req, res) => {
         res.json({
             experienceHosting: experienceHosting,
             user: user,
+           
         });
 
     } catch (error) {
@@ -111,7 +128,7 @@ router.get('/hostingid/:id', fetchuser, async (req, res) => {
         res.status(500).send('Internal Server Error from get experience hosting');
     }
 });
-// ROUTE 4 posting an activity using : POST "host/activity".
+// ROUTE 4 posting an activity using : POST "host/activity/hostingid".
 router.post('/activity/:id',[
     body('activityTitle', 'Enter a valid hosting title').isLength({ min: 1 }),
 ], async (req, res) => {
@@ -134,6 +151,8 @@ router.post('/activity/:id',[
 
         });
 
+        await ExperienceHosting.updateOne({_id:req.params.id},{$push:{activities:activity._id}})
+
         //send a response after creating experience hosting
         res.json({
             activity:activity,
@@ -142,6 +161,23 @@ router.post('/activity/:id',[
     } catch (error) {
         console.log(error.message);
         res.status(500).send('Internal Server Error from host');
+    }
+});
+// ROUTE 5 posting an activity using : GET "host/activity/hostingid".
+router.get('/activity/:id',[], async (req, res) => {
+    try {
+         
+        //get all activities
+        const activities = await Activity.find({"hostingId":req.params.id});
+        
+        //send a response after getting experience hosting
+        res.json({
+            activities
+        });
+
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send('Internal Server Error from get experience hosting');
     }
 });
 

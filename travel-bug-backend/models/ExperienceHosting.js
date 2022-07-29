@@ -88,7 +88,7 @@ const ExperienceHostingSchema = new Schema({
       ref: "SubCategory",
     }
   ],
-  activitys: [
+  activities: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Activity",

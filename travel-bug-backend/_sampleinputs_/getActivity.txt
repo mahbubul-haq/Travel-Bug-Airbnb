@@ -1,0 +1,61 @@
+localhost:5000/host/experience/activity/hostingId(some objectId value) GET method
+response:
+{
+  "activities": [
+    {
+      "_id": "62dc2d2554d87ad60dd552af",
+      "activityTitle": "Visit Glowing Beach on Vaadhoo Island",
+      "dayTimeSlots": [
+        {
+          "startTime": "8PM",
+          "endTime": "11PM",
+          "_id": "62dc2d2554d87ad60dd552b0"
+        }
+      ],
+      "activityCost": 300,
+      "additionalRequirements": [],
+      "hostingId": "62dc2cf454d87ad60dd552ad",
+      "__v": 0
+    },
+    {
+      "_id": "62dc2d9054d87ad60dd552b2",
+      "activityTitle": "Scuba Diving at Maaya Thila",
+      "dayTimeSlots": [
+        {
+          "startTime": "3PM",
+          "endTime": "8PM",
+          "_id": "62dc2d9054d87ad60dd552b3"
+        },
+        {
+          "startTime": "7AM",
+          "endTime": "11AM",
+          "_id": "62dc2d9054d87ad60dd552b4"
+        }
+      ],
+      "activityCost": 200,
+      "additionalRequirements": [
+        "Life Jacket",
+        "Sunglasses"
+      ],
+      "hostingId": "62dc2cf454d87ad60dd552ad",
+      "__v": 0
+    },
+    {
+      "_id": "62dc2dd454d87ad60dd552b6",
+      "activityTitle": "Enjoy Sunset Cruise",
+      "dayTimeSlots": [
+        {
+          "startTime": "5PM",
+          "endTime": "7PM",
+          "_id": "62dc2dd454d87ad60dd552b7"
+        }
+      ],
+      "activityCost": 80,
+      "additionalRequirements": [
+        "Sunglasses"
+      ],
+      "hostingId": "62dc2cf454d87ad60dd552ad",
+      "__v": 0
+    }
+  ]
+}

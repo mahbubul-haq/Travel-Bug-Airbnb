@@ -11,6 +11,12 @@ const CategorySchema = new Schema({
     type: String,
     //required: true,
   },
+  subCategories: [ 
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "SubCategory",
+    }
+  ],
   experiences: [
     {
       type: mongoose.Schema.Types.ObjectId,
