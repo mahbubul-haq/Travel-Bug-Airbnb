@@ -20,8 +20,8 @@ const SingleExperience = () => {
     const { reservation, setReservation } = context;
     const context1 = useContext(userContext);
     const { user, getUser } = context1;
-    const { activities, setActivities } = useState([]);
-    const { cardIter, setCardIter } = useState(0);
+    const [ activities, setActivities ] = useState([]);
+    //const { cardIter, setCardIter } = useState(0);
     //get current id of url    
     const { id } = useParams();
 
@@ -45,6 +45,7 @@ const SingleExperience = () => {
             };
             reservationCopy.hostingID = id;
             reservationCopy.user = user._id;
+            
             setReservation(reservationCopy);
             //console.log(reservation);
 
@@ -64,11 +65,17 @@ const SingleExperience = () => {
     const fetchData = async () => {
         const response = await fetch(`${hostAddress}/experience/hostingid/${id}`, {
             method: "GET",
+            
+           
         });
         const data = await response.json();
         console.log(data);
         setExperience(data);
         setHost(data.host);
+        setActivities(data.activities);
+        setReservation({...reservation,cost:data.totalCost})
+        console.log("my something");
+        console.log(activities);
 
 
     }
@@ -85,6 +92,7 @@ const SingleExperience = () => {
 
 
     return (
+        
         <div>
             <Container>
                 <br /> <br />
@@ -145,20 +153,23 @@ const SingleExperience = () => {
                                 <h4>Activities</h4>
                                 <br />
                                 <Row >
-                               
+                                 {activities.map((activity) => (
                                     <Col className='md-0.01 '>
                                         <Card className='card-style-13 md-2'>
                                             <center>
-                                                <Card.Title>activity.activityTitle</Card.Title>
+                                                
                                                 <Card.Body>
-                                                    Time Slots
+                                                    <h3>{activity.activityTitle}</h3>
+                                                    <h6>Start : {activity.dayTimeSlots.start}</h6>
+                                                    <h6>End : {activity.dayTimeSlots.end}</h6>
+                                                    <h6>Cost : {activity.activityCost}</h6>
                                                 </Card.Body>
                                             </center>
 
                                         </Card>
                                     </Col>
                                     
-                                
+                                ))} 
                                 </Row>
 
                             </div>

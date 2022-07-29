@@ -115,13 +115,13 @@ router.get('/hostingid/:id', fetchuser, async (req, res) => {
 
         //get an experience hosting
         const experienceHosting = await ExperienceHosting.findById(req.params.id);
-        
+        console.log(experienceHosting);
         //send a response after getting experience hosting
-        res.json({
-            experienceHosting: experienceHosting,
-            user: user,
+        res.json(
+             experienceHosting,
+             user,
            
-        });
+        );
 
     } catch (error) {
         console.log(error.message);
