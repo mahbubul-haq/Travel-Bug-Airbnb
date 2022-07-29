@@ -120,6 +120,7 @@ router.get('/hostingid/:id', fetchuser, async (req, res) => {
         res.json({
             experienceHosting: experienceHosting,
             user: user,
+           
         });
 
     } catch (error) {
@@ -127,7 +128,7 @@ router.get('/hostingid/:id', fetchuser, async (req, res) => {
         res.status(500).send('Internal Server Error from get experience hosting');
     }
 });
-// ROUTE 4 posting an activity using : POST "host/activity".
+// ROUTE 4 posting an activity using : POST "host/activity/hostingid".
 router.post('/activity/:id',[
     body('activityTitle', 'Enter a valid hosting title').isLength({ min: 1 }),
 ], async (req, res) => {
@@ -160,6 +161,23 @@ router.post('/activity/:id',[
     } catch (error) {
         console.log(error.message);
         res.status(500).send('Internal Server Error from host');
+    }
+});
+// ROUTE 5 posting an activity using : GET "host/activity/hostingid".
+router.get('/activity/:id',[], async (req, res) => {
+    try {
+         
+        //get all activities
+        const activities = await Activity.find({"hostingId":req.params.id});
+        
+        //send a response after getting experience hosting
+        res.json({
+            activities
+        });
+
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send('Internal Server Error from get experience hosting');
     }
 });
 
