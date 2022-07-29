@@ -41,7 +41,7 @@ router.get('/hostingid/:id', async (req, res) => {
 router.get('/categories', async (req, res) => {
     try {
         //get all the categories
-        const categories = await Category.find();
+        const categories = await Category.find().populate("subCategories");
 
         //send a response after getting categories
         res.json(categories);
@@ -57,7 +57,7 @@ router.post('/subcategories', async (req, res) => {
     try {
         //get all the categories
         console.log(req.body.category);
-        const subCategories = await SubCategory.find({categoryName: req.body.category});
+        const subCategories = await SubCategory.find({category: req.body.categoryId}).populate("category");
 
         //send a response after getting categories
         res.json(subCategories);
