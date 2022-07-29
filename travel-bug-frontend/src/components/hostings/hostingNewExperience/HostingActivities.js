@@ -108,9 +108,9 @@ const HostingActivities = (props) => {
                 <button className = "new_activity" onClick={() => {setisNewActivity()}}> Add New Activity </button>
                 {
 
-                    props.activities().map((activity) => {
+                    props.activities().map((activity, index) => {
                         return (
-                            <div className="div_activities">
+                            <div className="div_activities" key={index}>
                                 <div className="title_activities">
                                 {activity.title}
                                 </div>
