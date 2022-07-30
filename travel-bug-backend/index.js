@@ -18,6 +18,7 @@ const port = 5000;
 app.use('/api/auth', require('./routes/auth'));
 app.use('/host/experience', require('./routes/host'));
 app.use('/experience', require('./routes/experience'));
+app.use('/booking', require('./routes/booking'));
 
 // app.get('/', (req, res) => {
 //   res.send('Hello Travel Bug!');

@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Card, Col, Container, Form, Row } from 'react-bootstrap'
+import React, { useContext, useEffect, useState } from 'react';
+import { Alert, Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import reservationContext from '../../context/booking/reservationContext'
-import './booking.css'
+import reservationContext from '../../context/booking/reservationContext';
+import userContext from '../../context/user/userContext';
+import './booking.css';
 const AddBookingDetails = () => {
 
   //get params from url
@@ -10,10 +11,16 @@ const AddBookingDetails = () => {
 
   const context = useContext(reservationContext);
   const { reservation, setReservation } = context;
+  const context1 = useContext(userContext);
+    const { user, getUser } = context1;
+  const [ show, setShow ] = useState(false);
   const [activities, setActivities] = useState([]);
   useEffect(() => {
 
     fetchActivities();
+    setReservation({ ...reservation, hostingID: id ,user:user._id});
+    
+
 
   }, []);
   const hostAddress = 'http://localhost:5000';
@@ -31,7 +38,22 @@ const AddBookingDetails = () => {
 
 
   }
+  const requestHost = async(e) => {
+    e.preventDefault();
+        
+        const response = await fetch("http://localhost:5000/booking", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem('token')
+            },
+            body: JSON.stringify(reservation)
+        });
+        const data = await response.json();
+        setShow(data.success);
+  }
   const onChange = (e) => {
+    
     setReservation({ ...reservation, [e.target.name]: e.target.value })
     console.log(reservation);
   }
@@ -40,7 +62,7 @@ const AddBookingDetails = () => {
 
     if (e.buttonText === "Add") {
       c = c + e.activityCost;
-      reservation.selectedActivities.push(e);
+      reservation.selectedActivities.push(e._id);
       setReservation({ ...reservation, cost: c });
       setActivities(
         activities.map(item =>
@@ -70,6 +92,18 @@ const AddBookingDetails = () => {
   }
   return (
     <div>
+      <Alert show={show} variant="success">
+       
+        Request Sent!!!
+        <hr />
+        <div className="d-flex justify-content-end">
+          <Button onClick={() => setShow(false)} variant="outline-success">
+            Close 
+          </Button>
+        </div>
+      </Alert>
+
+      
       <br /><br />
       <Container>
         <Row>
@@ -101,6 +135,9 @@ const AddBookingDetails = () => {
               </Form>
 
             </Row>
+            <Row>
+            <button type="button" class="btn btn-outline-primary" onClick={requestHost}><strong>Request Host</strong></button>
+            </Row>
           </Col>
           <Col>
             {activities.map((activity) => (
@@ -111,7 +148,7 @@ const AddBookingDetails = () => {
                 <div className="card-body">
                   <h5 className="card-title">{activity.activityTitle}</h5>
                   <p className="card-text">Start : {activity.dayTimeSlots.start}<br />End : {activity.dayTimeSlots.end}<br /><strong>Cost : {activity.activityCost}</strong></p>
-                  <button type="button" className="btn btn-info" onClick={() => addActivity(activity)}>{activity.buttonText}</button>
+                  <button type="button" className="btn btn-info" onClick={(e) => {e.preventDefault();addActivity(activity)}}>{activity.buttonText}</button>
 
                 </div>
               </div>

@@ -37,7 +37,7 @@ const SingleExperience = () => {
                 hostingID: "",
                 bookingStartDate: "",
                 bookingEndDate: "",
-                noOfGuests: 0,
+                noOfGuests: '',
                 user: "",
                 paymentInfo: "",
                 selectedActivities: [],
