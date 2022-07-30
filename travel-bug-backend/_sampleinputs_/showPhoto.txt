@@ -1,0 +1,9 @@
+http://localhost:5000/host/experience/getimage/1659114869698-b20.jpg (image name saved in uploads folder)
+GET
+
+Response:
+the photo
+
+to show the image
+just put the link in src 
+<img src="http://localhost:5000/host/experience/getimage/1659030394189-back20.jpg">

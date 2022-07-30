@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react';
-import './style.css';
+import { Container } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import hostingContext from '../../../context/hostings/hostingContext';
 import HostitemCard from './HostitemCard';
-import { useNavigate } from 'react-router-dom';
-import { Container } from 'react-bootstrap';
+import './style.css';
 
 const Listings = () => {
   const context = useContext(hostingContext);
@@ -28,7 +28,7 @@ const Listings = () => {
         <ul class="list-group">
          <br/>
         {myHostings.map((hostItem) => {
-          return <HostitemCard hostItem={hostItem} />;
+          return < HostitemCard hostItem={hostItem} />;
         })}
         </ul>
         </Container>

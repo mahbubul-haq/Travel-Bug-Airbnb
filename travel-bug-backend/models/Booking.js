@@ -14,7 +14,7 @@ const BookingSchema = new Schema({
   },
   bookingEndDate: {
     type: Date,
-    required: true,
+    //required: true,
   },
   noOfGuests: {
     type: Number,
@@ -27,9 +27,9 @@ const BookingSchema = new Schema({
     required: true,
   },
   paymentInfo: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "PaymentInfo",
-    required: true,
+    //required: true,
   },
   selectedActivities: [
     {
@@ -37,6 +37,17 @@ const BookingSchema = new Schema({
       ref: "Activity",
     },
   ],
+  status: {
+    type: String,
+    enum : ['waiting','approved'],
+    default: 'waiting'
+},
+cost : {
+  type: Number,
+  min:1,
+  required: true,
+}
 });
-
-module.exports = mongoose.model("Booking", BookingSchema);
+const Booking=mongoose.model("Booking", BookingSchema);
+module.exports =Booking;
+ 

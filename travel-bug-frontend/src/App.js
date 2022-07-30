@@ -16,6 +16,7 @@ import Experiences from './components/experiences/Experiences';
 import SingleExperience from './components/experiences/SingleExperience';
 import About from './components/home/About';
 import Home from './components/home/Home';
+import EditHosting from './components/hostings/editHosting/EditHosting';
 import Hostings from './components/hostings/Hostings';
 import Listings from './components/hostings/ManagementDashboard/Listings';
 import ManagementHome from './components/hostings/ManagementDashboard/ManagementHome';
@@ -28,6 +29,7 @@ import ReservationState from './context/booking/ReservationState';
 import ExperienceState from './context/experiences/ExperienceState';
 import HostingState from './context/hostings/HostingState';
 import UserState from './context/user/UserState';
+
 function App() {
 
   return (
@@ -64,6 +66,8 @@ function App() {
                 
                 <Route exact path="/newlisting" element={<Hostings />} />
                 <Route exact path="/experiences/:id" element={<SingleExperience />} />
+                <Route exact path="/addBookingdetails" element={<AddBookingDetails />} />
+                <Route exact path="/host/experience/:id" element={<EditHosting />} />
                 <Route exact path="/bookingdetails/:id" element={<AddBookingDetails />} />
 
                 <Route exact path="/booking/payment/" element={<Payment />} />
