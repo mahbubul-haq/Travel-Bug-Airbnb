@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 import { Navbar, NavbarBrand, NavItem } from 'react-bootstrap';
 import { Link, useNavigate } from "react-router-dom";
-import userContext from '../../context/user/userContext';
 import '../../App.css';
+import userContext from '../../context/user/userContext';
 const Nav = () => {
     const context = useContext(userContext);
     const { user, getUser } = context;

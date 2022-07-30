@@ -4,6 +4,7 @@ const ExperienceHosting = require("../models/ExperienceHosting");
 const Activity=require("../models/Activity");
 const Category=require("../models/Category");
 const SubCategory=require("../models/SubCategory");
+const Location = require('../models/Location');
 const fetchuser = require("../middleware/fetchUser");
 const { body, validationResult } = require('express-validator');
 router = express.Router();
@@ -15,6 +16,16 @@ const updateCategory = async (categoryId, experienceId) => {
 }
 const updateSubCategory = async (subCategoryId, experienceId) => {
     await SubCategory.updateOne({ _id: subCategoryId }, { $push: { experiences: experienceId } });
+}
+
+const insertLocation = async (longitude, latitude, address) => {
+    const location = new Location({
+        longitude: longitude,
+        latitude: latitude,
+        address: address
+    });
+    await location.save();
+    return location._id;
 }
 
 //ROUTE 1 - Post an experience hosting using: POST "host/experience". Login required
@@ -32,6 +43,7 @@ router.post('/', fetchuser, [
             return res.status(400).json({ errors: errors.array(), success: success });
         }
 
+        const locationId = await insertLocation(req.body.location.x, req.body.location.y, req.body.location.label);
         const userId = req.user.id;
         const categoryIds = req.body.category.map((category) => category.id);
         console.log(categoryIds)
@@ -57,6 +69,7 @@ router.post('/', fetchuser, [
             subCategories: subCategoryIds,
             hostAvailability: req.body.dayTimeSlot,
             hostingDuration: req.body.duration,
+            location: locationId,
         });
         success = true;
 

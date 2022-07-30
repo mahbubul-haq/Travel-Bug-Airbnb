@@ -54,7 +54,7 @@ const HostingPricing = (props) => {
                   >
                     -
                   </button>
-                  <label id="priceBox10" for="priceValue10">
+                  <label id="priceBox10" htmlFor="priceValue10">
                     $
                     <input
                       placeholder="00"
@@ -92,7 +92,7 @@ const HostingPricing = (props) => {
                       props.setPartialPayAllowed(false);
                     }}
                   />
-                  <label for="partialPayCheck10">Partial pay allowed</label>
+                  <label htmlFor="partialPayCheck10">Partial pay allowed</label>
                   {/* <br />
                   <input
                     id="hostPermission10"
@@ -114,7 +114,7 @@ const HostingPricing = (props) => {
                       props.setIndividual();
                     }}
                   />
-                  <label for="individual10">Hosted by a team</label>
+                  <label htmlFor="individual10">Hosted by a team</label>
                   {/* <br />
                   <input
                     id="hostPermission10"
