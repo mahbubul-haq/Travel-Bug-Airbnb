@@ -67,8 +67,8 @@ router.post('/subcategories', async (req, res) => {
         res.status(500).send('Internal Server Error from host/experience/subCategories');
     }
 });
-// ROUTE 5 posting an activity using : GET "experience/activity/hostingid".
-router.get('/activity/:id',[], async (req, res) => {
+// ROUTE 5 posting an activity using : GET "experience/activities/hostingid/:id".
+router.get('/activities/hostingid/:id', async (req, res) => {
     try {
          
         //get all activities

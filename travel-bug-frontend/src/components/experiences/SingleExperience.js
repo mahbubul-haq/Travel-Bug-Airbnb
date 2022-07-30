@@ -57,9 +57,9 @@ const SingleExperience = () => {
         setReservation({ ...reservation, [e.target.name]: e.target.value })
         console.log(reservation);
     }
-    const handleClick = (e) => {
+    const handleViewMoreDetails = (e) => {
         e.preventDefault();
-        navigate('/addBookingdetails');
+        navigate('/bookingdetails/' + id);
     }
     const hostAddress = 'http://localhost:5000';
     const fetchData = async () => {
@@ -192,7 +192,7 @@ const SingleExperience = () => {
                                     </div>
                                 </div>
                                 <div className="mb-3">
-                                    <button type="submit" className="btn btn-primary btn-lg" onClick={handleClick} >View More Details</button>
+                                    <button type="submit" className="btn btn-primary btn-lg" onClick={handleViewMoreDetails} >View More Details</button>
                                 </div>
                             </div>
                         </div>
