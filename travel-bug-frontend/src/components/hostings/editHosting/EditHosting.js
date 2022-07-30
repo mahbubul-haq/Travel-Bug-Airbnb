@@ -319,7 +319,11 @@ const EditHosting = (props) => {
             {experience.hostingPhotos.map((photo, index) => {
               return (
                 <div key={index}>
-                  <img className="editHostingPhotos" src={photo} alt="experience house" />
+                  <img
+                    className="editHostingPhotos"
+                    src={photo}
+                    alt="experience house"
+                  />
                 </div>
               );
             })}
@@ -332,7 +336,11 @@ const EditHosting = (props) => {
           {experience.hostingPhotos.map((photo, index) => {
             return (
               <div key={index}>
-                <img className="showHostingPhotos" src={photo} alt="experience place" />
+                <img
+                  className="showHostingPhotos"
+                  src={photo}
+                  alt="experience place"
+                />
               </div>
             );
           })}

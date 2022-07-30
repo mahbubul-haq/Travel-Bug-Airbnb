@@ -2,7 +2,7 @@ const express = require('express');
 const ExperienceHosting = require("../models/ExperienceHosting");
 const Category = require('../models/Category');
 const SubCategory = require('../models/SubCategory');
-
+const Activity=require("../models/Activity");
 router = express.Router();
 
 // ROUTE 1 - Get all experience using: GET "experience/all". Login not required
@@ -27,7 +27,7 @@ router.get('/hostingid/:id', async (req, res) => {
     try {
         //get an experience
         const experience = await ExperienceHosting.findById(req.params.id).populate('host', '-password')
-        .populate('categories subCategories'); //except the password
+        .populate('activities categories subCategories'); //except the password
 
         //send a response after getting experience
         res.json(experience);
@@ -68,6 +68,21 @@ router.post('/subcategories', async (req, res) => {
         res.status(500).send('Internal Server Error from host/experience/subCategories');
     }
 });
+// ROUTE 5 posting an activity using : GET "experience/activities/hostingid/:id".
+router.get('/activities/hostingid/:id', async (req, res) => {
+    try {
+         
+        //get all activities
+        const activities = await Activity.find({"hostingId":req.params.id});
+        
+        //send a response after getting experience hosting
+        res.json(
+            activities);
 
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send('Internal Server Error from get experience hosting');
+    }
+});
 
 module.exports = router;

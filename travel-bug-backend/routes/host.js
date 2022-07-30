@@ -128,13 +128,13 @@ router.get('/hostingid/:id', fetchuser, async (req, res) => {
 
         //get an experience hosting
         const experienceHosting = await ExperienceHosting.findById(req.params.id);
-        
+        console.log(experienceHosting);
         //send a response after getting experience hosting
-        res.json({
-            experienceHosting: experienceHosting,
-            user: user,
+        res.json(
+             experienceHosting,
+             user,
            
-        });
+        );
 
     } catch (error) {
         console.log(error.message);
@@ -151,7 +151,7 @@ router.post('/activity/:id',[
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
-
+        console.log(req.params.id);
 
         //create experience hosting
         const activity = await Activity.create({

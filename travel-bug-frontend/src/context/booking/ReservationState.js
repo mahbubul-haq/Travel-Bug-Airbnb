@@ -9,6 +9,7 @@ const ReservationState = (props) => {
         user:"",
         paymentInfo:"",
         selectedActivities:[],
+        cost :0,
 
     };
     const [reservation, setReservation] = useState(reservationInitial);

@@ -67,6 +67,8 @@ function App() {
                 <Route exact path="/experiences/:id" element={<SingleExperience />} />
                 <Route exact path="/addBookingdetails" element={<AddBookingDetails />} />
                 <Route exact path="/host/experience/:id" element={<EditHosting />} />
+                <Route exact path="/bookingdetails/:id" element={<AddBookingDetails />} />
+                
               </Routes>
             </div>
           </Router>

@@ -45,7 +45,7 @@ const CheckBeforePublishingCard = (props) => {
 
           {itemsToBring.map((item, index) => {
             if (item == "") {
-              return <span ></span>;
+              return <span></span>;
             } else {
               return (
                 <>

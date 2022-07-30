@@ -54,7 +54,7 @@ const Hostings = () => {
     console.log(maxRefundDays);
     console.log(individual);
     console.log(activities);
-    if (location) console.log(typeof location.x)
+    if (location) console.log(typeof location.x);
   });
 
   const publishActivity = async (experienceId, activity) => {
