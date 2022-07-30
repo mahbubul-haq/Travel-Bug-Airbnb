@@ -9,6 +9,7 @@ const HostingPage2 = (props) => {
 
   useEffect(() => {
     console.log("here", props.selectedCategory());
+    console.log("here", props.selectedSubCategory());
     fetch("http://localhost:5000/experience/subcategories", {
       method: "POST",
       headers: {
@@ -41,6 +42,9 @@ const HostingPage2 = (props) => {
         console.log(cats);
 
         setSubCategories(cats);
+        if (props.selectedSubCategory()) {
+          changeStyle(props.selectedSubCategory().id);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -48,11 +52,11 @@ const HostingPage2 = (props) => {
   }, []);
 
   useEffect(() => {
-    subCategories.map(({ category, id }) => {
-      //console.log("cat: " + category);
+    subCategories.map(({ subCategoryName, id }) => {
+      console.log("cat: " + subCategoryName);
       if (
-        props.selectSubCategory() &&
-        category == props.selectedSubCategory().subCategoryName
+        props.selectedSubCategory() &&
+        subCategoryName == props.selectedSubCategory().subCategoryName
       ) {
         setSelectedIdx(id);
         changeStyle(id);
@@ -79,12 +83,13 @@ const HostingPage2 = (props) => {
   };
 
   const changeStyle = (idx) => {
-    subCategories.map(({ category, id }) => {
+    console.log(idx, props.selectedSubCategory());
+    subCategories.map(({ subCategoryName, id, categoryName }) => {
       var tableRow = "id" + id;
       var element = document.getElementsByClassName(tableRow);
       //console.log(element);
-
-      if (id === idx) {
+      console.log("here2, ", id, idx);
+      if (id == idx) {
         element[0].style.backgroundColor = "rgb(201 212 231)";
         element[0].style.border = "1px solid black";
       } else {

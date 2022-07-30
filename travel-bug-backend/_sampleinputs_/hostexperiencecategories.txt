@@ -1,15 +1,44 @@
-localhost:5000/host/experience/categories GET method
+localhost:5000/experience/categories GET method
 
 http headers:
 
 auth-token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjJjNjlmOTU1MTkyNzg0N2QxY2RiY2M4In0sImlhdCI6MTY1NzgxNTgzN30.fV_oy59DKb_adKODysEdtLVcLHt1ImKgUjrx3c1bIdg
 
-as response:
-{
-  "categories": [
+[
     {
-      "_id": "62d0813487d0a34b684d9096",
-      "categoryName": "Experience"
+        "_id": "62e37ca7a849eaa088d0768c",
+        "categoryName": "Animals",
+        "subCategories": [
+            {
+                "_id": "62e37e16a849eaa088d07692",
+                "subCategoryName": "Farm Animals",
+                "category": "62e37ca7a849eaa088d0768c",
+                "experiences": [
+                    "62e398147923937db246158f",
+                    "62e39c3347202ded3eaa2920"
+                ]
+            },
+            {
+                "_id": "62e37ebfa849eaa088d0769d",
+                "subCategoryName": "Pet",
+                "category": "62e37ca7a849eaa088d0768c",
+                "experiences": [
+                    "62e415b1e0dd22f4b81cbcd3",
+                    "62e56e26db4de054a25a5a09"
+                ]
+            }
+        ],
+        "experiences": [
+            "62e398147923937db246158f",
+            "62e39c3347202ded3eaa2920",
+            "62e415b1e0dd22f4b81cbcd3",
+            "62e56e26db4de054a25a5a09"
+        ]
+    },
+    {
+        "subCategories": [],
+        "experiences": [],
+        "_id": "62e37d06a849eaa088d0768e",
+        "categoryName": "Food"
     }
-  ]
-}
+]

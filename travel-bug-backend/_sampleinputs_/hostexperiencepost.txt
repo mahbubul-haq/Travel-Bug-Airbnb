@@ -12,27 +12,63 @@ Body:
     "individualOrTeam": "individual",
     "totalCost": 25000,
     "maxGroupSize": 5,
-    "minAge": 20
+    "minAge": 20,
+    "location": {"x": 90.334343, "y": 24.553434, "label": "Dhaka, Bangladesh"},
+    "subCategory": [{"subCategoryName": "Pet", "categoryName": "Animal", "id": "62e37ebfa849eaa088d0769d"}],
+    "category": [{"category": "Animal", "id": "62e37ca7a849eaa088d0768c"}],
+    "duration": {"days": 3, "hours": 0},
+    "dayTimeSlot": {"start": 5, "end": 10},
+    "itemsToBring": ["something", "more"],
+    "additionalRequirements": ["swimming", "running"],
+    "partialPayAllowed": true,
+    "maxRefundDays": 5,
+    "hostingPhotos": ["http://localhost:5000/host/experience/getimage/1659114869698-b20.jpg"]
+    "hostingDate": new Date(),
 }
 
 Response:
 {
-  "experienceHosting": {
-    "hostingTitle": "Keokradong Tour",
-    "description": "Bandarban to Bogalake to Keokradong to Nilachol",
-    "hostingDate": "2022-07-14T18:46:39.927Z",
-    "draft": true,
-    "individualOrTeam": "individual",
-    "totalCost": 25000,
-    "itemsToBring": [],
-    "maxGroupSize": 5,
-    "minAge": 20,
-    "additionalRequirements": [],
-    "hostingPhotos": [],
-    "host": "62c69f9551927847d1cdbcc8",
-    "categories": [],
-    "activities": [],
-    "_id": "62d0648f9100b1535ffaf532",
-    "__v": 0
-  }
+    "success": true,
+    "experienceHosting": {
+        "hostingTitle": "Keokradong Tour",
+        "description": "Bandarban to Bogalake to Keokradong to Nilachol",
+        "hostingDate": "2022-07-30T17:45:10.085Z",
+        "draft": true,
+        "individualOrTeam": "individual",
+        "totalCost": 25000,
+        "itemsToBring": [
+            "something",
+            "more"
+        ],
+        "hostingDuration": {
+            "days": 3,
+            "hours": 0
+        },
+        "hostAvailability": {
+            "start": 5,
+            "end": 10
+        },
+        "maxGroupSize": 5,
+        "minAge": 20,
+        "maxRefundDays": 5,
+        "partialPayAllowed": true,
+        "additionalRequirements": [
+            "swimming",
+            "running"
+        ],
+        "hostingPhotos": [
+            "http://localhost:5000/host/experience/getimage/1659114869698-b20.jpg"
+        ],
+        "host": "62c6a2eeae30ef2dcc6fee90",
+        "categories": [
+            "62e37ca7a849eaa088d0768c"
+        ],
+        "subCategories": [
+            "62e37ebfa849eaa088d0769d"
+        ],
+        "activities": [],
+        "location": "62e56e25db4de054a25a5a07",
+        "_id": "62e56e26db4de054a25a5a09",
+        "__v": 0
+    }
 }

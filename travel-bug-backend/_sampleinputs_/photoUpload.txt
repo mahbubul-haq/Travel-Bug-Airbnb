@@ -1,0 +1,15 @@
+http://localhost:5000/host/experience/upload POST
+ headers: 
+{
+    "Content-Type": "multipart/form-data",
+}
+
+Body:
+form-data
+key: image,
+key input type file
+value: choose file
+
+Response:
+
+1659203596475-b2.jpg
