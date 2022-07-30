@@ -11,6 +11,7 @@ import Login from './components/authentication/Login';
 import SignUp from './components/authentication/Signup';
 import AddBookingDetails from './components/bookings/AddBookingDetails';
 import Bookings from './components/bookings/Bookings';
+import Payment from './components/bookings/Payment';
 import Experiences from './components/experiences/Experiences';
 import SingleExperience from './components/experiences/SingleExperience';
 import About from './components/home/About';
@@ -64,6 +65,8 @@ function App() {
                 <Route exact path="/newlisting" element={<Hostings />} />
                 <Route exact path="/experiences/:id" element={<SingleExperience />} />
                 <Route exact path="/bookingdetails/:id" element={<AddBookingDetails />} />
+
+                <Route exact path="/booking/payment/" element={<Payment />} />
                 
               </Routes>
             </div>
