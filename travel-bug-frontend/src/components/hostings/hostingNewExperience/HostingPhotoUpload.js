@@ -107,7 +107,7 @@ const HostingPhotoUpload = (props) => {
   };
 
   const nextButton = () => {
-    if (props.images() != null && props.images().length > 0) {
+    if (props.images() != null && props.images().length >= 5) {
       return (
         <button id="nextButton" onClick={() => props.nextPage()}>
           Next

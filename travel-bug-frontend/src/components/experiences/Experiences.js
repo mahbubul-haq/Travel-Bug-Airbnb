@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import "../../App.css";
-import paragliding from "../../images/paragliding.jpg";
 
 import experienceContext from "../../context/experiences/experienceContext";
 
@@ -9,8 +8,10 @@ const Experiences = () => {
 
   const context = useContext(experienceContext);
   const { experiences, getAllExperiences } = context;
+
   useEffect(() => {
     getAllExperiences();
+    console.log("experiences", experiences);
   }, []);
 
   return (
@@ -20,10 +21,10 @@ const Experiences = () => {
 
         <h1 className="text-center">Experiences</h1>
         <div className="row my-10">
-          {experiences.map((experience) => (
+          {experiences.map((experience, index) => (
             <div className="col-lg-4 mb-4">
               <div className="card-style-5 ">
-                <img src={paragliding} alt="" className="card-img-top" />
+                <img src={experience.hostingPhotos[0]} alt="" className="card-img-top" />
 
 
                 <div className="card-body">
