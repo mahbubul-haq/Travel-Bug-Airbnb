@@ -7,6 +7,7 @@ import './style.css';
 
 const Listings = () => {
   const context = useContext(hostingContext);
+  console.log(context);
   const { myHostings, getAllMyHostings } = context;
   let navigate = useNavigate();
 

@@ -4,8 +4,34 @@
   box-sizing: border-box;
 }
 .editHosting {
-  background-color: rgb(185, 226, 227);
-  background-color: rgb(219, 238, 241);
+  background-color: rgb(72, 159, 172);
+}
+.edit-hosting-navbar {
+  background-color: rgb(81, 174, 231);
+}
+.edit-hosting-navlink {
+  color: black;
+}
+
+.edit-hosting-navitem:hover {
+  outline: none;
+}
+
+.edit-hosting-navlink:hover {
+  color: black;
+  outline: none;
+}
+
+.edit-content {
+  background-color: inherit;
+  width: 100%;
+  text-align: center;
+}
+
+.edit-content-middle {
+  display: inline-block;
+  width: 50%;
+  text-align: left;
 }
 
 .editTitle {
@@ -31,4 +57,99 @@
 .div-description {
   height: 200px;
   width: 100%;
+}
+
+#saveEdit {
+  display: block;
+  float: right;
+  margin-right: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background: rgb(34, 33, 33);
+  color: rgb(255, 255, 255);
+  padding: 0.25rem 0.75rem;
+  border-radius: 5px;
+  border-color: transparent;
+  text-transform: capitalize;
+  font-size: 1rem;
+  max-height: 40px;
+  min-height: 40px;
+  cursor: pointer;
+
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  min-width: 85px;
+  max-width: 350px;
+}
+
+#charCountEdit {
+  color: rgba(124, 124, 124, 0.932);
+  font-weight: bolder;
+}
+.error-message {
+  color: red;
+}
+
+#message-container {
+  position: absolute;
+  top: 220;
+  left: 220;
+}
+
+#update-message {
+  color: green;
+  background-color: rgb(191, 252, 237);
+  display: none;
+  padding: 6px 10px 6px 10px;
+  position: relative;
+  margin: auto;
+  border-radius: 5px;
+  transition-duration: 2s;
+  transition-delay: 1s;
+  transition-timing-function: ease-in-out;
+  transition-property: all;
+}
+
+.edit-category {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-y: auto;
+  padding-top: 30px;
+  overflow-x: hidden;
+}
+.edit-category table {
+  z-index: 1;
+  width: 90%;
+  max-width: 500px;
+  min-width: 250px;
+  /* display: block; */
+}
+.edit-category tr {
+  display: block;
+  padding-bottom: 15px;
+  text-align: center;
+}
+.edit-category td {
+  border: 1px solid rgb(197, 197, 197);
+  padding: 20px;
+  border-radius: 10px;
+  color: black;
+  display: block;
+  font-size: 120%;
+  font-family: Arial, Helvetica, sans-serif;
+  /* width: 100%; */
+  /* width: 150px;
+  height: 100px; */
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+
+  /* background-color: rgb(65, 62, 62);
+  color: white; */
+}
+
+.edit-category td:hover {
+  outline: 2px solid black;
+  cursor: pointer;
 }
