@@ -5,9 +5,14 @@ const SearchBar = (props) => {
   const [search, setSearch] = useState({ location:'' });
 
   const onChange = (e) => {
+    console.log("my search = ", e.target.value);
     setSearch({ ...search, [e.target.name]: e.target.value });
+    setProps(e.target.value);
+  }
+
+  const setProps = (str) => {
     props.setSearch(search);
-    props.filterExperiences();
+    props.filterExperiences(str);
   }
 
   return (
