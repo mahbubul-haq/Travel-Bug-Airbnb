@@ -14,16 +14,22 @@ const TransportSchema = new Schema({
   },
   timeSlots: [
     {
-      startTime: {
-        type: Date,
+      start: {
+        type:String,
         required: true,
       },
-      endTime: {
-        type: Date,
+      end: {
+        type: String,
         required: true,
       },
     },
   ],
+  transportProvider: {
+    type: mongoose.Types.ObjectId,
+    required: true,
+    ref: "TransportProvider",
+  },
+
   route: [
     {
       source: {
@@ -34,13 +40,14 @@ const TransportSchema = new Schema({
         type: String,
         required: true,
       },
+      cost: {
+        type: Number,
+        min: 1,
+        required: true,
+      },
     },
   ],
-  cost: {
-    type: Number,
-    min: 1,
-    required: true,
-  },
+  
 });
 
 const Transport = mongoose.model("Transport", TransportSchema);
