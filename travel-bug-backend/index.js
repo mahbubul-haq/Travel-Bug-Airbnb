@@ -20,7 +20,10 @@ app.use('/host/experience', require('./routes/host'));
 app.use('/experience', require('./routes/experience'));
 app.use('/payment', require('./routes/payment'));
 app.use('/booking', require('./routes/booking'));
+
 app.use('/transport', require('./routes/transportGuideline'));
+app.use('/message/', require('./routes/message'));
+
 
 // app.get('/', (req, res) => {
 //   res.send('Hello Travel Bug!');

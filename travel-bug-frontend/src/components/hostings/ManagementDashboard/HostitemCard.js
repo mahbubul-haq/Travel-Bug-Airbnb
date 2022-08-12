@@ -6,7 +6,7 @@ const HostitemCard = (props) => {
     return (
       <Link
         to={`/host/experience/${hostItem._id}`}
-        state={{ hostingId: hostItem._id }}
+        state={{ expId: hostItem._id }}
         class="list-group-item list-group-item-primary"
       >
         <div class="d-flex w-100 justify-content-between">
