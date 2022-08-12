@@ -1,50 +1,72 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import "../../App.css";
 
 import experienceContext from "../../context/experiences/experienceContext";
+import Search from "../search/SearchBar";
 
 const Experiences = () => {
-
   const context = useContext(experienceContext);
   const { experiences, getAllExperiences } = context;
+
+  const [search, setSearch] = useState({ location:'' });
+  const [filteredExperiences, setFilteredExperiences] = useState(experiences);
+
 
   useEffect(() => {
     getAllExperiences();
     console.log("experiences", experiences);
   }, []);
 
+  const filterExperiences = () => {
+    let temp = [];
+    for(let i = 0; i < experiences.length; i++) {
+      if(experiences[i].hostingTitle.toLowerCase().includes(search.location.toLowerCase())) {
+        console.log("experiences[i].hostingTitle ", experiences[i].hostingTitle, " = search.location", search.location);
+        temp.push(experiences[i]);
+      }
+    }
+    setFilteredExperiences(temp);
+    if(search.location === '') {
+      setFilteredExperiences(experiences);
+    }
+  }
+
+  const renderPage = (list) => {
+      return (
+        <div className="container">
+          <br />
+          <h1 className="text-center">Experiences</h1>
+          <div className="row my-10">
+            {list.map((experience, index) => (
+              <div className="col-lg-4 mb-4">
+                <div className="card-style-5 ">
+                  <img src={experience.hostingPhotos[0]} alt="" className="card-img-top" />
+                  <div className="card-body">
+                    <h5 className="card-title">{experience.hostingTitle}</h5>
+                    <p className="card-text">Location (calculated from map)</p>
+                    <div className="card-text d-flex w-100 justify-content-between">
+                      <h8 className="mb-1"> Cost: {experience.totalCost}</h8>
+                      <Link to={`/experiences/${experience._id}`} >
+                        <h1 ><strong> &#10132;</strong>
+                        </h1>
+                      </Link>
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )
+  }
+
   return (
     <div>
-      <div className="container">
-        <br />
-
-        <h1 className="text-center">Experiences</h1>
-        <div className="row my-10">
-          {experiences.map((experience, index) => (
-            <div className="col-lg-4 mb-4">
-              <div className="card-style-5 ">
-                <img src={experience.hostingPhotos[0]} alt="" className="card-img-top" />
-
-
-                <div className="card-body">
-                  <h5 className="card-title">{experience.hostingTitle}</h5>
-                  <p className="card-text">Location (calculated from map)</p>
-                  <div className="card-text d-flex w-100 justify-content-between">
-                    <h8 className="mb-1"> Cost: {experience.totalCost}</h8>
-                    <Link to={`/experiences/${experience._id}`} >
-                      <h1 ><strong> &#10132;</strong>
-                      </h1>
-                    </Link>
-
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      <Search setSearch={(e)=>setSearch(e)} filterExperiences={()=>filterExperiences()} />
+      {search.location === '' ? renderPage(experiences) : renderPage(filteredExperiences)}
     </div>
 
   );
