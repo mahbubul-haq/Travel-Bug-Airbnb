@@ -22,30 +22,41 @@ const TransportSchema = new Schema({
         type: String,
         required: true,
       },
+      startTag: {
+        type: String,
+        required: true,
+      },
+      endTag: {
+        type: String,
+        required: true,
+      }
     },
   ],
   transportProvider: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "TransportProvider",
   },
   source: {
-    longitude: {
+    long: {
       type: Number,
+      required: true,
     },
-    latitude: {
+    lat: {
       type: Number,
+      required: true,
     },
-    required: true,
+    
   },
   destination: {
-    longitude: {
+    long: {
       type: Number,
+      required: true,
     },
-    latitude: {
+    lat: {
       type: Number,
+      required: true,
     },
-    required: true,
   },
   totalCost: {
     type: Number,
@@ -54,14 +65,13 @@ const TransportSchema = new Schema({
   },
   stopages: [
     {
-      
-        longitude: {
-          type: Number,
-        },
-        latitude: {
-          type: Number,
-        },
-       
+      long: {
+        type: Number,
+      },
+      lat: {
+        type: Number,
+      },
+
       cost: {
         type: Number,
         min: 1,

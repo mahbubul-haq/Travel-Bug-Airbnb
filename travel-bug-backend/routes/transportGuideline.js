@@ -3,6 +3,7 @@ const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const fetchuser = require("../middleware/fetchUser");
+const Transport = require("../models/Transport");
 const TransportProvider = require('../models/TransportProvider');
 const TransportCategory = require('../models/TransportCategory');
 const JWT_SECRET = 'travel-bug-secret-auth-token';
@@ -134,4 +135,43 @@ router.get('/categories', async (req, res) => {
         res.status(500).send('Internal Server Error from tansport/categories');
     }
 });
+
+// ROUTE 5 add a transport details using : POST "transport/addtransport". Login required
+router.post('/addtransport',[
+    body('transportName', 'Please enter a name').isLength({ min: 1 }),
+    body('transportCategory', 'Please enter a category').isLength({ min: 1 }),
+], fetchuser, async (req, res) => {
+    let success = false;
+    //if error, return bad request as response
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({success: success, errors: errors.array() });
+    }
+
+    try {
+        //get user id
+        const userId = req.user.id;
+
+        // create transport
+        const transport = await Transport.create({
+            transportName: req.body.transportName,
+            transportCategory: req.body.transportCategory,
+            timeSlots: req.body.timeSlots,
+            transportProvider: userId,
+            source: req.body.source,
+            destination: req.body.destination,
+            totalCost: req.body.totalCost,
+            stopages: req.body.stopages,
+        });
+        success = true;
+        res.json({
+            success: success,
+            transport: transport,
+        });
+    }
+    catch (error) {
+        console.log(error.message);
+        res.status(500).send('Internal Server Error from tansport/addtransport');
+    }
+} );
 module.exports = router;
