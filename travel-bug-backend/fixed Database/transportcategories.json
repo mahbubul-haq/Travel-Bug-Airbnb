@@ -1,0 +1,21 @@
+[{
+  "_id": {
+    "$oid": "62f5f224385a062f2221a90e"
+  },
+  "categoryName": "Bus"
+},{
+  "_id": {
+    "$oid": "62f5f268385a062f2221a910"
+  },
+  "categoryName": "Train"
+},{
+  "_id": {
+    "$oid": "62f5f29d385a062f2221a911"
+  },
+  "categoryName": "Launch"
+},{
+  "_id": {
+    "$oid": "62f5f2bb385a062f2221a912"
+  },
+  "categoryName": "Plane"
+}]
