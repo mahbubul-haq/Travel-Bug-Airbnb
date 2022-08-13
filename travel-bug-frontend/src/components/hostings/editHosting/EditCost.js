@@ -1,127 +1,126 @@
 import React from "react";
+import {useEffect} from "react"
+import "../cssFiles/EditCost.css";
 
 
 const EditCost = (props) => {
+
+    useEffect(() => {
+    changeWidth(String(props.experience().totalCost).length);
+  }, [props.experience().totalCost]);
+
   const changeWidth = (value) => {
     console.log("val: " + value);
-    var element = document.getElementById("priceValue10");
+    var element = document.getElementById("edit-priceValue10");
     value = (value + 2) * 20;
     element.style.width = value + "px";
 
     console.log("Pp: " + props.experience().partialPayAllowed);
     if (props.experience().partialPayAllowed == 1) {
-      document.getElementById("partialPayCheck10").checked = true;
-    } else document.getElementById("partialPayCheck10").checked = false;
+      document.getElementById("edit-partialPayCheck10").checked = true;
+    } else document.getElementById("edit-partialPayCheck10").checked = false;
     if (props.experience().individualOrTeam == "team") {
-      document.getElementById("individual10").checked = true;
-    } else document.getElementById("individual10").checked = false;
+      document.getElementById("edit-individual10").checked = true;
+    } else document.getElementById("edit-individual10").checked = false;
   };
 
   return (
     <div>
-      <div id="price10">
+      <br></br>
+      <p style={{ marginBottom: "5px", marginLeft: "50px", fontWeight: "bold" }}>
+        Change values and save
+      </p>
+            <br></br>
+
+      <div id="edit-price10">
         <button
-          className="circular10"
+          className="edit-circular10"
           onClick={() => {
-            props.setexperience({});
+            props.setExperience({totalCost: Math.max(props.experience().totalCost - 5, 25)});
             changeWidth(String(props.experience().totalCost).length);
           }}
         >
           -
         </button>
-        <label id="priceBox10" htmlFor="priceValue10">
+        <label id="edit-priceBox10" htmlFor="edit-priceValue10">
           $
           <input
             placeholder="00"
             type="number"
-            id="priceValue10"
-            name="quantity"
+            id="edit-priceValue10"
+            name="edit-quantity"
             min="1"
             max="500000000"
             value={props.experience().totalCost}
             onChange={(e) => {
-              props.setexperience({});
+              props.setExperience({totalCost: Math.max(0, Math.min(300000000,parseInt(e.target.value)))});
               changeWidth(e.target.value.length);
             }}
           />
         </label>
         <button
-          className="circular10"
+          className="edit-circular10"
           onClick={() => {
-            props.setexperience({});
+            props.setExperience(
+              {totalCost: Math.min(props.experience().totalCost + 5, 2500000000)}
+            )
             changeWidth(String(props.experience().totalCost).length);
           }}
         >
           +
         </button>
       </div>
-      <div id="perNight10">Total Cost</div>
-      <div id="partialPermission10">
+      <div id="edit-perNight10">Total Cost</div>
+      <div id="edit-partialPermission10">
         <input
-          id="partialPayCheck10"
+          id="edit-partialPayCheck10"
           type="checkbox"
-          name="partialPay10"
+          name="edit-partialPay10"
           onClick={() => {
-            props.setexperience({});
+            props.setExperience({partialPayAllowed: !props.experience().partialPayAllowed});
           }}
         />
-        <label htmlFor="partialPayCheck10">Partial pay allowed</label>
-        {/* <br />
-                  <input
-                    id="hostPermission10"
-                    type="checkbox"
-                    name="hostPermission10"
-                    onClick={() => {
-                      props.changeHostPermission();
-                    }}
-                  />
-                  <label for="hostPermission10">Host permission required</label> */}
+        <label htmlFor="edit-partialPayCheck10">Partial pay allowed</label>
       </div>
 
-      <div id="partialPermission10">
+      <div id="edit-partialPermission10">
         <input
-          id="individual10"
+          id="edit-individual10"
           type="checkbox"
-          name="individual10"
+          name="edit-individual10"
           onClick={() => {
-            props.setexperience({});
+            if (props.experience().individualOrTeam == "team")
+              props.setExperience({individualOrTeam: "individual"});
+            else props.setExperience({individualOrTeam: "team"})
           }}
         />
-        <label htmlFor="individual10">Hosted by a team</label>
-        {/* <br />
-                  <input
-                    id="hostPermission10"
-                    type="checkbox"
-                    name="hostPermission10"
-                    onClick={() => {
-                      props.changeHostPermission();
-                    }}
-                  />
-                  <label for="hostPermission10">Host permission required</label> */}
+        <label htmlFor="edit-individual10">Hosted by a team</label>
+        
       </div>
 
-      <div id="instruction10">Cancellation policy:</div>
-      <div id="cancellationPolicy10">
-        <div id="alignText10">
-          <div id="cancellationText10">
+      <div id="edit-instruction10">Cancellation policy:</div>
+      <div id="edit-cancellationPolicy10">
+        <div id="edit-alignText10">
+          <div id="edit-cancellationText10">
             Maximum number of days before arrival to cancel reservation with 50%
             refund
           </div>
         </div>
-        <div id="alignRight10">
+        <div id="edit-alignRight10">
           <button
-            className="circular10small"
+            className="edit-circular10small"
             onClick={() => {
-              props.setexperience({});
+              props.setExperience({maxRefundDays: Math.max(3, props.experience().maxRefundDays - 1)});
             }}
           >
             -
           </button>
-          <div id="count10">{props.experience().MaxRefundDays}</div>
+          <div id="edit-count10">{props.experience().maxRefundDays}</div>
           <button
-            className="circular10small"
+            className="edit-circular10small"
             onClick={() => {
-              props.setMaxRefundDays(true);
+              props.setExperience({maxRefundDays: Math.min(30, props.experience().maxRefundDays + 1)});
+
             }}
           >
             +

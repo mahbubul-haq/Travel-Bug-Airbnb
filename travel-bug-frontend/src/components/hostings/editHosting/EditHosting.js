@@ -4,6 +4,8 @@ import { useLocation } from "react-router-dom";
 import editHostingContext from "../../../context/hostings/editHostingContext";
 import "../cssFiles/EditHosting.css";
 import EditCategory from "./EditCategory";
+import EditLocation from "./EditLocation";
+import EditCost from "./EditCost";
 
 const EditHosting = (props) => {
   //const {hostingId} = useParams();
@@ -70,6 +72,7 @@ const EditHosting = (props) => {
   }, [experienceDocument]);
 
   const setexperience = (data) => {
+    console.log(data);
     setExperience((prev) => {
       return { ...prev, ...data };
     });
@@ -102,9 +105,13 @@ const EditHosting = (props) => {
   };
 
   const valueUpdatedMessage = (pageNo, value, flag) => {
-    if (pageNo === 0 || pageNo === 1 || pageNo === 2) {
+    if (pageNo === 0 || pageNo === 1 || pageNo === 2 || pageNo == 3) {
       const element = document.getElementById("update-message");
       element.style.display = "inline-block";
+
+      if (pageNo == 3) {
+        element.style.marginLeft= "60px";
+      }
       if (flag) {
         element.innerHTML = `${value} updated successfully`;
         element.style.color = "green";
@@ -116,6 +123,7 @@ const EditHosting = (props) => {
       }
       setTimeout(() => {
         element.style.display = "none";
+        element.style.marginLeft ="0";
       }, 3000);
     }
   };
@@ -241,18 +249,39 @@ const EditHosting = (props) => {
     );
   };
 
-  const showTotalCost = () => {
-    if (edit) {
-      return (
-        <input
-          className="editTotalCost"
-          value={experience.totalCost}
-          onChange={(e) => setexperience({ totalCost: e.target.value })}
-        ></input>
-      );
-    } else {
-      return <p className="showTotalCost">{experience.totalCost}</p>;
-    }
+  const showCost = () => {
+    return (
+      <>
+        <EditCost
+          experience={() => experience}
+          setExperience={(data) => setexperience(data)}
+        />
+        {errorMessage(3, "Both category and subcategory must be selected")}
+        <div id="message-containder">
+          <div id="update-message"></div>
+        </div>
+        <button
+          id="saveEdit"
+          onClick={() => {
+            if (
+              true
+            ) {
+              updateValue({
+                partialPayAllowed: experience.partialPayAllowed,
+                totalCost: experience.totalCost,
+                maxRefundDays: experience.maxRefundDays,
+                individualOrTeam: experience.individualOrTeam,
+              });
+              valueUpdatedMessage(3, "Values", true);
+            } else {
+              valueUpdatedMessage(3, "Values", false);
+            }
+          }}
+        >
+          Save
+        </button>
+      </>
+    )
   };
 
   const showAdditionalRequirements = () => {
@@ -497,6 +526,12 @@ const EditHosting = (props) => {
     }
   };
 
+  const showLocation = () => {
+    return (
+      <EditLocation experience={experience} setexperience={setexperience} />
+    )
+  }
+
   const editButton = () => {
     if (edit) {
       return (
@@ -521,6 +556,14 @@ const EditHosting = (props) => {
       return showDescription();
     } else if (editNo == 2) {
       return showCategory();
+    }
+    else if (editNo == 3)
+    {
+      return showCost();
+    }
+    else if (editNo == 8)
+    {
+      return showLocation();
     }
   };
   return (
@@ -569,7 +612,11 @@ const EditHosting = (props) => {
             <Nav.Link
               className="edit-hosting-navlink"
               eventKey="link-4"
-              onClick={() => setEditNo(0)}
+              onClick={() => {
+                setEditNo(3);
+                setExperience(experienceDocument);
+                console.log(experience);
+              }}
             >
               Cost
             </Nav.Link>
@@ -614,7 +661,7 @@ const EditHosting = (props) => {
             <Nav.Link
               className="edit-hosting-navlink"
               eventKey="link-9"
-              onClick={() => setEditNo(0)}
+              onClick={() => setEditNo(8)}
             >
               Location
             </Nav.Link>
