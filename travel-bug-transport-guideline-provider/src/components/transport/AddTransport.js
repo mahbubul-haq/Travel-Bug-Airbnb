@@ -2,19 +2,39 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CustomMap from './map/CustomMap';
 import './map/CustomMap.css';
+
 const AddTransport = () => {
   const [categories, setCategories] = useState([]);
   const [slots, setSlots] = useState([]);
   const [count, setCount] = useState(0);
   const [positions, setPositions] = useState([]);
-  
+
+  const [componentNo, setComponentNo] = useState(1);
+  const [source, setSource] = useState({ long: ' ? ', lat: ' ? ' });
+  const [destination, setDestination] = useState({ long: ' ? ', lat: ' ?' });
+
   let navigate = useNavigate();
 
   useEffect(() => {
 
     fetchData();
   }, []);
- 
+  useEffect(() => {
+    let long = '?';
+    let lat = '?';
+    if (positions.length > 0) {
+      long = positions[0][0];
+      lat = positions[0][1];
+      setSource({ long, lat });
+    }
+
+
+    if (positions.length > 1) {
+      long = positions[1][0];
+      lat = positions[1][1];
+      setDestination({ long, lat });
+    }
+  }, [positions]);
   const hostAddress = 'http://localhost:5000';
   const fetchData = async () => {
     const response = await fetch(`${hostAddress}/transport/categories`, {
@@ -46,8 +66,76 @@ const AddTransport = () => {
     console.log(slots);
 
   }
-  return (
-    <center>
+
+  const nextComponent = () => {
+    setComponentNo(componentNo + 1);
+  }
+
+  const prevComponent = () => {
+    setComponentNo(componentNo - 1);
+  }
+
+  const SourceInput = () => {
+    let long = ' ? ';
+    let lat = ' ? ';
+
+    if (positions.length > 0) {
+      long = positions[positions.length - 1][0];
+      lat = positions[positions.length - 1][1];
+    }
+    console.log("long : " + long);
+    console.log("lat : " + lat);
+    // setSource({long:long,lat:lat});
+
+    return (
+      <div>
+        <h5>Enter your source {source.long} , {source.lat}</h5>
+        <h5></h5>
+        <button type="button" className="btn btn-primary btn-lg"
+          onClick={() => {
+            nextComponent();
+          }}>
+          Next
+        </button>
+      </div>
+    )
+  }
+
+  const DestinationInput = () => {
+    let long = ' ? ';
+    let lat = ' ? ';
+
+    if (positions.length > 1) {
+      long = positions[positions.length - 1][0];
+      lat = positions[positions.length - 1][1];
+    }
+
+    return (
+      <div>
+        <h3>Enter your Destination  {destination.long} , {destination.lat}</h3>
+        {/* <OSM setLatLong={(val)=>{setPosition(val)}} /> */}
+        <button type="button" className="btn btn-primary btn-lg mx-1"
+          onClick={
+            () => {
+              prevComponent();
+            }
+          }>
+          Prev
+        </button>
+        <button type="button" className="btn btn-primary btn-lg mx-1"
+          onClick={
+            () => {
+              nextComponent();
+            }
+          }>
+          Next
+        </button>
+      </div>
+    )
+  }
+
+  const MainComponent = () => {
+    return (
       <div className='container'>
         <br /><br />
         <form>
@@ -100,15 +188,53 @@ const AddTransport = () => {
             <button type="button" className="btn btn-outline-info" onClick={addSlot}><h6>&#43; Add a Slot</h6></button>
 
           </div>
-              <br />
-              <div className="form-group">
-                <label htmlFor="exampleFormControlInput1"><h4>Routes</h4></label>
-                <CustomMap setPositions={()=>setPositions()}/>
-                </div>
+          <br />
         </form>
       </div>
-    </center>
+    )
+  }
+
+  const renderComponent = () => {
+    switch (componentNo) {
+      case 1:
+        return (
+          <center>
+            {MainComponent()}
+            <h2>Step {componentNo}</h2>
+            <CustomMap setPositions={(e) => setPositions(e)} />
+            {SourceInput()}
+          </center>
+        );
+
+      case 2:
+        return (
+          <center>
+            {MainComponent()}
+            <h2>Step {componentNo}</h2>
+            <CustomMap setPositions={(e) => setPositions(e)} />
+            {DestinationInput()}
+          </center>
+        );
+
+      case 3:
+        return (
+          <center>
+            {MainComponent()}
+            <h2 className='text-center'>Details for you</h2>
+            <CustomMap setPositions={(e) => setPositions(e)} />
+          </center>
+        );
+    };
+  }
+
+  return (
+    <div className='container'>
+      {renderComponent()}
+    </div>
+
   )
+
+
 
 }
 
