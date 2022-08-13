@@ -15,7 +15,7 @@ const TransportSchema = new Schema({
   timeSlots: [
     {
       start: {
-        type:String,
+        type: String,
         required: true,
       },
       end: {
@@ -33,11 +33,21 @@ const TransportSchema = new Schema({
   route: [
     {
       source: {
-        type: String,
+        longitude: {
+          type: Number,
+        },
+        latitude: {
+          type: Number,
+        },
         required: true,
       },
       destination: {
-        type: String,
+        longitude: {
+          type: Number,
+        },
+        latitude: {
+          type: Number,
+        },
         required: true,
       },
       cost: {
@@ -47,7 +57,7 @@ const TransportSchema = new Schema({
       },
     },
   ],
-  
+
 });
 
 const Transport = mongoose.model("Transport", TransportSchema);

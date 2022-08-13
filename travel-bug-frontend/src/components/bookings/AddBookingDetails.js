@@ -136,7 +136,7 @@ const AddBookingDetails = () => {
 
             </Row>
             <Row>
-            <button type="button" class="btn btn-outline-primary" onClick={requestHost}><strong>Request Host</strong></button>
+            <button type="button" className="btn btn-outline-primary" onClick={requestHost}><strong>Request Host</strong></button>
             </Row>
           </Col>
           <Col>
