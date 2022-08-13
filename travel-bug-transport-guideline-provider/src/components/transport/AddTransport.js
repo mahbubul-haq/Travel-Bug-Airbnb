@@ -4,8 +4,8 @@ import CustomMap from './map/CustomMap';
 import './map/CustomMap.css';
 
 const AddTransport = () => {
-  const [transportCategory, setTransportCategory] = useState("");
-  const [transportName, setTransportName] = useState("");
+  const [transportCategory, setTransportCategory] = useState("Bus");
+  const [transportName, setTransportName] = useState("untitled");
   const [categories, setCategories] = useState([]);
   const [slots, setSlots] = useState([]);
   const [count, setCount] = useState(0);
@@ -16,7 +16,7 @@ const AddTransport = () => {
   const [source, setSource] = useState({ long: ' ? ', lat: ' ? ' });
   const [destination, setDestination] = useState({ long: ' ? ', lat: ' ?' });
   const [totalCost, setTotalCost] = useState(0);
-  
+
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -41,18 +41,18 @@ const AddTransport = () => {
     if (positions.length > 2) {
       //let stopages = [];
       for (let i = 2; i < positions.length; i++) {
-        if(stopages[i-2] !== null|| typeof stopages[i-2] !== "undefined"){
-        stopages[i-2].long = positions[i][0];
-        stopages[i-2].lat = positions[i][1];
+        if (stopages[i - 2] !== null || typeof stopages[i - 2] !== "undefined") {
+          stopages[i - 2].long = positions[i][0];
+          stopages[i - 2].lat = positions[i][1];
+        }
+        else {
+          stopages[i - 2] = { long: positions[i][0], lat: positions[i][1], cost: 0 };
+        }
+        setStopages(stopages);
+        console.log(stopages);
+
       }
-      else{
-        stopages[i-2]={long:positions[i][0],lat:positions[i][1],cost:'?'};
-      }
-      setStopages(stopages);
-      console.log(stopages);
-      
     }
-  }
   }, [positions]);
   const hostAddress = 'http://localhost:5000';
   const fetchData = async () => {
@@ -94,9 +94,39 @@ const AddTransport = () => {
     setComponentNo(componentNo - 1);
   }
 
+  const setComponent = (componentNo) => {
+    setComponentNo(componentNo);
+
+  }
+
+  const handleFinish = async () => {
+    const hostAddress = 'http://localhost:5000';
+    const response = await fetch(`${hostAddress}/transport/addtransport`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        'auth-token': localStorage.getItem('token')
+      },
+      body: JSON.stringify({
+        transportName: transportName,
+        transportCategory: transportCategory,
+        timeSlots: slots,
+        source: source,
+        destination: destination,
+        totalCost: parseInt(totalCost),
+        stopages: stopages,
+      })
+    });
+    const data = await response.json();
+    console.log(data);
+
+    if(data.success){
+      alert("Your Input is Successfully Added");
+      navigate('/addtransport/completed');
+    }
+  }
+
   const SourceInput = () => {
-
-
     return (
       <div>
         <h5>Enter your source </h5>
@@ -121,7 +151,7 @@ const AddTransport = () => {
   }
 
 
-   const DestinationInput = () => {
+  const DestinationInput = () => {
 
 
     return (
@@ -140,8 +170,8 @@ const AddTransport = () => {
               <div className='col'>
                 <div className="form-group">
 
-                  <input type="number" className="form-control" placeholder="Enter Total Cost" onChange={(e)=>{setTotalCost(e.target.value);}} />
-                 
+                  <input type="number" className="form-control" placeholder="Enter Total Cost" onChange={(e) => { setTotalCost(e.target.value); }} />
+
                 </div>
               </div>
             </div>
@@ -161,7 +191,7 @@ const AddTransport = () => {
           onClick={
             () => {
               //let stopages = [...stopages]; 
-              stopages.push({long:'?',lat:'?',cost:'?'});
+              stopages.push({ long: '?', lat: '?', cost: 0 });
               setStopages(stopages);
               nextComponent();
             }
@@ -170,11 +200,9 @@ const AddTransport = () => {
         </button>
         <button type="button" className="btn btn-primary btn-lg mx-4"
           onClick={
-            () => {
-             //yet to do
-            }
+            () => {handleFinish();}
           }>
-         Finish
+          Finish
         </button>
       </div>
     )
@@ -199,7 +227,7 @@ const AddTransport = () => {
               <div className='col'>
                 <div className="form-group">
 
-                  <input type="number" className="form-control" placeholder="Enter Total Cost" onChange={(e) => { let stopagesArr = [...stopages];console.log(stopagesArr); stopagesArr[index-1].cost = e.target.value; setStopages(stopagesArr); }} />
+                  <input type="number" className="form-control" placeholder="Enter Total Cost" onChange={(e) => { let stopagesArr = [...stopages]; console.log(stopagesArr); stopagesArr[index - 1].cost = parseInt(e.target.value); setStopages(stopagesArr); }} />
                 </div>
               </div>
             </div>
@@ -218,8 +246,8 @@ const AddTransport = () => {
         <button type="button" className="btn btn-primary btn-lg mx-4"
           onClick={
             () => {
-             // let stopages = [...stopages]; 
-              stopages.push({long:'?',lat:'?',cost:'?'});
+              // let stopages = [...stopages]; 
+              stopages.push({ long: '?', lat: '?', cost: 0 });
               setStopages(stopages);
               nextComponent();
             }
@@ -227,12 +255,8 @@ const AddTransport = () => {
           Add Stopage
         </button>
         <button type="button" className="btn btn-primary btn-lg mx-4"
-          onClick={
-            () => {
-             //yet to do
-            }
-          }>
-         Finish
+          onClick={handleFinish}>
+          Finish
         </button>
       </div>
     )
@@ -327,12 +351,12 @@ const AddTransport = () => {
           </center>
 
         );
-          //defa
+      //defa
       default:
         return (
           <center>
             {MainComponent()}
-           
+
             <CustomMap setPositions={(e) => setPositions(e)} />
             <br /><br />
             {StopageInput(componentNo - 2)}
@@ -348,8 +372,6 @@ const AddTransport = () => {
     </div>
 
   )
-
-
 
 }
 
