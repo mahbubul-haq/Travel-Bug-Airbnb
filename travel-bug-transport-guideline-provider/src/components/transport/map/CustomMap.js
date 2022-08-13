@@ -46,10 +46,10 @@ const SearchField = (props) => {
   const map = useMap();
 
   map.on("geosearch/showlocation", (e) => {
-    console.log("ee", e.location);
+    //console.log("ee", e.location);
     props.setLatLong(e.location);
     const loc = e.location;
-    console.log(loc);
+    //console.log(loc);
     //props.setPositions((positions) => [...positions, [e.location.y, e.location.x]]);
     //console.log(e.location);
     // props.setPositions((positions) => [...positions, [loc.y, loc.x]]);
@@ -58,18 +58,18 @@ const SearchField = (props) => {
 
       return newPositions;
     });
-    console.log(props.positions());
+    //console.log(props.positions());
   });
   map.on("geosearch/marker/dragend", (e) => {
     props.setLatLong(e.location);
     const loc = e.location;
-    console.log(loc);
+    //console.log(loc);
     const { lat, lng } = loc;
-    console.log("lattt lng,", lat, lng);
+    //console.log("lattt lng,", lat, lng);
     //props.setPositions((positions) => [...positions, [e.location.y, e.location.x]]);
     //console.log(e.location);
     //props.setPositions((positions) => [...positions, [lat, lng]]);
-    console.log(props.positions());
+    //console.log(props.positions());
   });
 
   useEffect(() => {
@@ -115,7 +115,7 @@ function CustomMap(props) {
 //maisha need to filter null positions
 //remove null positions from positions
   
-  useEffect(() => {const filteredPositions = positions.filter((position) => position !== null);props.setPositions(filteredPositions); console.log(positions);}, [positions]);
+  useEffect(() => {const filteredPositions = positions.filter((position) => position !== null);props.setPositions(filteredPositions); }, [positions]);
 
   const removeMarker = (index) => {
     setPositions(() => {
@@ -144,8 +144,8 @@ function CustomMap(props) {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {positions.map((position, index) => {
-          console.log("position", position, index);
-          console.log(positions);
+          //console.log("position", position, index);
+          //console.log(positions);
           if (position == null) return <></>;
           if (
             typeof position[0] === "undefined" ||

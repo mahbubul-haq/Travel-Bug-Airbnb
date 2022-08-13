@@ -4,15 +4,19 @@ import CustomMap from './map/CustomMap';
 import './map/CustomMap.css';
 
 const AddTransport = () => {
+  const [transportCategory, setTransportCategory] = useState("");
+  const [transportName, setTransportName] = useState("");
   const [categories, setCategories] = useState([]);
   const [slots, setSlots] = useState([]);
   const [count, setCount] = useState(0);
   const [positions, setPositions] = useState([]);
+  const [stopages, setStopages] = useState([]);
 
   const [componentNo, setComponentNo] = useState(1);
   const [source, setSource] = useState({ long: ' ? ', lat: ' ? ' });
   const [destination, setDestination] = useState({ long: ' ? ', lat: ' ?' });
-
+  const [totalCost, setTotalCost] = useState(0);
+  
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -34,6 +38,21 @@ const AddTransport = () => {
       lat = positions[1][1];
       setDestination({ long, lat });
     }
+    if (positions.length > 2) {
+      //let stopages = [];
+      for (let i = 2; i < positions.length; i++) {
+        if(stopages[i-2] !== null|| typeof stopages[i-2] !== "undefined"){
+        stopages[i-2].long = positions[i][0];
+        stopages[i-2].lat = positions[i][1];
+      }
+      else{
+        stopages[i-2]={long:positions[i][0],lat:positions[i][1],cost:'?'};
+      }
+      setStopages(stopages);
+      console.log(stopages);
+      
+    }
+  }
   }, [positions]);
   const hostAddress = 'http://localhost:5000';
   const fetchData = async () => {
@@ -101,7 +120,8 @@ const AddTransport = () => {
     )
   }
 
-  const DestinationInput = () => {
+
+   const DestinationInput = () => {
 
 
     return (
@@ -120,7 +140,8 @@ const AddTransport = () => {
               <div className='col'>
                 <div className="form-group">
 
-                  <input type="number" className="form-control" placeholder="Enter Total Cost" />
+                  <input type="number" className="form-control" placeholder="Enter Total Cost" onChange={(e)=>{setTotalCost(e.target.value);}} />
+                 
                 </div>
               </div>
             </div>
@@ -136,13 +157,82 @@ const AddTransport = () => {
           }>
           Prev
         </button>
-        <button type="button" className="btn btn-primary btn-lg mx-1"
+        <button type="button" className="btn btn-primary btn-lg mx-4"
           onClick={
             () => {
+              //let stopages = [...stopages]; 
+              stopages.push({long:'?',lat:'?',cost:'?'});
+              setStopages(stopages);
               nextComponent();
             }
           }>
-          Next
+          Add Stopage
+        </button>
+        <button type="button" className="btn btn-primary btn-lg mx-4"
+          onClick={
+            () => {
+             //yet to do
+            }
+          }>
+         Finish
+        </button>
+      </div>
+    )
+  }
+  const StopageInput = (index) => {
+
+
+    return (
+      <div>
+        <h5>Enter your {index}th Stopage  </h5>
+
+        <br />
+        <div className='container'>
+          <form>
+            <div className='row'>
+              <div className='col'>
+                <div className="form-group">
+
+                  <input type="text" className="form-control" placeholder="Enter Stopage" />
+                </div>
+              </div>
+              <div className='col'>
+                <div className="form-group">
+
+                  <input type="number" className="form-control" placeholder="Enter Total Cost" onChange={(e) => { let stopagesArr = [...stopages];console.log(stopagesArr); stopagesArr[index-1].cost = e.target.value; setStopages(stopagesArr); }} />
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <br />
+        {/* <OSM setLatLong={(val)=>{setPosition(val)}} /> */}
+        <button type="button" className="btn btn-primary btn-lg mx-4"
+          onClick={
+            () => {
+              prevComponent();
+            }
+          }>
+          Prev
+        </button>
+        <button type="button" className="btn btn-primary btn-lg mx-4"
+          onClick={
+            () => {
+             // let stopages = [...stopages]; 
+              stopages.push({long:'?',lat:'?',cost:'?'});
+              setStopages(stopages);
+              nextComponent();
+            }
+          }>
+          Add Stopage
+        </button>
+        <button type="button" className="btn btn-primary btn-lg mx-4"
+          onClick={
+            () => {
+             //yet to do
+            }
+          }>
+         Finish
         </button>
       </div>
     )
@@ -156,15 +246,15 @@ const AddTransport = () => {
 
           <div className="form-group">
             <label htmlFor="exampleFormControlSelect1"><h4>Transport Name</h4></label>
-            <input type="text" className="form-control" id="exampleFormControlInput" placeholder="Transport Name" />
+            <input type="text" className="form-control" id="exampleFormControlInput" placeholder="Transport Name" onChange={(e) => { setTransportName(e.target.value) }} />
 
           </div>
           <br /><br />
           <div className="form-group">
             <label htmlFor="category"><h4>Transport Category</h4></label>
-            <select className="form-control">
+            <select className="form-control" onChange={(e) => { setTransportCategory(e.target.value); console.log(transportCategory) }}>
               {categories.map(category => (
-                <option key={category._id} value={category._id}>{category.categoryName}</option>
+                <option key={category._id} value={category.categoryName}>{category.categoryName}</option>
               ))}
             </select>
           </div>
@@ -237,13 +327,16 @@ const AddTransport = () => {
           </center>
 
         );
-
-      case 3:
+          //defa
+      default:
         return (
           <center>
             {MainComponent()}
-            <h2 className='text-center'>Details for you</h2>
+           
             <CustomMap setPositions={(e) => setPositions(e)} />
+            <br /><br />
+            {StopageInput(componentNo - 2)}
+            <br /><br /><br /><br />
           </center>
         );
     };
