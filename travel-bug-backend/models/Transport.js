@@ -29,27 +29,39 @@ const TransportSchema = new Schema({
     required: true,
     ref: "TransportProvider",
   },
-
-  route: [
+  source: {
+    longitude: {
+      type: Number,
+    },
+    latitude: {
+      type: Number,
+    },
+    required: true,
+  },
+  destination: {
+    longitude: {
+      type: Number,
+    },
+    latitude: {
+      type: Number,
+    },
+    required: true,
+  },
+  totalCost: {
+    type: Number,
+    min: 1,
+    required: true,
+  },
+  stopages: [
     {
-      source: {
+      
         longitude: {
           type: Number,
         },
         latitude: {
           type: Number,
         },
-        required: true,
-      },
-      destination: {
-        longitude: {
-          type: Number,
-        },
-        latitude: {
-          type: Number,
-        },
-        required: true,
-      },
+       
       cost: {
         type: Number,
         min: 1,

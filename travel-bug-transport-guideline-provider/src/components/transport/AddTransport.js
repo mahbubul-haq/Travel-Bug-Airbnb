@@ -76,21 +76,21 @@ const AddTransport = () => {
   }
 
   const SourceInput = () => {
-    let long = ' ? ';
-    let lat = ' ? ';
 
-    if (positions.length > 0) {
-      long = positions[positions.length - 1][0];
-      lat = positions[positions.length - 1][1];
-    }
-    console.log("long : " + long);
-    console.log("lat : " + lat);
-    // setSource({long:long,lat:lat});
 
     return (
       <div>
-        <h5>Enter your source {source.long} , {source.lat}</h5>
-        <h5></h5>
+        <h5>Enter your source </h5>
+        <br />
+        <div className='container'>
+          <form>
+            <div className="form-group">
+
+              <input type="text" className="form-control" placeholder=" Enter Source" />
+            </div>
+          </form>
+        </div>
+        <br />
         <button type="button" className="btn btn-primary btn-lg"
           onClick={() => {
             nextComponent();
@@ -102,19 +102,33 @@ const AddTransport = () => {
   }
 
   const DestinationInput = () => {
-    let long = ' ? ';
-    let lat = ' ? ';
 
-    if (positions.length > 1) {
-      long = positions[positions.length - 1][0];
-      lat = positions[positions.length - 1][1];
-    }
 
     return (
       <div>
-        <h3>Enter your Destination  {destination.long} , {destination.lat}</h3>
+        <h5>Enter your Destination  </h5>
+        <br />
+        <div className='container'>
+          <form>
+            <div className='row'>
+              <div className='col'>
+                <div className="form-group">
+
+                  <input type="text" className="form-control" placeholder=" Enter Destination" />
+                </div>
+              </div>
+              <div className='col'>
+                <div className="form-group">
+
+                  <input type="number" className="form-control" placeholder="Enter Total Cost" />
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <br />
         {/* <OSM setLatLong={(val)=>{setPosition(val)}} /> */}
-        <button type="button" className="btn btn-primary btn-lg mx-1"
+        <button type="button" className="btn btn-primary btn-lg mx-4"
           onClick={
             () => {
               prevComponent();
@@ -200,9 +214,13 @@ const AddTransport = () => {
         return (
           <center>
             {MainComponent()}
-            <h2>Step {componentNo}</h2>
+
+
             <CustomMap setPositions={(e) => setPositions(e)} />
+            <br /><br />
             {SourceInput()}
+            <br /><br /><br /><br />
+
           </center>
         );
 
@@ -210,10 +228,14 @@ const AddTransport = () => {
         return (
           <center>
             {MainComponent()}
-            <h2>Step {componentNo}</h2>
+
+
             <CustomMap setPositions={(e) => setPositions(e)} />
+            <br /><br />
             {DestinationInput()}
+            <br /><br /><br /><br />
           </center>
+
         );
 
       case 3:
