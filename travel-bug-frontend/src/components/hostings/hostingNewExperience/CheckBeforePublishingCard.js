@@ -37,7 +37,7 @@ const CheckBeforePublishingCard = (props) => {
           <h1>{props.label}</h1>
         </div>
         <hr className="hrCard" />
-        <div className="card_owner11">The Experience is hosted by John Doe</div>
+        <div className="card_owner11">The Experience is hosted by Maisha Rahman</div>
         <hr className="hrCard" />
         <div className="card_text11">
           <p>Minimum Age: {props.minAgeRequirement} years</p>

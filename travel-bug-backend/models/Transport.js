@@ -15,31 +15,63 @@ const TransportSchema = new Schema({
   timeSlots: [
     {
       start: {
-        type:String,
+        type: String,
         required: true,
       },
       end: {
         type: String,
         required: true,
       },
+      startTag: {
+        type: String,
+        required: true,
+      },
+      endTag: {
+        type: String,
+        required: true,
+      }
     },
   ],
   transportProvider: {
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "TransportProvider",
   },
-
-  route: [
+  source: {
+    long: {
+      type: Number,
+      required: true,
+    },
+    lat: {
+      type: Number,
+      required: true,
+    },
+    
+  },
+  destination: {
+    long: {
+      type: Number,
+      required: true,
+    },
+    lat: {
+      type: Number,
+      required: true,
+    },
+  },
+  totalCost: {
+    type: Number,
+    min: 1,
+    required: true,
+  },
+  stopages: [
     {
-      source: {
-        type: String,
-        required: true,
+      long: {
+        type: Number,
       },
-      destination: {
-        type: String,
-        required: true,
+      lat: {
+        type: Number,
       },
+
       cost: {
         type: Number,
         min: 1,
@@ -47,7 +79,7 @@ const TransportSchema = new Schema({
       },
     },
   ],
-  
+
 });
 
 const Transport = mongoose.model("Transport", TransportSchema);
