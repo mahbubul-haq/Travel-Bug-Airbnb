@@ -8,6 +8,7 @@ import SignUp from './components/account/Signup';
 import Home from './components/home/Home';
 import Nav from './components/nav/Nav';
 import AddTransport from './components/transport/AddTransport';
+import CompletedAddTransport from './components/transport/CompletedAddTransport';
 import UserState from './context/user/UserState';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/signup" element={<SignUp />} />
             <Route exact path="/addtransport" element={<AddTransport/>} />
+            <Route exact path="/addtransport/completed" element={<CompletedAddTransport/>} />
             </Routes>
         </div>
       </Router>
