@@ -13,8 +13,8 @@ import "leaflet-geosearch/dist/geosearch.css";
 import "./CustomMap.css";
 
 const center = {
-  lat: 23.8103,
-  lng: 90.4125,
+  lat: 23.727054,
+  lng: 90.389678,
 };
 
 const SearchField = (props) => {
@@ -106,14 +106,22 @@ const Markers = (props) => {
 function CustomMap(props) {
   const markerRef = useRef(null);
 
-  const [positions, setPositions] = useState([[23.8103, 90.4125]]);
+  const [positions, setPositions] = useState([[23.727054, 90.389678]]);
   const [search, setSearch] = useState(true);
 
   const setpositions = (position) => {
     setPositions((positions) => [...positions, position]);
   };
 
-  useEffect(() => {}, [positions]);
+  useEffect(() => {
+    console.log("called");
+    const newPositions = [...positions];
+    //filter out null from NewPositions
+    newPositions.filter((position) => position !== null);
+    props.setPositions(newPositions);
+    console.log(newPositions);
+    
+  }, [positions]);
 
   const removeMarker = (index) => {
     setPositions(() => {
