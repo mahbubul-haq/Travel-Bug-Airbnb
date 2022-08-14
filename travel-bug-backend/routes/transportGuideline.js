@@ -21,14 +21,14 @@ router.post('/createuser', [
     //if error, return bad request as response
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({success: success, errors: errors.array() });
+        return res.status(400).json({ success: success, errors: errors.array() });
     }
 
     try {
         //check whether the user exists already
         let user = await TransportProvider.findOne({ email: req.body.email });
         if (user) {
-            return res.status(400).json({success: success, errors: 'Sorry. User with this email already exists' });
+            return res.status(400).json({ success: success, errors: 'Sorry. User with this email already exists' });
         }
 
         //hash password
@@ -41,14 +41,14 @@ router.post('/createuser', [
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             phoneNo: req.body.phoneNo,
-            password:secPass,
+            password: secPass,
         });
 
         //send a response after creating user
         //sending a auth token
         const data = {
             user: {
-                id:  user.id,
+                id: user.id,
             }
         };
 
@@ -85,19 +85,19 @@ router.post('/login', [
     //if error, return bad request as response
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({success: success, errors: errors.array() });
+        return res.status(400).json({ success: success, errors: errors.array() });
     }
 
-    const {email, password} = req.body;
+    const { email, password } = req.body;
     try {
         let user = await TransportProvider.findOne({ email: req.body.email });
-        if(!user){
-            return res.status(400).json({success: success, errors: 'Please try to login with correct credentials' });
+        if (!user) {
+            return res.status(400).json({ success: success, errors: 'Please try to login with correct credentials' });
         }
 
         const passwordComapare = await bcrypt.compare(password, user.password);
-        if(!passwordComapare){
-            return res.status(400).json({success: success, errors: 'Please try to login with correct credentials' });
+        if (!passwordComapare) {
+            return res.status(400).json({ success: success, errors: 'Please try to login with correct credentials' });
         }
 
         //send a response after successful login
@@ -137,7 +137,7 @@ router.get('/categories', async (req, res) => {
 });
 
 // ROUTE 5 add a transport details using : POST "transport/addtransport". Login required
-router.post('/addtransport',[
+router.post('/addtransport', [
     body('transportName', 'Please enter a name').isLength({ min: 1 }),
     body('transportCategory', 'Please enter a category').isLength({ min: 1 }),
 ], fetchuser, async (req, res) => {
@@ -173,5 +173,92 @@ router.post('/addtransport',[
         console.log(error.message);
         res.status(500).send('Internal Server Error from tansport/addtransport');
     }
-} );
+});
+
+// ROUTE 6 get the transport guideline using POST: "transport/getguideline". Login required
+router.post('/getguideline', async(req, res)=>{
+    let success = false;
+    console.log(req.body);
+    const mySource = {
+        "long": req.body.source.long,
+        "lat": req.body.source.lat
+    }
+
+    const myDestination = {
+        "long": req.body.destination.long,
+        "lat": req.body.destination.lat
+    }
+
+    try {
+        const data = await Transport.find();
+        console.log(data);
+        let myData = [];
+        for(let i = 0; i<data.length; i++){
+            const stopages = data[i].stopages;
+            if(getDistanceFromLatLonInKm(mySource.lat, mySource.long, data[i].source.lat, data[i].source.long) <= 2){
+                if(getDistanceFromLatLonInKm(myDestination.lat, myDestination.long, data[i].destination.lat, data[i].destination.long) <= 2){
+                    myData.push(data[i]);
+                    i++;
+                }
+                else{
+                    for(let j = 0; j<stopages.length; j++){
+                        if(getDistanceFromLatLonInKm(myDestination.lat, myDestination.long, stopages[j].lat, stopages[j].long) <= 2){
+                            myData.push(data[i]);
+                            i++;
+                            break;
+                        }
+                    }
+                }
+            }
+            else{
+                for(let j = 0; j<stopages.length; j++){
+                    if(getDistanceFromLatLonInKm(mySource.lat, mySource.long, stopages[j].lat, stopages[j].long) <= 2){
+                        if(getDistanceFromLatLonInKm(myDestination.lat, myDestination.long, data[i].destination.lat, data[i].destination.long) <= 2){
+                            myData.push(data[i]);
+                            i++;
+                        }
+                        else{
+                            for(let k = j+1; k<stopages.length; k++){
+                                if(getDistanceFromLatLonInKm(myDestination.lat, myDestination.long, stopages[k].lat, stopages[k].long) <= 2){
+                                    myData.push(data[i]);
+                                    i++;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        success = true;
+        res.json({
+            success: success,
+            guideline: myData,
+        });
+    }
+    catch (error) {
+        console.log(error.message);
+        res.status(500).send('Internal Server Error from tansport/addtransport');
+    }
+
+});
+
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2 - lat1);  // deg2rad below
+    var dLon = deg2rad(lon2 - lon1);
+    var a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2)
+        ;
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c; // Distance in km
+    return d;
+}
+
+function deg2rad(deg) {
+    return deg * (Math.PI / 180)
+}
+
 module.exports = router;

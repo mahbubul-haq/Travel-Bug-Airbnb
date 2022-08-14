@@ -33,6 +33,28 @@ const TransportGuidelines = () => {
     setComponentNo(componentNo - 1);
   }
 
+  const getDetails = async () =>{
+    const response = await fetch("http://localhost:5000/transport/getguideline", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "source":{
+              "long": source.long,
+              "lat": source.lat
+          },
+          "destination":{
+            "long":destination.long,
+            "lat":destination.lat
+          }
+        })
+    });
+    const json = await response.json();
+    console.log("My desired stops");
+    console.log(json);
+  }
+
   const SourceInput = () => {
     let long = ' ? ';
     let lat = ' ? ';
@@ -109,10 +131,10 @@ const TransportGuidelines = () => {
         <button type="button" className="btn btn-primary btn-lg mx-1"
           onClick={
             () => {
-              nextComponent();
+              getDetails();
             }
           }>
-          Next
+          Get Details
         </button>
       </div>
     )
