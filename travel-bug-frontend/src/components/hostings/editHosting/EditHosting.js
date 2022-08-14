@@ -4,8 +4,10 @@ import { useLocation } from "react-router-dom";
 import editHostingContext from "../../../context/hostings/editHostingContext";
 import "../cssFiles/EditHosting.css";
 import EditCategory from "./EditCategory";
-import EditLocation from "./EditLocation";
 import EditCost from "./EditCost";
+import EditGuestRequirements from "./EditGuestRequirements";
+import EditLocation from "./EditLocation";
+import FindRoute from "./FindRoute";
 
 const EditHosting = (props) => {
   //const {hostingId} = useParams();
@@ -105,7 +107,7 @@ const EditHosting = (props) => {
   };
 
   const valueUpdatedMessage = (pageNo, value, flag) => {
-    if (pageNo === 0 || pageNo === 1 || pageNo === 2 || pageNo == 3) {
+    if (pageNo <= 4) {
       const element = document.getElementById("update-message");
       element.style.display = "inline-block";
 
@@ -284,40 +286,43 @@ const EditHosting = (props) => {
     )
   };
 
-  const showAdditionalRequirements = () => {
-    if (edit) {
-      return (
-        <input
-          className="editAdditionalRequirements"
-          value={experience.additionalRequirements[0]}
-          onChange={(e) =>
-            setexperience({ additionalRequirements: [e.target.value] })
-          }
-        ></input>
-      );
-    } else {
-      return (
-        <p className="showAdditionalRequirements">
-          {experience.additionalRequirements[0]}
-        </p>
-      );
-    }
+  const showGuestRequirements = () => {
+    return (
+      <>
+        <EditGuestRequirements
+          experience={() => experience}
+          setExperience={(data) => setexperience(data)}
+        />
+        {errorMessage(3, "Both category and subcategory must be selected")}
+        <div id="message-containder">
+          <div id="update-message"></div>
+        </div>
+        <button
+          id="saveEdit"
+          onClick={() => {
+            if (true) {
+              updateValue({
+                minAge: experience.minAge,
+                maxGroupSize: experience.maxGroupSize,
+                additionalRequirements: experience.additionalRequirements,
+                itemsToBring: experience.itemsToBring,
+              });
+              valueUpdatedMessage(3, "Values", true);
+            } else {
+              valueUpdatedMessage(3, "Values", false);
+            }
+          }}
+        >
+          Save
+        </button>
+      </>
+    );
   };
 
   const showIndividualOrTeam = () => {
-    if (edit) {
-      return (
-        <input
-          className="editIndividualOrTeam"
-          value={experience.individualOrTeam}
-          onChange={(e) => setexperience({ individualOrTeam: e.target.value })}
-        ></input>
-      );
-    } else {
-      return (
-        <p className="showIndividualOrTeam">{experience.individualOrTeam}</p>
-      );
-    }
+    return (
+    <FindRoute/>
+    );
   };
   const showPartialPayAllowed = () => {
     if (edit) {
@@ -561,9 +566,17 @@ const EditHosting = (props) => {
     {
       return showCost();
     }
+    else if (editNo == 4)
+    {
+      return showGuestRequirements();
+    }
     else if (editNo == 8)
     {
       return showLocation();
+    }
+    else if (editNo == 7)
+    {
+      return showIndividualOrTeam();
     }
   };
   return (
@@ -625,7 +638,11 @@ const EditHosting = (props) => {
             <Nav.Link
               className="edit-hosting-navlink"
               eventKey="link-5"
-              onClick={() => setEditNo(0)}
+              onClick={() => {
+                setEditNo(4);
+                setExperience(experienceDocument);
+                console.log(experience);
+              }}
             >
               Guest Requirements
             </Nav.Link>
@@ -652,7 +669,7 @@ const EditHosting = (props) => {
             <Nav.Link
               className="edit-hosting-navlink"
               eventKey="link-8"
-              onClick={() => setEditNo(0)}
+              onClick={() => setEditNo(7)}
             >
               Activities
             </Nav.Link>
