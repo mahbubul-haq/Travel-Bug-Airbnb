@@ -276,7 +276,7 @@ const AddTransport = () => {
           <br /><br />
           <div className="form-group">
             <label htmlFor="category"><h4>Transport Category</h4></label>
-            <select className="form-control" onChange={(e) => { setTransportCategory(e.target.value); console.log(transportCategory) }}>
+            <select className="form-control" onChange={(e) => { setTransportCategory(e.target.value); }}>
               {categories.map(category => (
                 <option key={category._id} value={category.categoryName}>{category.categoryName}</option>
               ))}

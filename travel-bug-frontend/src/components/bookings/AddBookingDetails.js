@@ -57,36 +57,29 @@ const AddBookingDetails = () => {
     setReservation({ ...reservation, [e.target.name]: e.target.value })
     console.log(reservation);
   }
-  const addActivity = (e) => {
+  const addActivity = (index) => {
     var c = reservation.cost;
 
-    if (e.buttonText === "Add") {
-      c = c + e.activityCost;
-      reservation.selectedActivities.push(e._id);
+    if ( activities[index].buttonText === "Add") {
+      c = c + activities[index].activityCost;
+      reservation.selectedActivities.push( activities[index]._id);
       setReservation({ ...reservation, cost: c });
-      setActivities(
-        activities.map(item =>
-          item._id === e._id
-            ? { ...item, buttonText: "Remove" }
-            : item
-        ))
+      activities[index].buttonText = "Remove";
+      setActivities(activities);
+
 
     }
     else {
-      c = c - e.activityCost;
-      for (let i = 0; i < reservation.selectedActivities.length; i++) {
-        if (reservation.selectedActivities[i]._id === e._id)
-          setReservation({ ...reservation, cost: c });
-        reservation.selectedActivities.splice(i, 1);
-      }
-      setActivities(
-        activities.map(item =>
-          item._id === e._id
-            ? { ...item, buttonText: "Add" }
-            : item
-        ))
+      activities[index].buttonText = "Add";
+      setActivities(activities);
+      c = c -  activities[index].activityCost;
+      //remove activity from selectedActivities array
+      var index = reservation.selectedActivities.indexOf(activities[index]._id);
+      reservation.selectedActivities.splice(index, 1);
+      setReservation({ ...reservation, cost: c });
+      
     }
-    console.log(reservation);
+    //console.log(reservation);
 
 
   }
@@ -140,7 +133,8 @@ const AddBookingDetails = () => {
             </Row>
           </Col>
           <Col>
-            {activities.map((activity) => (
+           
+            {activities.map((activity, index) => (
 
               <div className="card">
                 <div className="card-header">
@@ -148,7 +142,7 @@ const AddBookingDetails = () => {
                 <div className="card-body">
                   <h5 className="card-title">{activity.activityTitle}</h5>
                   <p className="card-text">Start : {activity.dayTimeSlots.start}<br />End : {activity.dayTimeSlots.end}<br /><strong>Cost : {activity.activityCost}</strong></p>
-                  <button type="button" className="btn btn-info" onClick={(e) => {e.preventDefault();addActivity(activity)}}>{activity.buttonText}</button>
+                  <button type="button" className="btn btn-info" onClick={(e) => {e.preventDefault();addActivity(index)}}>{activity.buttonText}</button>
 
                 </div>
               </div>
