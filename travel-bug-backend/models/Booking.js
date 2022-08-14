@@ -26,11 +26,11 @@ const BookingSchema = new Schema({
     ref: "User",
     required: true,
   },
-  paymentInfo: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "PaymentInfo",
-    //required: true,
-  },
+  // paymentInfo: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "PaymentInfo",
+  //   //required: true,
+  // },
   selectedActivities: [
     {
       type: mongoose.Schema.Types.ObjectId,
