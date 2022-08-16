@@ -7,6 +7,7 @@ const TransportGuidelines = () => {
   const [componentNo, setComponentNo] = useState(1);
   const [source, setSource] = useState({ long: ' ? ', lat: ' ? ' });
   const [destination, setDestination] = useState({ long: ' ? ', lat: ' ?' });
+  const [guidelineData, setGuidelineData] = useState([]);
 
   useEffect(() => {
     let long = '?';
@@ -53,6 +54,7 @@ const TransportGuidelines = () => {
     const json = await response.json();
     console.log("My desired stops");
     console.log(json);
+    setGuidelineData(json.guideline);
   }
 
   const SourceInput = () => {
@@ -114,7 +116,7 @@ const TransportGuidelines = () => {
     )
   }
 
-  const ViewGuidelines = () => {
+  const ViewInputs = () => {
     return (
       <div>
         <h3>Source LONG:{source.long} | LAT:{source.lat}</h3>
@@ -132,10 +134,29 @@ const TransportGuidelines = () => {
           onClick={
             () => {
               getDetails();
+              nextComponent();
             }
           }>
           Get Details
         </button>
+      </div>
+    )
+  }
+
+  const ViewGuidelines = () =>{
+    return (
+      <div>
+        <h3>Guidelines</h3>
+        {guidelineData.map((guideline, index) => {
+          return (
+            <div key={index}>
+              <h5>Transport Name: {guideline.transportName}</h5>
+              <h5>Transport Category: {guideline.transportCategory}</h5>
+              <h5>Total Cost: {guideline.totalCost}</h5>
+              <br/>
+            </div>
+          )
+        })}
       </div>
     )
   }
@@ -165,9 +186,17 @@ const TransportGuidelines = () => {
           <center>
             <h2 className='text-center'>Details for you</h2>
             <CustomMap setPositions={(e) => setPositions(e)} />
-            {ViewGuidelines()}
+            {ViewInputs()}
           </center>
         );
+      case 4:
+        return (
+          <center>
+            <h2 className='text-center'>Details for you</h2>
+            <CustomMap setPositions={(e) => setPositions(e)} />
+            {ViewGuidelines()}
+          </center>
+        )
     };
   }
 
