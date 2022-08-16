@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
-import CustomMap from "./CustomMap";
 import "./CustomMap.css";
+import EditLocationMap from "./EditLocationMap";
 
 function distance(lat1, lon1, lat2, lon2, unit) {
   var radlat1 = (Math.PI * lat1) / 180;
@@ -27,27 +27,35 @@ function distance(lat1, lon1, lat2, lon2, unit) {
 }
 
 const EditLocation = (props) => {
-  const [latLong, setLatLong] = React.useState(null);
-  const [positions, setPositions] = React.useState([]);
+  const setExperience = (val) => {
+    console.log("val ", val);
+    props.setExperience({
+      location: {
+        latitude: val.y || val.lat,
+        longitude: val.x || val.lng,
+        address: val.label,
+      },
+    });
+  };
 
   useEffect(() => {
-    console.log("latLong", latLong);
-    console.log("positions", positions);
-    console.log(positions.length);
-    for (var i = 0; i < positions.length; i++) {
-      if (positions[i] == null) continue;
-      console.log(distance(positions[0][0], positions[0][1], positions[i][0], positions[i][1], "K"));
-    }
-  } , [positions]);
+    console.log("props.experience ", props.experience().location);
+  }, [props.experience().location]);
 
   return (
     <div>
-      <CustomMap
+      <br></br>
+      <p
+        style={{ marginBottom: "5px", marginLeft: "50px", fontWeight: "bold" }}
+      >
+        Change Location
+      </p>
+      <br></br>
+      <EditLocationMap
         setLatLong={(val) => {
-          setLatLong(val);
+          console.log("x" in val);
+          setExperience(val);
         }}
-        latLong={latLong}
-        setPositions={(positions) => setPositions(positions)}
       />
     </div>
   );

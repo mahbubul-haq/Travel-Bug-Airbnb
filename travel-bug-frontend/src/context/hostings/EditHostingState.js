@@ -24,6 +24,7 @@ const EditHostingState = (props) => {
     draft: "",
     individualOrTeam: "",
     location: "",
+    activities: [],
   });
   const [allCategories, setAllCategories] = useState(null);
   const [subCategoryId, setSubCategoryId] = useState(null);
@@ -67,6 +68,7 @@ const EditHostingState = (props) => {
     const data = await response.json();
     //alert("Successfully updated");
     //console.log(data);
+   // setExperienceDocument(data);
     getExperience();
   }
 

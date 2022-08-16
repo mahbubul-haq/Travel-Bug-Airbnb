@@ -3,10 +3,13 @@ import Nav from "react-bootstrap/Nav";
 import { useLocation } from "react-router-dom";
 import editHostingContext from "../../../context/hostings/editHostingContext";
 import "../cssFiles/EditHosting.css";
+import EditActivity from "./EditActivity";
 import EditCategory from "./EditCategory";
 import EditCost from "./EditCost";
+import EditDuration from "./EditDuration";
 import EditGuestRequirements from "./EditGuestRequirements";
 import EditLocation from "./EditLocation";
+import EditPhotos from "./EditPhotos";
 import FindRoute from "./FindRoute";
 
 const EditHosting = (props) => {
@@ -32,6 +35,7 @@ const EditHosting = (props) => {
     draft: "",
     individualOrTeam: "",
     location: "",
+    activities: [],
   });
   const context = useContext(editHostingContext);
 
@@ -95,24 +99,27 @@ const EditHosting = (props) => {
       ) {
         return <div className="error-message">{message}</div>;
       }
-    }
-    else if (pageNo === 2)
-    {
-      if (experience.subCategories[0] === "0" || experience.categories[0] === "0")
-      {
-        return <div className="error-message">{message}</div>
+    } else if (pageNo === 2) {
+      if (
+        experience.subCategories[0] === "0" ||
+        experience.categories[0] === "0"
+      ) {
+        return <div className="error-message">{message}</div>;
+      }
+    } else if (pageNo == 6) {
+      if (experience.hostingPhotos.length < 5) {
+        return <div className="error-message">{message}</div>;
       }
     }
-    
   };
 
   const valueUpdatedMessage = (pageNo, value, flag) => {
-    if (pageNo <= 4) {
+    if (pageNo <= 8) {
       const element = document.getElementById("update-message");
       element.style.display = "inline-block";
 
       if (pageNo == 3) {
-        element.style.marginLeft= "60px";
+        element.style.marginLeft = "60px";
       }
       if (flag) {
         element.innerHTML = `${value} updated successfully`;
@@ -125,7 +132,7 @@ const EditHosting = (props) => {
       }
       setTimeout(() => {
         element.style.display = "none";
-        element.style.marginLeft ="0";
+        element.style.marginLeft = "0";
       }, 3000);
     }
   };
@@ -265,9 +272,7 @@ const EditHosting = (props) => {
         <button
           id="saveEdit"
           onClick={() => {
-            if (
-              true
-            ) {
+            if (true) {
               updateValue({
                 partialPayAllowed: experience.partialPayAllowed,
                 totalCost: experience.totalCost,
@@ -283,7 +288,7 @@ const EditHosting = (props) => {
           Save
         </button>
       </>
-    )
+    );
   };
 
   const showGuestRequirements = () => {
@@ -293,7 +298,7 @@ const EditHosting = (props) => {
           experience={() => experience}
           setExperience={(data) => setexperience(data)}
         />
-        {errorMessage(3, "Both category and subcategory must be selected")}
+        {errorMessage(4, "Both category and subcategory must be selected")}
         <div id="message-containder">
           <div id="update-message"></div>
         </div>
@@ -307,9 +312,9 @@ const EditHosting = (props) => {
                 additionalRequirements: experience.additionalRequirements,
                 itemsToBring: experience.itemsToBring,
               });
-              valueUpdatedMessage(3, "Values", true);
+              valueUpdatedMessage(4, "Values", true);
             } else {
-              valueUpdatedMessage(3, "Values", false);
+              valueUpdatedMessage(4, "Values", false);
             }
           }}
         >
@@ -319,239 +324,132 @@ const EditHosting = (props) => {
     );
   };
 
-  const showIndividualOrTeam = () => {
+  const showDuration = () => {
     return (
-    <FindRoute/>
+      <>
+        <EditDuration
+          experience={() => experience}
+          setExperience={(data) => setexperience(data)}
+        />
+        {errorMessage(5, "Both category and subcategory must be selected")}
+        <div id="message-containder">
+          <div id="update-message"></div>
+        </div>
+        <button
+          id="saveEdit"
+          onClick={() => {
+            if (true) {
+              updateValue({
+                hostingDuration: experience.hostingDuration,
+                hostAvailability: experience.hostAvailability,
+              });
+              valueUpdatedMessage(5, "Values", true);
+            } else {
+              valueUpdatedMessage(5, "Values", false);
+            }
+          }}
+        >
+          Save
+        </button>
+      </>
     );
-  };
-  const showPartialPayAllowed = () => {
-    if (edit) {
-      return (
-        <input
-          className="editPartialPayAllowed"
-          value={experience.partialPayAllowed}
-          onChange={(e) => setexperience({ partialPayAllowed: e.target.value })}
-        ></input>
-      );
-    } else {
-      return (
-        <p className="showPartialPayAllowed">{experience.partialPayAllowed}</p>
-      );
-    }
-  };
-  const showMaxGroupSize = () => {
-    if (edit) {
-      return (
-        <input
-          className="editMaxGroupSize"
-          value={experience.maxGroupSize}
-          onChange={(e) => setexperience({ maxGroupSize: e.target.value })}
-        ></input>
-      );
-    } else {
-      return <p className="showMaxGroupSize">{experience.maxGroupSize}</p>;
-    }
-  };
-  const showMinAge = () => {
-    if (edit) {
-      return (
-        <input
-          className="editMinAge"
-          value={experience.minAge}
-          onChange={(e) => setexperience({ minAge: e.target.value })}
-        ></input>
-      );
-    } else {
-      return <p className="showMinAge">{experience.minAge}</p>;
-    }
-  };
-  const showItemsToBring = () => {
-    if (edit) {
-      return (
-        <input
-          className="editItemsToBring"
-          value={experience.itemsToBring[0]}
-          onChange={(e) => setexperience({ itemsToBring: [e.target.value] })}
-        ></input>
-      );
-    } else {
-      return <p className="showItemsToBring">{experience.itemsToBring[0]}</p>;
-    }
-  };
-
-  const showMaxRefundDays = () => {
-    if (edit) {
-      return (
-        <input
-          className="editMaxRefundDays"
-          value={experience.maxRefundDays}
-          onChange={(e) => setexperience({ maxRefundDays: e.target.value })}
-        ></input>
-      );
-    } else {
-      return <p className="showMaxRefundDays">{experience.maxRefundDays}</p>;
-    }
-  };
-
-  const hostingDurationDays = () => {
-    if (edit) {
-      return (
-        <input
-          className="editHostingDurationDays"
-          value={experience.hostingDuration.days}
-          onChange={(e) =>
-            setexperience({
-              hostingDuration: {
-                days: e.target.value,
-                hours: experience.hostingDuration.hours,
-              },
-            })
-          }
-        ></input>
-      );
-    } else {
-      return (
-        <p className="showHostingDurationDays">
-          {experience.hostingDuration.days}
-        </p>
-      );
-    }
-  };
-
-  const hostingDurationHours = () => {
-    if (edit) {
-      return (
-        <input
-          className="editHostingDurationHours"
-          value={experience.hostingDuration.hours}
-          onChange={(e) =>
-            setexperience({
-              hostingDuration: {
-                days: experience.hostingDuration.days,
-                hours: e.target.value,
-              },
-            })
-          }
-        ></input>
-      );
-    } else {
-      return (
-        <p className="showHostingDurationHours">
-          {experience.hostingDuration.hours}
-        </p>
-      );
-    }
-  };
-
-  const showHostAvailabilityStart = () => {
-    if (edit) {
-      return (
-        <input
-          className="editHostAvailabilityStart"
-          value={experience.hostAvailability.start}
-          onChange={(e) =>
-            setexperience({
-              hostAvailability: {
-                start: e.target.value,
-                end: experience.hostAvailability.end,
-              },
-            })
-          }
-        ></input>
-      );
-    } else {
-      return (
-        <p className="showHostAvailabilityStart">
-          {experience.hostAvailability.start}
-        </p>
-      );
-    }
-  };
-
-  const showHostAvailabilityEnd = () => {
-    if (edit) {
-      return (
-        <input
-          className="editHostAvailabilityEnd"
-          value={experience.hostAvailability.end}
-          onChange={(e) =>
-            setexperience({
-              hostAvailability: {
-                start: experience.hostAvailability.start,
-                end: e.target.value,
-              },
-            })
-          }
-        ></input>
-      );
-    } else {
-      return (
-        <p className="showHostAvailabilityEnd">
-          {experience.hostAvailability.end}
-        </p>
-      );
-    }
   };
 
   const showPhotos = () => {
-    if (edit) {
-      return (
-        <>
-          <div className="editPhotos">
-            {experience.hostingPhotos.map((photo, index) => {
-              return (
-                <div key={index}>
-                  <img
-                    className="editHostingPhotos"
-                    src={photo}
-                    alt="experience house"
-                  />
-                </div>
-              );
-            })}
-          </div>
-        </>
-      );
-    } else {
-      return (
-        <div className="showPhotos">
-          {experience.hostingPhotos.map((photo, index) => {
-            return (
-              <div key={index}>
-                <img
-                  className="showHostingPhotos"
-                  src={photo}
-                  alt="experience place"
-                />
-              </div>
-            );
-          })}
+    return (
+      <>
+        <EditPhotos
+          experience={() => experience}
+          setExperience={(data) => setexperience(data)}
+        />
+        {errorMessage(6, "At least 5 photos must be uploaded")}
+        <div id="message-containder">
+          <div id="update-message"></div>
         </div>
-      );
-    }
+        <button
+          id="saveEdit"
+          onClick={() => {
+            if (experience.hostingPhotos.length >= 5) {
+              updateValue({
+                hostingPhotos: experience.hostingPhotos,
+              });
+              valueUpdatedMessage(6, "Photos", true);
+            } else {
+              valueUpdatedMessage(6, "Photos", false);
+            }
+          }}
+        >
+          Save
+        </button>
+      </>
+    );
   };
 
   const showLocation = () => {
     return (
-      <EditLocation experience={experience} setexperience={setexperience} />
-    )
+      <>
+      <EditLocation
+        experience={() => experience}
+        setExperience={(data) => setexperience(data)}
+        />
+        {errorMessage(8, "At least 5 photos must be uploaded")}
+        <div id="message-containder">
+          <div id="update-message"></div>
+        </div>
+        <button
+          id="saveEdit"
+          onClick={() => {
+            if (true) {
+              updateValue({
+                location: experience.location,
+              });
+              valueUpdatedMessage(8, "Location", true);
+            } else {
+              valueUpdatedMessage(8, "Location", false);
+            }
+          }}
+        >
+          Save
+        </button>
+      </>
+    );
+  };
+
+
+  const showIndividualOrTeam = () => {
+    return <FindRoute />;
+  };
+  
+  const showActivity = () => {
+    return (
+      <>
+        <EditActivity
+          experience={() => experience}
+          setExperience = {(data) => setexperience(data)}
+        />
+        {errorMessage(7, "At least 5 photos must be uploaded")}
+        <div id="message-containder">
+          <div id="update-message"></div>
+        </div>
+        <button
+          id="saveEdit"
+          onClick={() => {
+            if (true) {
+              updateValue({
+                activities: experience.activities,
+              });
+              valueUpdatedMessage(7, "Activities", true);
+            } else {
+              valueUpdatedMessage(7, "Activities", false);
+            }
+          }}
+        >
+          Save
+        </button>
+      </>
+    );
   }
 
-  const editButton = () => {
-    if (edit) {
-      return (
-        <button className="editButton" onClick={() => setEdit(false)}>
-          Cancel
-        </button>
-      );
-    } else {
-      return (
-        <button className="editButton" onClick={() => setEdit(true)}>
-          Edit
-        </button>
-      );
-    }
-  };
 
   const getEditContent = () => {
     //setExperience(experienceDocument);
@@ -561,22 +459,18 @@ const EditHosting = (props) => {
       return showDescription();
     } else if (editNo == 2) {
       return showCategory();
-    }
-    else if (editNo == 3)
-    {
+    } else if (editNo == 3) {
       return showCost();
-    }
-    else if (editNo == 4)
-    {
+    } else if (editNo == 4) {
       return showGuestRequirements();
-    }
-    else if (editNo == 8)
-    {
+    } else if (editNo == 5) {
+      return showDuration();
+    } else if (editNo == 6) {
+      return showPhotos();
+    } else if (editNo == 8) {
       return showLocation();
-    }
-    else if (editNo == 7)
-    {
-      return showIndividualOrTeam();
+    } else if (editNo == 7) {
+      return showActivity();
     }
   };
   return (
@@ -651,7 +545,11 @@ const EditHosting = (props) => {
             <Nav.Link
               className="edit-hosting-navlink"
               eventKey="link-6"
-              onClick={() => setEditNo(0)}
+              onClick={() => {
+                setEditNo(5);
+                setExperience(experienceDocument);
+                console.log(experience);
+              }}
             >
               Duration
             </Nav.Link>
@@ -660,7 +558,11 @@ const EditHosting = (props) => {
             <Nav.Link
               className="edit-hosting-navlink"
               eventKey="link-7"
-              onClick={() => setEditNo(0)}
+              onClick={() => {
+                setEditNo(6);
+                setExperience(experienceDocument);
+                console.log(experience);
+              }}
             >
               Photos
             </Nav.Link>
@@ -669,7 +571,14 @@ const EditHosting = (props) => {
             <Nav.Link
               className="edit-hosting-navlink"
               eventKey="link-8"
-              onClick={() => setEditNo(7)}
+              onClick={() => {
+                setExperience(experienceDocument);
+                console.log("experience", experience);
+                console.log("document", experienceDocument);
+                setEditNo(7);
+                
+                console.log(experience);
+              }}
             >
               Activities
             </Nav.Link>
@@ -678,7 +587,14 @@ const EditHosting = (props) => {
             <Nav.Link
               className="edit-hosting-navlink"
               eventKey="link-9"
-              onClick={() => setEditNo(8)}
+              onClick={() => {
+                setExperience(experienceDocument);
+                console.log(experienceDocument);
+                console.log(experience);
+                setEditNo(8);
+                
+                
+              }}
             >
               Location
             </Nav.Link>

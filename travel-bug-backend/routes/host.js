@@ -25,6 +25,7 @@ const updateSubCategory = async (subCategoryId, experienceId) => {
 };
 
 const insertLocation = async (longitude, latitude, address) => {
+  console.log("called", longitude, latitude, address);
   const location = new Location({
     longitude: longitude,
     latitude: latitude,
@@ -260,8 +261,82 @@ router.get("/getimage/:name", (req, res) => {
 
 router.post("/update/:id", async (req, res) => {
   try {
-    const experience = await ExperienceHosting.updateOne({_id: req.params.id}, {$set: req.body.obj});
+    if ("location" in req.body.obj) {
+      console.log("loc - ", req.body.obj);
+
+      const locationId = await insertLocation(
+        req.body.obj.location.longitude,
+        req.body.obj.location.latitude,
+        req.body.obj.location.address
+      );
+      const experience = await ExperienceHosting.updateOne(
+        { _id: req.params.id },
+        { $set: { location: locationId } }
+      );
+      res.json(experience);
+    }
+    else if ("activities" in req.body.obj) {
+      //find all activities of the current experience hosting that is in ExperienceHosting.activities
+      const activities = await ExperienceHosting.findById(req.params.id).select("activities");
+      console.log(activities.activities);
+      //console.log(req.body.obj.activities);
+      //console.log(activities.activities[0], req.body.obj.activities[0]._id);
+
+      const activityIds = req.body.obj.activities.map(activity => activity._id).filter(activity => typeof activity !== "undefined");
+      //console.log(activityIds);
+
+      const activitiesToDelete = [];
+
+      for (var i = 0; i < activities.activities.length; i++) {
+        var found = false;
+        for (var j = 0; j < activityIds.length; j++) {
+          if (activities.activities[i]._id.toString() === activityIds[j].toString()) {
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          activitiesToDelete.push(activities.activities[i]._id);
+        }
+      }
+
+      console.log("to delete", activitiesToDelete);
+
+      for (var i = 0; i < activitiesToDelete.length; i++) {
+        ///delete activity from activity collection
+        await Activity.deleteOne({ _id: activitiesToDelete[i] });
+      }
+
+      for (var i = 0; i < req.body.obj.activities.length; i++)
+      {
+        if (!("_id" in req.body.obj.activities[i])) {
+          const activity = await Activity.create({
+            activityTitle: req.body.obj.activities[i].activityTitle,
+            dayTimeSlots: req.body.obj.activities[i].dayTimeSlots,
+            activityDuration: req.body.obj.activities[i].activityDuration,
+            activityCost: req.body.obj.activities[i].activityCost,
+            additionalRequirements: req.body.obj.activities[i].additionalRequirements,
+            hostingId: req.params.id,
+          });
+          activityIds.push(activity._id);
+        }
+      }
+
+      const experience = await ExperienceHosting.updateOne(
+        { _id: req.params.id },
+        { $set: { activities: activityIds } }
+      );
+
     res.json(experience);
+
+
+    } else {
+      const experience = await ExperienceHosting.updateOne(
+        { _id: req.params.id },
+        { $set: req.body.obj }
+      );
+      res.json(experience);
+    }
   } catch (error) {
     console.log(error.message);
     res

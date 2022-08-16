@@ -27,8 +27,8 @@ router.get('/hostingid/:id', async (req, res) => {
     try {
         //get an experience
         const experience = await ExperienceHosting.findById(req.params.id).populate('host', '-password')
-        .populate('activities categories subCategories'); //except the password
-
+        .populate('activities categories subCategories location'); //except the password
+        //console.log(experience);
         //send a response after getting experience
         res.json(experience);
 
