@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 
 import "../cssFiles/HostingPage1Base.css";
 import "../cssFiles/HostingPricing.css";
@@ -32,9 +31,9 @@ const HostingPricing = (props) => {
           <div id="top">
             {/* <button id="saveAndExit" onClick={()=>{props.saveAndExit()}}>Save and Exit</button> */}
 
-            <Link to="/host/home">
-              <button id="saveAndExit">Exit</button>
-            </Link>
+            <button id="saveAndExit" onClick={() => props.saveAndExit()}>
+              Save and Exit
+            </button>
           </div>
 
           <div id="middle10">

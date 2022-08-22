@@ -1,11 +1,13 @@
-#body12 {
+#body12,
+#body13 {
   margin: 0px;
   padding: 0px;
   background-color: rgb(255, 255, 255);
   width: 100%;
 }
 
-#container12 {
+#container12,
+#container13 {
   height: 100vh;
   padding: 0px;
   margin: 0px;
@@ -17,28 +19,37 @@
   background-color: rgba(201, 241, 248, 1);
 }
 
-#center12 {
+#container13 {
+  background-color: rgb(151, 67, 39);
+}
+
+#center12,
+#center13 {
   opacity: 100%;
-  height: 60%;
   background-color: #ffffff;
   border-radius: 5px;
   box-shadow: 0 0 15px -5px;
   width: 500px;
+  height: 80%;
   min-width: 300px;
   max-width: 500px;
+  min-height: 350px;
+  max-height: 400px;
   display: flex;
-  padding-top: 150px;
 
   align-items: center;
-  flex-flow: column;
+  justify-content: center;
+  flex-direction: column;
   box-sizing: border-box;
 }
 
-#para12 {
+#para12,
+#para13 {
   margin-top: 5%;
 }
 
-#butt12 {
+#butt12,
+#butt13 {
   margin-top: 10%;
   padding: 6px 20px 6px 20px;
   border-radius: 5px;
@@ -48,7 +59,8 @@
   color: white;
 }
 
-#butt12:hover {
+#butt12:hover,
+#butt13:hover {
   outline: 2px solid black;
 }
 

@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 import "../cssFiles/HostingPage1Base.css";
 import "../cssFiles/HostingPage4.css";
@@ -11,7 +10,7 @@ const HostingPage4 = (props) => {
   };
 
   const nextButton = () => {
-    if (props.description() !== null && props.description() !== "") {
+    if (props.description() !== null && props.description().length >= 200) {
       return (
         <button id="nextButton" onClick={() => props.nextPage()}>
           Next
@@ -43,9 +42,9 @@ const HostingPage4 = (props) => {
           <div id="top">
             {/* <button id="saveAndExit" onClick={()=>{props.saveAndExit()}}>Save and Exit</button> */}
 
-            <Link to="/host/home">
-              <button id="saveAndExit">Exit</button>
-            </Link>
+            <button id="saveAndExit" onClick={() => props.saveAndExit()}>
+              Save and Exit
+            </button>
           </div>
 
           <div id="middle8">
@@ -62,6 +61,8 @@ const HostingPage4 = (props) => {
                   }}
                   value={descValue}
                 ></textarea>
+                <div id="charCount8">{descValue.length}/2500</div>
+                <div id="desc-word">At least 200 characters*</div>
               </div>
             </div>
           </div>

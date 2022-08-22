@@ -22,12 +22,18 @@
 .card_text11 {
   padding-bottom: 0;
   margin-bottom: 0;
+  display: block;
 }
-.card_text11 > p {
-  display: inline-block;
-  margin-right: 10px;
-  margin-bottom: 0;
-  padding-bottom: 0;
+.card_text11 div {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 60% 40%;
+  grid-gap: 10px;
+}
+.card_text11 p {
+  margin: 0;
+  padding: 0;
 }
 
 .card_owner11 {
@@ -41,23 +47,22 @@
 .card_facilities11 > h3 {
   font-size: 120%;
 }
-.card_location11 > h3 {
+.card_location11 > h3,
+.card-activities > h3 {
   font-size: 120%;
 }
 
-.card_facilities11 table,
-tr {
-  width: 100%;
-}
-.card_facilities11 td {
-  opacity: 85%;
-  font-size: 80%;
-  width: 100%;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgb(231, 231, 231);
+.card-activities {
+  font-size: 100%;
+  margin-top: 10px;
 }
 
 .card_location11 {
   margin-top: 10px;
+}
+.card-activity-title:nth-child(even) {
+  /* background-color: rgb(248, 248, 248); */
+}
+.card-activity-title:nth-child(odd) {
+  /* background-color: rgb(121, 121, 121); */
 }

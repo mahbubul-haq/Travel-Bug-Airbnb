@@ -12,16 +12,38 @@ const multer = require("multer");
 const path = require("path");
 
 const updateCategory = async (categoryId, experienceId) => {
-  await Category.updateOne(
-    { _id: categoryId },
-    { $push: { experiences: experienceId } }
-  );
+  //check if the category has experienceId in experiences
+  const category = await Category.findById(categoryId);
+  var flag = false;
+  for (var i = 0; i < category.experiences.length; i++) {
+    if (category.experiences[i].toString() == experienceId.toString()) {
+      flag = true;
+      break;
+    }
+  }
+  if (!flag) {
+    await Category.updateOne(
+      { _id: categoryId },
+      { $push: { experiences: experienceId } }
+    );
+  }
 };
 const updateSubCategory = async (subCategoryId, experienceId) => {
-  await SubCategory.updateOne(
-    { _id: subCategoryId },
-    { $push: { experiences: experienceId } }
-  );
+  //check if the subcategory has experienceId in experiences
+  const subCategory = await SubCategory.findById(subCategoryId);
+  var flag = false;
+  for (var i = 0; i < subCategory.experiences.length; i++) {
+    if (subCategory.experiences[i].toString() == experienceId.toString()) {
+      flag = true;
+      break;
+    }
+  }
+  if (!flag) {
+    await SubCategory.updateOne(
+      { _id: subCategoryId },
+      { $push: { experiences: experienceId } }
+    );
+  }
 };
 
 const insertLocation = async (longitude, latitude, address) => {
@@ -36,40 +58,90 @@ const insertLocation = async (longitude, latitude, address) => {
 };
 
 //ROUTE 1 - Post an experience hosting using: POST "host/experience". Login required
-router.post(
-  "/",
-  fetchuser,
-  [
-    body("hostingTitle", "Enter a valid hosting title").isLength({ min: 1 }),
-    body("description", "Enter a valid description").isLength({ min: 1 }),
-  ],
-  async (req, res) => {
-    var success = false;
-    try {
-      //if error, return bad request as response
-      //console.log("before validation");
-      const errors = validationResult(req);
-      //console.log("after validation");
-      if (!errors.isEmpty()) {
-        return res
-          .status(400)
-          .json({ errors: errors.array(), success: success });
-      }
+router.post("/", fetchuser, [], async (req, res) => {
+  var success = false;
+  try {
+    //if error, return bad request as response
+    //console.log("before validation");
+    // const errors = validationResult(req);
+    // //console.log("after validation");
+    // if (!errors.isEmpty()) {
+    //   return res
+    //     .status(400)
+    //     .json({ errors: errors.array(), success: success });
+    // }
 
-      const locationId = await insertLocation(
+    var locationId = null;
+    if (
+      req.body.location &&
+      "id" in req.body.location &&
+      req.body.location.id !== null
+    ) {
+      locationId = req.body.location.id;
+    } else if (req.body.location) {
+      locationId = await insertLocation(
         req.body.location.x,
         req.body.location.y,
         req.body.location.label
       );
-      const userId = req.user.id;
-      const categoryIds = req.body.category.map((category) => category.id);
-      console.log(categoryIds);
-      const subCategoryIds = req.body.subCategory.map(
-        (subCategory) => subCategory.id
-      );
+    }
+    const userId = req.user.id;
+    var categoryIds = req.body.category.map((category) => {
+      if (category) return category.id;
+      else return null;
+    });
+    console.log("cat ids", categoryIds);
+    var subCategoryIds = req.body.subCategory.map((subCategory) => {
+      if (subCategory) return subCategory.id;
+      else return null;
+    });
 
-      //create experience hosting
-      const experienceHosting = await ExperienceHosting.create({
+    //filter null from categoryIds and subCategoryIds
+    categoryIds = categoryIds.filter((category) => category !== null);
+    subCategoryIds = subCategoryIds.filter(
+      (subCategory) => subCategory !== null
+    );
+      console.log("sub ids", subCategoryIds);
+    //create experience hosting
+    var experienceHosting;
+
+    if ("id" in req.body && req.body.id !== null) {
+
+      const exp = await ExperienceHosting.findById(req.body.id);
+      //remove all activities from Activity model
+      await Activity.deleteMany({ experienceId: exp._id });
+      //remove all activities from experience hosting
+      await ExperienceHosting.updateOne({_id: req.body.id}, {$set: {activities: []}});
+
+      //update experience hosting if id is provided
+      experienceHosting = await ExperienceHosting.findByIdAndUpdate(
+        { _id: req.body.id },
+        {
+          $set: {
+            hostingTitle: req.body.hostingTitle,
+            description: req.body.description,
+            hostingDate: req.body.hostingDate,
+            draft: req.body.draft,
+            individualOrTeam: req.body.individualOrTeam,
+            totalCost: req.body.totalCost,
+            maxRefundDays: req.body.maxRefundDays,
+            partialPayAllowed: req.body.partialPayAllowed,
+            itemsToBring: req.body.itemsToBring,
+            maxGroupSize: req.body.maxGroupSize,
+            minAge: req.body.minAge,
+            additionalRequirements: req.body.additionalRequirements,
+            hostingPhotos: req.body.hostingPhotos,
+            host: userId,
+            categories: categoryIds,
+            subCategories: subCategoryIds,
+            hostAvailability: req.body.dayTimeSlot,
+            hostingDuration: req.body.duration,
+            location: locationId,
+          },
+        }
+      );
+    } else {
+      experienceHosting = await ExperienceHosting.create({
         hostingTitle: req.body.hostingTitle,
         description: req.body.description,
         hostingDate: req.body.hostingDate,
@@ -90,31 +162,31 @@ router.post(
         hostingDuration: req.body.duration,
         location: locationId,
       });
-      success = true;
-
-      //update category with experience id
-      for (let i = 0; i < categoryIds.length; i++) {
-        await updateCategory(categoryIds[i], experienceHosting._id);
-      }
-      // update subcategory with experience id
-      for (let i = 0; i < subCategoryIds.length; i++) {
-        await updateSubCategory(subCategoryIds[i], experienceHosting._id);
-      }
-
-      //send a response after creating experience hosting
-      res.json({
-        success: success,
-        experienceHosting: experienceHosting,
-      });
-    } catch (error) {
-      console.log(error.message);
-      res.status(500).json({
-        success: success,
-        error: "Experience not hosted",
-      });
     }
+    success = true;
+
+    //update category with experience id
+    for (let i = 0; i < categoryIds.length; i++) {
+      await updateCategory(categoryIds[i], experienceHosting._id);
+    }
+    // update subcategory with experience id
+    for (let i = 0; i < subCategoryIds.length; i++) {
+      await updateSubCategory(subCategoryIds[i], experienceHosting._id);
+    }
+
+    //send a response after creating experience hosting
+    res.json({
+      success: success,
+      experienceHosting: experienceHosting,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({
+      success: success,
+      error: "Experience not hosted",
+    });
   }
-);
+});
 
 // ROUTE 2 - Get all experience hosting using: GET "host/experience/all". Login required
 router.get("/all", fetchuser, async (req, res) => {
@@ -274,15 +346,18 @@ router.post("/update/:id", async (req, res) => {
         { $set: { location: locationId } }
       );
       res.json(experience);
-    }
-    else if ("activities" in req.body.obj) {
+    } else if ("activities" in req.body.obj) {
       //find all activities of the current experience hosting that is in ExperienceHosting.activities
-      const activities = await ExperienceHosting.findById(req.params.id).select("activities");
+      const activities = await ExperienceHosting.findById(req.params.id).select(
+        "activities"
+      );
       console.log(activities.activities);
       //console.log(req.body.obj.activities);
       //console.log(activities.activities[0], req.body.obj.activities[0]._id);
 
-      const activityIds = req.body.obj.activities.map(activity => activity._id).filter(activity => typeof activity !== "undefined");
+      const activityIds = req.body.obj.activities
+        .map((activity) => activity._id)
+        .filter((activity) => typeof activity !== "undefined");
       //console.log(activityIds);
 
       const activitiesToDelete = [];
@@ -290,7 +365,10 @@ router.post("/update/:id", async (req, res) => {
       for (var i = 0; i < activities.activities.length; i++) {
         var found = false;
         for (var j = 0; j < activityIds.length; j++) {
-          if (activities.activities[i]._id.toString() === activityIds[j].toString()) {
+          if (
+            activities.activities[i]._id.toString() ===
+            activityIds[j].toString()
+          ) {
             found = true;
             break;
           }
@@ -307,15 +385,15 @@ router.post("/update/:id", async (req, res) => {
         await Activity.deleteOne({ _id: activitiesToDelete[i] });
       }
 
-      for (var i = 0; i < req.body.obj.activities.length; i++)
-      {
+      for (var i = 0; i < req.body.obj.activities.length; i++) {
         if (!("_id" in req.body.obj.activities[i])) {
           const activity = await Activity.create({
             activityTitle: req.body.obj.activities[i].activityTitle,
             dayTimeSlots: req.body.obj.activities[i].dayTimeSlots,
             activityDuration: req.body.obj.activities[i].activityDuration,
             activityCost: req.body.obj.activities[i].activityCost,
-            additionalRequirements: req.body.obj.activities[i].additionalRequirements,
+            additionalRequirements:
+              req.body.obj.activities[i].additionalRequirements,
             hostingId: req.params.id,
           });
           activityIds.push(activity._id);
@@ -327,9 +405,7 @@ router.post("/update/:id", async (req, res) => {
         { $set: { activities: activityIds } }
       );
 
-    res.json(experience);
-
-
+      res.json(experience);
     } else {
       const experience = await ExperienceHosting.updateOne(
         { _id: req.params.id },

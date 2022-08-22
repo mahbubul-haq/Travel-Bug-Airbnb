@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
 
 import ImageIcon from "../../../images/imageIcon.png";
 import "../cssFiles/HostingPage1Base.css";
@@ -138,9 +137,9 @@ const HostingPhotoUpload = (props) => {
           <div id="top">
             {/* <button id="saveAndExit" onClick={()=>{props.saveAndExit()}}>Save and Exit</button> */}
 
-            <Link to="/host/home">
-              <button id="saveAndExit">Exit</button>
-            </Link>
+            <button id="saveAndExit" onClick={() => props.saveAndExit()}>
+              Save and Exit
+            </button>
           </div>
 
           <div id="middle7">

@@ -1,19 +1,15 @@
 #middle5 {
-  text-align: center;
+  display: flex;
   align-items: center;
+  justify-content: center;
 
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
-  padding-top: 5%;
 }
 #middle5 table {
   text-align: center;
-  margin-top: 5%;
-  padding-top: 5%;
   z-index: 1;
   width: 80%;
-  max-width: 500px;
-  min-width: 250px;
 
   animation: fadeIn 2s;
   -webkit-animation: fadeIn 2s;
@@ -28,15 +24,19 @@
 }
 #middle5 tr {
   display: block;
-  padding-bottom: 15px;
+  padding-bottom: 0px;
 }
 #middle5 td {
-  padding: 20px;
+  padding-top: 5px;
+  padding-bottom: 15px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-radius: 10px;
   color: black;
   display: block;
   font-size: 120%;
   font-family: Arial, Helvetica, sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   text-align: left;
   /* background-color: rgb(65, 62, 62);
   color: white; */
@@ -67,9 +67,17 @@
 }
 #count5 {
   display: inline-block;
-  margin-right: 20px;
-  padding-bottom: 50px;
+  width: 40px;
   font-weight: normal;
+  text-align: center;
+}
+
+#text-5 {
+  padding: 0;
+  margin: 0;
+  font-weight: bold;
+  margin-top: 20px;
+  display: inline-block;
 }
 
 #middle5 td:hover {

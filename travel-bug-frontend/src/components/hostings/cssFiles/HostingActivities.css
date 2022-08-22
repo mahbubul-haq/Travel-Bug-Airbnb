@@ -1,13 +1,14 @@
 #middle_activities {
   overflow-y: scroll;
   box-sizing: border-box;
+  position: relative;
 }
 
 #animation_activities {
   display: grid;
   padding-left: 0;
   padding-right: 0;
-  padding-top: 10%;
+  padding-top: 30px;
   width: 100%;
   grid-template-columns: 100%;
   align-items: center;
@@ -35,44 +36,193 @@ input::-webkit-inner-spin-button {
 .activity-input {
   width: 100%;
   height: 100vh;
-  background-color: #ffffff;
-  opacity: 1;
-  padding: 0 25% 0 25%;
-  display: grid;
-  grid-template-columns: 100%;
-  grid-template-rows: 100%;
+  background-color: rgba(9, 9, 9, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1000000;
+  position: absolute;
+  overflow: hidden;
 }
 .activity-alignment {
-  display: block;
-  width: 100%;
+  display: grid;
+  grid-template-rows: 40px auto 70px;
+  grid-template-columns: 100%;
+  width: 600px;
+  height: 85%;
+  overflow-y: hidden;
+  opacity: 1;
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  padding-bottom: 0px;
+
+  animation: fadeIn 1s;
+  -webkit-animation: fadeIn 1s;
+  -moz-animation: fadeIn 1s;
+  -o-animation: fadeIn 1s;
+  -ms-animation: fadeIn 1s;
+  animation: moveIn 0.5s;
+  -webkit-animation: moveIn 0.5s;
+  -moz-animation: moveIn 0.5s;
+  -o-animation: moveIn 0.5s;
+  -ms-animation: moveIn 0.5s;
 }
+
+#activity-input-header {
+  font-weight: bold;
+}
+
+#activity-inputs {
+  overflow-y: auto;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
 .activity-input label {
   display: block;
+  margin-bottom: 10px;
+  font-size: 80%;
+  font-weight: bold;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 .activity-input input {
   display: block;
   width: 100%;
   padding: 5px;
-  border: 1px solid black;
-  border-radius: 5px;
+  border: 1.5px solid rgb(178, 178, 178);
+  border-radius: 3px;
   margin-bottom: 10px;
+}
+#button-wrapper-activities {
+  align-items: center;
+
+  text-align: center;
+}
+
+.new-activity {
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid rgb(176, 176, 176);
+  cursor: pointer;
+  background-color: rgb(46, 46, 46);
+  color: white;
+  width: 150px;
+  display: inline-block;
+  margin-top: 30px;
+}
+
+.new-activity:hover {
+  background-color: rgb(0, 0, 0);
+  color: white;
+}
+
+#new-activity-bottom {
+  display: flex;
+  justify-content: left;
+  padding: 10px 30px 20px 30px;
+  align-items: center;
 }
 
 #closeButton {
-  padding: 10px;
-  margin: 10px;
-  width: 100px;
+  padding: 5px;
   border-radius: 5px;
+  width: 80px;
+  color: rgb(99, 99, 99);
+  text-transform: uppercase;
+  border: none;
+  background-color: transparent;
+  font-weight: bold;
 }
 #saveButton {
-  float: right;
-  padding: 10px;
-  margin: 10px;
-  width: 100px;
-  border-radius: 5px;
+  padding: 5px;
+  width: 80px;
+  border-radius: 2px;
+  border: none;
+  background-color: rgb(12, 84, 185);
+  color: white;
+  text-transform: uppercase;
 }
 
-/* Firefox */
+.activity-duration,
+.activity-time-slot {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+#activity-duration-days-wrapper,
+#activity-duration-hours-wrapper,
+#activity-time-slot-start,
+#activity-time-slot-end {
+  padding: 0;
+  margin: 0;
+  width: 45%;
+}
+
+#activity-duration-days,
+#activity-duration-hours,
+#activity-start-time,
+#activity-end-time {
+  width: 100%;
+  display: inline-block;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  border: 1.5px solid rgb(182, 182, 182);
+  padding: 5px;
+}
+
+#activity-requirements {
+  rows: 2;
+  resize: none;
+  overflow-y: auto;
+  border: 1.5px solid rgb(182, 182, 182);
+  border-radius: 3px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+#activities-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.div-activities {
+  width: 85%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px 20px 30px;
+  border-radius: 10px;
+  border: 1.5px solid rgb(176, 176, 176);
+  background-color: rgb(255, 255, 255);
+  margin-bottom: 20px;
+}
+
+.title-activities {
+  cursor: pointer;
+  text-decoration: underline;
+  font-weight: bold;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: rgb(10, 10, 149);
+}
+
+.remove-activity {
+  color: rgb(0, 76, 142);
+  text-decoration: underline;
+  cursor: pointer;
+
+  border: none;
+  background-color: transparent;
+}
 
 @media screen and (max-width: 800px) {
 }

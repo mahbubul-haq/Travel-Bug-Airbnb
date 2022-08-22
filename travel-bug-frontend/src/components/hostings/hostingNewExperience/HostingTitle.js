@@ -1,6 +1,5 @@
 import React from "react";
 
-import { Link } from "react-router-dom";
 
 import "../cssFiles/HostingPage1Base.css";
 import "../cssFiles/HostingTitle.css";
@@ -43,9 +42,9 @@ const HostingTitle = (props) => {
           <div id="top">
             {/* <button id="saveAndExit" onClick={()=>{props.saveAndExit()}}>Save and Exit</button> */}
 
-            <Link to="/host/home">
-              <button id="saveAndExit">Exit</button>
-            </Link>
+            <button id="saveAndExit" onClick={() => props.saveAndExit()}>
+              Save and Exit
+            </button>
           </div>
 
           <div id="middle9">

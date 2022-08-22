@@ -1,7 +1,6 @@
 import React from "react";
 
-import { Link } from "react-router-dom";
-import MyMap from "./Map/Map";
+import MyMap from "./Map/HostingMap";
 
 import "../cssFiles/HostingPage1Base.css";
 import "../cssFiles/HostingPage3.css";
@@ -34,9 +33,9 @@ const HostingPage3 = (props) => {
           <div id="top">
             {/* <button id="saveAndExit" onClick={()=>{props.saveAndExit()}}>Save and Exit</button> */}
 
-            <Link to="/host/home">
-              <button id="saveAndExit">Exit</button>
-            </Link>
+            <button id="saveAndExit" onClick={() => props.saveAndExit()}>
+              Save and Exit
+            </button>
           </div>
 
           <div id="middle4">

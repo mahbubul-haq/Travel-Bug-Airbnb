@@ -98,18 +98,23 @@ const HostingPage1 = (props) => {
           <div id="left">What is the theme of your experience?</div>
           <div id="right">
             <div id="top">
+              
+                <button id="saveAndExit" onClick={() => props.saveAndExit()}>
+                  Save and Exit
+                </button>
               {/* <Link to="/host/home"><button id="saveAndExit" onClick={()=>{this.props.saveAndExit()}}>Save and Exit</button></Link> */}
             </div>
 
-            <div id="middle">
+            <div id="middle-category">
               <table>
-                <tbody>
+                <tbody id="category-tbody">
                   {categories.map(({ category, id }) => {
                     idx = idx + 1;
                     //console.log(category.category);
 
                     return (
                       <tr
+                        id="category-row"
                         key={idx}
                         onClick={() => {
                           props.selectCategory({ category, id });
@@ -117,7 +122,9 @@ const HostingPage1 = (props) => {
                           changeStyle(id);
                         }}
                       >
-                        <td className={"id" + id}>{category}</td>
+                        <td className={"id" + id}>
+                          <div style={{ textAlign: "center" }}>{category}</div>
+                        </td>
 
                         {/* <td className={"tr" + id}>{category}</td> */}
                       </tr>

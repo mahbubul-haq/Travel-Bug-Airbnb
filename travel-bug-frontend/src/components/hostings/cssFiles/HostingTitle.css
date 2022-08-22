@@ -1,13 +1,16 @@
 #middle9 {
-  overflow-y: scroll;
+  overflow-y: auto;
   box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #animation9 {
   display: grid;
   padding-left: 10%;
   padding-right: 10%;
-  padding-top: 20%;
+  padding-top: 30px;
   width: 100%;
   grid-template-columns: 100%;
   align-items: center;
@@ -38,7 +41,7 @@
   height: 50px;
   padding-top: 5px;
   display: block;
-  border-radius: 1px solid black;
+  border-radius: 1px;
   text-align: left;
   padding-left: 0px;
   border-top-right-radius: 10px;
@@ -50,11 +53,16 @@
   height: 200px;
   display: block;
   border-radius: 10px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 200%;
+  resize: none;
+  padding: 10px;
+  border: 1.5px solid rgb(174, 174, 174);
 }
 
 #descriptionBox9:focus {
-  outline: none;
+  outline: 1px solid black;
+  border: 1.5px solid black;
 }
 
 #charCount9 {

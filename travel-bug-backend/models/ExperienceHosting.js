@@ -5,33 +5,27 @@ const { Schema } = mongoose;
 const ExperienceHostingSchema = new Schema({
   hostingTitle: {
     type: String,
-    required: true,
   },
 
   description: {
     type: String,
-    required: true,
   },
   hostingDate: {
     type: Date,
     default: Date.now,
-    required: true,
   },
   draft: {
     type: Boolean,
-    default: true,
-    required: true,
+    default: false,
   },
   individualOrTeam: {
     type: String,
     default: "individual",
     enum: ["individual", "team"],
-    required: true,
   },
   totalCost: {
     type: Number,
     min: 1,
-    required: true,
   },
   itemsToBring: [
     {

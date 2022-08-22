@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
 import "../cssFiles/HostingPage1Base.css";
 import "../cssFiles/HostingPage5.css";
@@ -13,9 +12,9 @@ const HostingPage5 = (props) => {
           <div id="top">
             {/* <button id="saveAndExit" onClick={()=>{props.saveAndExit()}}>Save and Exit</button> */}
 
-            <Link to="/host/home">
-              <button id="saveAndExit">Exit</button>
-            </Link>
+            <button id="saveAndExit" onClick={() => props.saveAndExit()}>
+              Save and Exit
+            </button>
           </div>
 
           <div id="middle5">
@@ -23,10 +22,10 @@ const HostingPage5 = (props) => {
               <tbody>
                 <tr>
                   <td>
-                    Please specify the duration of hosting
+                    <span id="text-5">Please specify the duration of hosting</span>
                     <br></br>
                     <br></br>
-                    days:
+                    Days
                     <div className="increment5">
                       <button
                         className="circular5"
@@ -50,7 +49,7 @@ const HostingPage5 = (props) => {
                 </tr>
                 <tr>
                   <td>
-                    hours:
+                    Hours
                     <div className="increment5">
                       <button
                         className="circular5"
@@ -74,10 +73,12 @@ const HostingPage5 = (props) => {
                 </tr>
                 <tr>
                   <td>
-                    When are you availabe in a day (for this experience)?
+                    <span id="text-5">
+                      When are you availabe in a day (for this experience)?
+                    </span>
                     <br></br>
                     <br></br>
-                    starts:
+                    Starts
                     <div className="increment5">
                       <button
                         className="circular5"
@@ -101,7 +102,7 @@ const HostingPage5 = (props) => {
                 </tr>
                 <tr>
                   <td>
-                    ends:
+                    Ends
                     <div className="increment5">
                       <button
                         className="circular5"

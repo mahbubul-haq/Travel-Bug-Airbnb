@@ -6,7 +6,7 @@
 #body {
   margin: 0px;
   padding: 0px;
-  background-color: green;
+  background-color: rgb(169, 207, 226);
   width: 100%;
 }
 
@@ -53,13 +53,15 @@
   background-color: rgb(141, 233, 236);
   background-image: linear-gradient(
     to bottom,
-    rgb(217, 0, 116),
-    rgb(153, 0, 130)
+    rgb(221, 13, 103),
+    rgb(71, 4, 122)
   );
-  font-size: 50px;
+  font-size: 45px;
+  font-weight: bold;
+  display: flex;
   align-items: center;
   justify-content: center;
-  display: flex;
+
   padding-left: 10%;
   padding-right: 10%;
   color: cornsilk;
@@ -71,8 +73,9 @@
   height: 100%;
   background-color: rgb(255, 255, 255);
   grid-template-columns: 100%;
-  grid-template-rows: 11% 78% 11%;
-  min-height: 400px;
+  grid-template-rows: 70px auto 70px;
+  gap: 0;
+  /* min-height: 400px; */
 }
 
 #top {
@@ -81,7 +84,25 @@
   border-bottom: 1px solid rgb(224, 224, 224);
   grid-row: 1 / 1;
   grid-column: 1 / 1;
-  height: 80px;
+  /* height: 20px; */
+  padding-right: 25px;
+  padding-left: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+#progress-bar {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  height: 4px;
+  color: rgb(0, 0, 0);
+  padding: 0;
+  margin: 0;
+  z-index: 100000;
+  opacity: 1;
+  transition: width 1s ease-in-out;
 }
 
 #middle {
@@ -95,16 +116,15 @@
   border-top: 1px solid rgb(155, 155, 155);
   grid-row: 3 / 3;
   grid-column: 1 / 1;
-  min-height: 70px;
-  max-height: 90px;
-  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 25px;
+  padding-left: 25px;
 }
 
 #saveAndExit {
   float: right;
-  margin-right: 20px;
-  margin-top: 20px;
-  margin-bottom: 20px;
 
   padding: 0.25rem 0.75rem;
   border-radius: 5px;
@@ -118,16 +138,11 @@
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 
-  background: rgb(34, 33, 33);
+  background: rgb(89, 88, 88);
   color: rgb(255, 255, 255);
 }
 #backButton {
   display: block;
-  float: left;
-  margin-right: 20px;
-  margin-left: 20px;
-  margin-top: 20px;
-  margin-bottom: 20px;
   background: rgb(34, 33, 33);
   color: rgb(255, 255, 255);
   padding: 0.25rem 0.75rem;
@@ -145,10 +160,7 @@
 }
 #nextButton {
   display: block;
-  float: right;
-  margin-right: 20px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+
   background: rgb(34, 33, 33);
   color: rgb(255, 255, 255);
   padding: 0.25rem 0.75rem;
@@ -168,10 +180,6 @@
 
 #disabledButtonWrapper {
   display: block;
-  float: right;
-  margin-right: 20px;
-  margin-top: 20px;
-  margin-bottom: 20px;
 
   color: black;
 

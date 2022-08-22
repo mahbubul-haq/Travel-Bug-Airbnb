@@ -35,6 +35,8 @@ const HostingCheckEverything = (props) => {
                   description={props.description()}
                   category={props.category().category}
                   location={props.location()}
+                  user = {props.user()}
+                  activities = {props.activities()}
                 />
               </div>
             </div>

@@ -1,0 +1,110 @@
+#hosting-intro-img {
+  height: 100%;
+  width: 100%;
+}
+
+#top-intro {
+  z-index: 2;
+  background-color: white;
+  /* border-bottom: 1px solid rgb(224, 224, 224); */
+  grid-row: 1 / 1;
+  grid-column: 1 / 1;
+  /* height: 20px; */
+  background-color: black;
+}
+
+#middle-intro {
+  grid-row: 2 / 2;
+  grid-column: 1 / 1;
+  background-color: black;
+  padding-left: 40px;
+  padding-right: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#bottom-intro {
+  z-index: 2;
+  background-color: rgb(0, 0, 0);
+  border-top: 1px solid rgb(47, 48, 48);
+  grid-row: 3 / 3;
+  grid-column: 1 / 1;
+  /* height: 70px; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 25px;
+  padding-left: 25px;
+}
+
+#lets-go-button {
+  display: block;
+  float: right;
+  background: rgb(185, 13, 73);
+  color: rgb(255, 255, 255);
+  padding: 0.25rem 0.75rem;
+  border-radius: 5px;
+  border-color: transparent;
+  text-transform: capitalize;
+  font-size: 1rem;
+  max-height: 40px;
+  min-height: 40px;
+  cursor: pointer;
+
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  min-width: 85px;
+  max-width: 350px;
+}
+
+#intro-title {
+  color: white;
+  font-weight: bold;
+  font-size: 40px;
+  text-align: center;
+}
+
+#intro-subtitle {
+  margin-top: 20px;
+  color: rgb(237, 237, 237);
+  font-size: 26px;
+  text-align: center;
+}
+
+#intro-back-button {
+  display: block;
+  background: rgb(185, 13, 73);
+  color: rgb(255, 255, 255);
+  padding: 0.25rem 0.75rem;
+  border-radius: 5px;
+  border-color: transparent;
+  text-transform: capitalize;
+  font-size: 1rem;
+  max-height: 40px;
+  min-height: 40px;
+  cursor: pointer;
+
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  min-width: 85px;
+  max-width: 350px;
+}
+
+#left-intro {
+  height: 100%;
+  width: 100%;
+
+  background-color: rgb(141, 233, 236);
+  background-image: linear-gradient(
+    to bottom,
+    rgb(208, 12, 87),
+    rgb(153, 0, 130)
+  );
+  font-size: 40px;
+  text-align: center;
+  color: cornsilk;
+}
+
+@media screen and (max-width: 800px) {
+}

@@ -71,7 +71,7 @@ const SearchField = (props) => {
   // @ts-ignore
   const searchControl = new GeoSearchControl({
     provider: provider,
-    style: 'button',
+    style: 'bar',
     showMarker: true, // optional: true|false  - default true
     // showPopup: false, // optional: true|false  - default false
     marker: {

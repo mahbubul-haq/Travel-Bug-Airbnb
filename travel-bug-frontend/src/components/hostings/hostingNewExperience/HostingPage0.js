@@ -1,29 +1,38 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-import "../cssFiles/HostingPage1.css";
+import HostingIntro from "../../../images/experience-hosting.webp";
+import "../cssFiles/HostingPage0.css";
 import "../cssFiles/HostingPage1Base.css";
 
 const HostingPage1 = (props) => {
+  const navigate = useNavigate();
   return (
     <div id="body">
       <div id="container">
-        <div id="left0">
-          Travel Bug is an amazing place to Host
-          <div id="left00">You can host anything, anywhere!</div>
+        <div id="left-intro">
+          <img id="hosting-intro-img" src={HostingIntro} alt="Hosting Intro" />
         </div>
 
         <div id="right">
-          <div id="top"></div>
+          <div id="top-intro"></div>
 
-          <div id="middle"></div>
+          <div id="middle-intro">
+            <div>
+              <div id="intro-title">Travel Bug is an amazing place to Host</div>
+              <div id="intro-subtitle">Host your experience with us!</div>
+            </div>
+          </div>
 
-          <div id="bottom">
-            <button id="backButton" onClick={props.prevPage}>
-              Back
+          <div id="bottom-intro">
+            <button id="intro-back-button" onClick={() => {
+               navigate("/");
+            }}>
+              Exit
             </button>
 
-            <button id="nextButton" onClick={props.nextPage}>
-              Next
+            <button id="lets-go-button" onClick={props.nextPage}>
+              Let's start!
             </button>
           </div>
         </div>

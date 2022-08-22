@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import HostingActivities from "./hostingNewExperience/HostingActivities";
 import HostingCheckEverything from "./hostingNewExperience/HostingCheckEverything";
 import HostingComplete from "./hostingNewExperience/HostingComplete";
 import HostingGuestRequirements from "./hostingNewExperience/HostingGuestRequirements";
 
+import userContext from "../../context/user/userContext";
+import "./cssFiles/HostingPage1Base.css";
+import HostingError from "./hostingNewExperience/HostingError";
 import HostingPage0 from "./hostingNewExperience/HostingPage0";
 import HostingPage1 from "./hostingNewExperience/HostingPage1";
 import HostingPage2 from "./hostingNewExperience/HostingPage2";
@@ -34,6 +38,11 @@ const Hostings = () => {
   const [draft, setDraft] = useState(false);
   const [individual, setIndividual] = useState("individual");
   const [activities, setActivities] = useState([]);
+  const [experienceId, setExperienceId] = useState(null);
+
+  const context = useContext(userContext);
+  const { user, getUser } = context;
+  let navigate = useNavigate();
 
   useEffect(() => {
     console.log(pageNo);
@@ -56,6 +65,112 @@ const Hostings = () => {
     console.log(activities);
     if (location) console.log(typeof location.x);
   });
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      getUser();
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log(user);
+    if (!Array.isArray(user)) {
+      console.log(user._id);
+      const response = async () => {
+        const result = await fetch(
+          `http://localhost:5000/experience/hostid/${user._id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "auth-token": localStorage.getItem("token"),
+            },
+          }
+        );
+        const data = await result.json();
+        console.log("here bro", data);
+
+        if (data.length == 0) return;
+        if (data[0].categories.length > 0) {
+          setSelectedCategory({
+            category: data[0].categories[0].categoryName,
+            id: data[0].categories[0]._id,
+          });
+        }
+        if (data[0].subCategories.length > 0) {
+          setSelectedSubCategory({
+            subCategoryName: data[0].subCategories[0].subCategoryName,
+            id: data[0].subCategories[0]._id,
+            categoryName: data[0].categories[0].categoryName,
+          });
+        }
+        if (data[0].location !== null) {
+          setLocation({
+            x: data[0].location.longitude,
+            y: data[0].location.latitude,
+            label: data[0].location.address,
+            id: data[0].location._id,
+          });
+        }
+        setDescription(data[0].description);
+        setHostingDuration(data[0].hostingDuration);
+        setDayTimeSlot(data[0].hostAvailability);
+        setSelectedImages(data[0].hostingPhotos);
+        setTitle(data[0].hostingTitle);
+        setMinAgeRequirement(data[0].minAge);
+        setMaxGroupSize(data[0].maxGroupSize);
+        setItemsToBring(data[0].itemsToBring[0]);
+        setAdditionalRequirements(data[0].additionalRequirements[0]);
+        setTotalCost(data[0].totalCost);
+        setPartialPayAllowed(data[0].partialPayAllowed);
+        setMaxRefundDays(data[0].maxRefundDays);
+        //setDraft(data[0].draft);
+        setIndividual(data[0].individualOrTeam);
+        setActivities(() => {
+          return data[0].activities.map((current_activity) => {
+            return {
+              title: current_activity.activityTitle,
+              dayTimeSlot: current_activity.dayTimeSlots,
+              duration: current_activity.activityDuration,
+              activityCost: current_activity.activityCost,
+              additionalRequirements:
+                current_activity.additionalRequirements[0],
+              hostingId: current_activity.hostingId,
+              _id: current_activity._id,
+            };
+          });
+        });
+        setExperienceId(data[0]._id);
+      };
+
+      response().catch((err) => console.log(err));
+    }
+  }, [user]);
+
+  useEffect(() => {
+    console.log("experience Id");
+    if (experienceId !== null) {
+      if (selectedCategory === null) {
+        setPageNo(1);
+      } else if (selectedSubCategory === null) {
+        setPageNo(2);
+      } else if (location === null) {
+        setPageNo(3);
+      } else if (description === null) {
+        setPageNo(4);
+      } else {
+        setPageNo(5);
+      }
+    }
+  }, [experienceId]);
+
+  useEffect(() => {
+    console.log("draft outside");
+    if (draft) {
+      console.log("draft");
+      publishHosting();
+    }
+  }, [draft]);
 
   const publishActivity = async (experienceId, activity) => {
     console.log("publishActivity");
@@ -80,8 +195,14 @@ const Hostings = () => {
       const data = await response.json();
       console.log("activity", data);
     } catch (err) {
+    
       console.log(err);
     }
+  };
+
+  const saveAndExit = () => {
+    console.log("saveAndExit");
+    setDraft(true);
   };
 
   const publishHosting = async () => {
@@ -111,6 +232,7 @@ const Hostings = () => {
           hostingPhotos: selectedImages,
           hostingDate: new Date(),
           individualOrTeam: individual,
+          id: experienceId,
         }),
       });
       const json = await response.json();
@@ -123,12 +245,18 @@ const Hostings = () => {
           publishActivity(json.experienceHosting._id, activities[i]);
         }
 
-        setPageNo(12);
+        if (draft) {
+          navigate("/");
+        } else {
+          setPageNo(12);
+        }
       } else {
         console.log("failure tut");
+        setPageNo(13);
       }
     } catch (error) {
       console.log("error fetch");
+      setPageNo(13);
     }
   };
 
@@ -275,6 +403,8 @@ const Hostings = () => {
 
   const setlocation = (val) => {
     setLocation(val);
+    if (location !== null)
+        delete location.id;
   };
 
   const selectSubCategory = (category) => {
@@ -299,214 +429,271 @@ const Hostings = () => {
   };
 
   //console.log(pageNo);
-  if (pageNo == 1) {
+  const getPage = () => {
+    if (pageNo == 1) {
+      return (
+        <div>
+          <HostingPage1
+            saveAndExit={() => {
+              saveAndExit();
+            }}
+            nextPage={nextPage}
+            prevPage={prevPage}
+            selectCategory={(category) => {
+              selectCategory(category);
+            }}
+            selectedCategory={() => selectedCategory}
+          />
+        </div>
+      );
+    } else if (pageNo == 2) {
+      return (
+        <div>
+          <HostingPage2
+            saveAndExit={() => {
+              saveAndExit();
+            }}
+            nextPage={nextPage}
+            prevPage={prevPage}
+            selectSubCategory={(category) => {
+              selectSubCategory(category);
+            }}
+            selectedCategory={() => selectedCategory}
+            selectedSubCategory={() => selectedSubCategory}
+          />
+        </div>
+      );
+    } else if (pageNo == 3) {
+      return (
+        <div>
+          <HostingPage3
+            saveAndExit={() => {
+              saveAndExit();
+            }}
+            nextPage={nextPage}
+            prevPage={prevPage}
+            setLocation={(loc) => {
+              setlocation(loc);
+            }}
+            location={() => location}
+          />
+        </div>
+      );
+    } else if (pageNo == 4) {
+      return (
+        <div>
+          <HostingPage4
+            saveAndExit={() => {
+              saveAndExit();
+            }}
+            nextPage={nextPage}
+            prevPage={prevPage}
+            setDescription={(desc) => {
+              setdescription(desc);
+            }}
+            description={() => description}
+          />
+        </div>
+      );
+    } else if (pageNo == 5) {
+      return (
+        <div>
+          <HostingPage5
+            saveAndExit={() => {
+              saveAndExit();
+            }}
+            nextPage={nextPage}
+            prevPage={prevPage}
+            setHostingDurationDays={(flag) => {
+              setHostingDurationDays(flag);
+            }}
+            setHostingDurationHours={(flag) => {
+              setHostingDurationHours(flag);
+            }}
+            setDayTimeSlotStart={(flag) => {
+              setDayTimeSlotStart(flag);
+            }}
+            setDayTimeSlotEnd={(flag) => {
+              setDayTimeSlotEnd(flag);
+            }}
+            hostingDuration={() => hostingDuration}
+            dayTimeSlot={() => dayTimeSlot}
+          />
+        </div>
+      );
+    } else if (pageNo == 6) {
+      return (
+        <div>
+          <HostingPhotoUpload
+            saveAndExit={() => {
+              saveAndExit();
+            }}
+            nextPage={nextPage}
+            prevPage={prevPage}
+            setDescription={(desc) => {
+              setdescription(desc);
+            }}
+            description={() => description}
+            images={() => selectedImages}
+            setSelectedImages={(image) => {
+              setselectedImages(image);
+            }}
+            deleteImage={(image) => {
+              deleteImage(image);
+            }}
+          />
+        </div>
+      );
+    } else if (pageNo == 7) {
+      return (
+        <div>
+          <HostingTitle
+            saveAndExit={() => {
+              saveAndExit();
+            }}
+            nextPage={nextPage}
+            prevPage={prevPage}
+            setTitle={(title) => {
+              settitle(title);
+            }}
+            title={() => title}
+          />
+        </div>
+      );
+    } else if (pageNo == 8) {
+      return (
+        <div>
+          <HostingGuestRequirements
+            saveAndExit={() => {
+              saveAndExit();
+            }}
+            nextPage={nextPage}
+            prevPage={prevPage}
+            setMinAgeRequirement={(age) => {
+              setminAgeRequirement(age);
+            }}
+            setMaxGroupSize={(size) => {
+              setmaxGroupSize(size);
+            }}
+            setItemsToBring={(items) => {
+              setitemsToBring(items);
+            }}
+            setAdditionalRequirements={(addReq) => {
+              setadditionalRequirements(addReq);
+            }}
+            maxGroupSize={() => maxGroupSize}
+            minAgeRequirement={() => minAgeRequirement}
+            itemsToBring={() => itemsToBring}
+            additionalRequirements={() => additionalRequirements}
+          />
+        </div>
+      );
+    } else if (pageNo == 9) {
+      return (
+        <div>
+          <HostingPricing
+            saveAndExit={() => {
+              saveAndExit();
+            }}
+            nextPage={nextPage}
+            prevPage={prevPage}
+            setTotalCost={(cost, flag) => {
+              settotalCost(cost, flag);
+            }}
+            totalCost={() => totalCost}
+            setPartialPayAllowed={(flag) => {
+              setpartialPayAllowed(flag);
+            }}
+            partialPayAllowed={() => partialPayAllowed}
+            setIndividual={() => {
+              setindividual();
+            }}
+            individual={() => individual}
+            maxRefundDays={() => maxRefundDays}
+            setMaxRefundDays={(flag) => {
+              setmaxRefundDays(flag);
+            }}
+          />
+        </div>
+      );
+    } else if (pageNo == 10) {
+      return (
+        <div>
+          <HostingActivities
+            saveAndExit={() => {
+              saveAndExit();
+            }}
+            nextPage={nextPage}
+            prevPage={prevPage}
+            activities={() => activities}
+            setActivities={(act) => {
+              setactivities(act);
+            }}
+            removeActivity={(title) => {
+              removeActivity(title);
+            }}
+          />
+        </div>
+      );
+    } else if (pageNo == 11) {
+      return (
+        <div>
+          <HostingCheckEverything
+            nextPage={nextPage}
+            prevPage={prevPage}
+            maxGroupSize={() => maxGroupSize}
+            totalCost={() => totalCost}
+            minAgeRequirement={() => minAgeRequirement}
+            location={() => location}
+            description={() => description}
+            title={() => title}
+            image={() => selectedImages[0]}
+            itemsToBring={() => itemsToBring}
+            category={() => selectedCategory}
+            publishHosting={() => {
+              publishHosting();
+            }}
+            user = {() => user}
+            activities={() => activities}
+          />
+        </div>
+      );
+    } else if (pageNo == 12) {
+      return (
+        <div>
+          <HostingComplete nextPage={nextPage} prevPage={prevPage} />
+        </div>
+      );
+    }
+    else if (pageNo == 13)
+    {
+      return (
+        <div>
+          <HostingError/>
+        </div>
+      )
+    }
+
     return (
       <div>
-        <HostingPage1
-          nextPage={nextPage}
-          prevPage={prevPage}
-          selectCategory={(category) => {
-            selectCategory(category);
-          }}
-          selectedCategory={() => selectedCategory}
-        />
+        <HostingPage0 nextPage={nextPage} prevPage={prevPage} />
       </div>
     );
-  } else if (pageNo == 2) {
-    return (
-      <div>
-        <HostingPage2
-          nextPage={nextPage}
-          prevPage={prevPage}
-          selectSubCategory={(category) => {
-            selectSubCategory(category);
-          }}
-          selectedCategory={() => selectedCategory}
-          selectedSubCategory={() => selectedSubCategory}
-        />
-      </div>
-    );
-  } else if (pageNo == 3) {
-    return (
-      <div>
-        <HostingPage3
-          nextPage={nextPage}
-          prevPage={prevPage}
-          setLocation={(loc) => {
-            setlocation(loc);
-          }}
-          location={() => location}
-        />
-      </div>
-    );
-  } else if (pageNo == 4) {
-    return (
-      <div>
-        <HostingPage4
-          nextPage={nextPage}
-          prevPage={prevPage}
-          setDescription={(desc) => {
-            setdescription(desc);
-          }}
-          description={() => description}
-        />
-      </div>
-    );
-  } else if (pageNo == 5) {
-    return (
-      <div>
-        <HostingPage5
-          nextPage={nextPage}
-          prevPage={prevPage}
-          setHostingDurationDays={(flag) => {
-            setHostingDurationDays(flag);
-          }}
-          setHostingDurationHours={(flag) => {
-            setHostingDurationHours(flag);
-          }}
-          setDayTimeSlotStart={(flag) => {
-            setDayTimeSlotStart(flag);
-          }}
-          setDayTimeSlotEnd={(flag) => {
-            setDayTimeSlotEnd(flag);
-          }}
-          hostingDuration={() => hostingDuration}
-          dayTimeSlot={() => dayTimeSlot}
-        />
-      </div>
-    );
-  } else if (pageNo == 6) {
-    return (
-      <div>
-        <HostingPhotoUpload
-          nextPage={nextPage}
-          prevPage={prevPage}
-          setDescription={(desc) => {
-            setdescription(desc);
-          }}
-          description={() => description}
-          images={() => selectedImages}
-          setSelectedImages={(image) => {
-            setselectedImages(image);
-          }}
-          deleteImage={(image) => {
-            deleteImage(image);
-          }}
-        />
-      </div>
-    );
-  } else if (pageNo == 7) {
-    return (
-      <div>
-        <HostingTitle
-          nextPage={nextPage}
-          prevPage={prevPage}
-          setTitle={(title) => {
-            settitle(title);
-          }}
-          title={() => title}
-        />
-      </div>
-    );
-  } else if (pageNo == 8) {
-    return (
-      <div>
-        <HostingGuestRequirements
-          nextPage={nextPage}
-          prevPage={prevPage}
-          setMinAgeRequirement={(age) => {
-            setminAgeRequirement(age);
-          }}
-          setMaxGroupSize={(size) => {
-            setmaxGroupSize(size);
-          }}
-          setItemsToBring={(items) => {
-            setitemsToBring(items);
-          }}
-          setAdditionalRequirements={(addReq) => {
-            setadditionalRequirements(addReq);
-          }}
-          maxGroupSize={() => maxGroupSize}
-          minAgeRequirement={() => minAgeRequirement}
-          itemsToBring={() => itemsToBring}
-          additionalRequirements={() => additionalRequirements}
-        />
-      </div>
-    );
-  } else if (pageNo == 9) {
-    return (
-      <div>
-        <HostingPricing
-          nextPage={nextPage}
-          prevPage={prevPage}
-          setTotalCost={(cost, flag) => {
-            settotalCost(cost, flag);
-          }}
-          totalCost={() => totalCost}
-          setPartialPayAllowed={(flag) => {
-            setpartialPayAllowed(flag);
-          }}
-          partialPayAllowed={() => partialPayAllowed}
-          setIndividual={() => {
-            setindividual();
-          }}
-          individual={() => individual}
-          maxRefundDays={() => maxRefundDays}
-          setMaxRefundDays={(flag) => {
-            setmaxRefundDays(flag);
-          }}
-        />
-      </div>
-    );
-  } else if (pageNo == 10) {
-    return (
-      <div>
-        <HostingActivities
-          nextPage={nextPage}
-          prevPage={prevPage}
-          activities={() => activities}
-          setActivities={(act) => {
-            setactivities(act);
-          }}
-          removeActivity={(title) => {
-            removeActivity(title);
-          }}
-        />
-      </div>
-    );
-  } else if (pageNo == 11) {
-    return (
-      <div>
-        <HostingCheckEverything
-          nextPage={nextPage}
-          prevPage={prevPage}
-          maxGroupSize={() => maxGroupSize}
-          totalCost={() => totalCost}
-          minAgeRequirement={() => minAgeRequirement}
-          location={() => location}
-          description={() => description}
-          title={() => title}
-          image={() => selectedImages[0]}
-          itemsToBring={() => itemsToBring}
-          category={() => selectCategory}
-          publishHosting={() => {
-            publishHosting();
-          }}
-        />
-      </div>
-    );
-  } else if (pageNo == 12) {
-    return (
-      <div>
-        <HostingComplete nextPage={nextPage} prevPage={prevPage} />
-      </div>
-    );
-  }
+  };
+
+  const getProgressBar = () => {
+    if (pageNo > 0 && pageNo <= 11) {
+      var width = (pageNo / 22) * 100;
+      width = width + "%";
+      return <hr id="progress-bar" style={{ width: width }} />;
+    }
+  };
 
   return (
-    <div>
-      <HostingPage0 nextPage={nextPage} prevPage={prevPage} />
-    </div>
+    <>
+      {getProgressBar()}
+      {getPage()}
+    </>
   );
 };
 
