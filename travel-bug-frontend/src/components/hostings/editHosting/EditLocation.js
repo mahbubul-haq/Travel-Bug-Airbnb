@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
-import "./CustomMap.css";
-import EditLocationMap from "./EditLocationMap";
+import "../cssFiles/HostingPage3.css";
+import MyMap from "../hostingNewExperience/Map/HostingMap";
 
 function distance(lat1, lon1, lat2, lon2, unit) {
   var radlat1 = (Math.PI * lat1) / 180;
@@ -43,18 +43,16 @@ const EditLocation = (props) => {
   }, [props.experience().location]);
 
   return (
-    <div>
-      <br></br>
-      <p
-        style={{ marginBottom: "5px", marginLeft: "50px", fontWeight: "bold" }}
-      >
-        Change Location
-      </p>
-      <br></br>
-      <EditLocationMap
+    <div id="edit-location">
+      <MyMap
         setLatLong={(val) => {
           console.log("x" in val);
           setExperience(val);
+        }}
+        latLong={{
+          x: props.experience().location.longitude,
+          y: props.experience().location.latitude,
+          label: props.experience().location.address,
         }}
       />
     </div>

@@ -1,5 +1,5 @@
 #middle8 {
-  overflow-y: auto;
+  overflow-y: scroll;
   box-sizing: border-box;
   display: flex;
   align-items: center;

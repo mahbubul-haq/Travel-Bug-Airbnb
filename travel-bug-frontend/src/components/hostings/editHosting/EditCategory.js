@@ -62,9 +62,7 @@ const EditCategory = (props) => {
 
   return (
     <>
-      <br></br>
-      <br></br>
-      <br></br>
+      
       <p style={{ marginBottom: "5px", fontWeight: "bold" }}>
         Select a category
       </p>

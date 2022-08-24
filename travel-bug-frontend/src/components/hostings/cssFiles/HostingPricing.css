@@ -1,5 +1,5 @@
 #middle10 {
-  overflow-y: auto;
+  overflow-y: scroll;
   box-sizing: border-box;
 }
 

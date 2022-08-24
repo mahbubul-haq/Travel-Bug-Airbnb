@@ -4,21 +4,14 @@ import "../cssFiles/EditDuration.css";
 const EditDuration = (props) => {
   return (
     <div id="edit-duration">
-      <br></br>
-      <p
-        style={{ marginBottom: "5px", marginLeft: "50px", fontWeight: "bold" }}
-      >
-        Change values and save
-      </p>
-      <br></br>
       <table id="page5table">
         <tbody>
           <tr>
             <td>
-              Please specify the duration of hosting
+              <span id="text-5">Please specify the duration of hosting</span>
               <br></br>
               <br></br>
-              days:
+              Days
               <div className="increment5">
                 <button
                   className="circular5"
@@ -58,7 +51,7 @@ const EditDuration = (props) => {
           </tr>
           <tr>
             <td>
-              hours:
+              Hours
               <div className="increment5">
                 <button
                   className="circular5"
@@ -100,10 +93,12 @@ const EditDuration = (props) => {
           </tr>
           <tr>
             <td>
-              When are you availabe in a day (for this experience)?
+              <span id="text-5">
+                When are you availabe in a day (for this experience)?
+              </span>
               <br></br>
               <br></br>
-              starts:
+              Starts
               <div className="increment5">
                 <button
                   className="circular5"
@@ -121,7 +116,9 @@ const EditDuration = (props) => {
                 >
                   -
                 </button>
-                <div id="count5">{props.experience().hostAvailability.start}</div>
+                <div id="count5">
+                  {props.experience().hostAvailability.start}
+                </div>
                 <button
                   className="circular5"
                   onClick={() => {
@@ -143,7 +140,7 @@ const EditDuration = (props) => {
           </tr>
           <tr>
             <td>
-              ends:
+              Ends
               <div className="increment5">
                 <button
                   className="circular5"

@@ -117,20 +117,12 @@ const EditPhotos = (props) => {
   };
 
   return (
-    <div>
-      <br></br>
-      <p
-        style={{ marginBottom: "5px", marginLeft: "50px", fontWeight: "bold" }}
-      >
-        Edit Photos
-      </p>
-      <br></br>
-      <div id="addPhoto7">
+      <div id="addPhoto7-edit">
         <div id="dummy7"></div>
         <div id="upper7">
-          <div id="dragPhoto7">Upload your photos</div>
+          <div id="dragPhoto7">Change photos</div>
 
-          <div id="smallText7">Add at least 5 photos</div>
+          <div id="smallText7">At least 5 photos</div>
           <label htmlFor="uploadPhoto7" id="labelUploadPhoto7" className="btn">
             Upload Image
           </label>
@@ -174,7 +166,6 @@ const EditPhotos = (props) => {
           </label>
         </div>
       </div>
-    </div>
   );
 };
 

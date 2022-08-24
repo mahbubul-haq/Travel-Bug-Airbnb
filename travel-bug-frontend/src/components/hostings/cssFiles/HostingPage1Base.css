@@ -11,6 +11,9 @@
 }
 
 #container {
+  z-index: 10;
+  position: absolute;
+  top: 0;
   height: 100vh;
   padding: 0px;
   margin: 0px;

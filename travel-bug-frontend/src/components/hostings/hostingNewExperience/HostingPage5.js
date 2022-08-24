@@ -22,7 +22,9 @@ const HostingPage5 = (props) => {
               <tbody>
                 <tr>
                   <td>
-                    <span id="text-5">Please specify the duration of hosting</span>
+                    <span id="text-5">
+                      Please specify the duration of hosting
+                    </span>
                     <br></br>
                     <br></br>
                     Days

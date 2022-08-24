@@ -34,6 +34,8 @@ input::-webkit-inner-spin-button {
 }
 
 .activity-input {
+  position: absolute;
+  top: 0;
   width: 100%;
   height: 100vh;
   background-color: rgba(9, 9, 9, 0.7);
@@ -44,6 +46,23 @@ input::-webkit-inner-spin-button {
   z-index: 1000000;
   position: absolute;
   overflow: hidden;
+  left: 0;
+}
+
+.activity-input-edit {
+  position: absolute;
+  top: 0;
+  width: 80%;
+  height: 100vh;
+  background-color: rgba(9, 9, 9, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1000000;
+  position: absolute;
+  overflow: hidden;
+  left: 20%;
 }
 .activity-alignment {
   display: grid;
@@ -70,19 +89,45 @@ input::-webkit-inner-spin-button {
   -ms-animation: moveIn 0.5s;
 }
 
+.activity-alignment-edit {
+  display: grid;
+  grid-template-rows: 40px auto 70px;
+  grid-template-columns: 100%;
+  width: 600px;
+  height: 75%;
+  overflow-y: hidden;
+  opacity: 1;
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  padding-bottom: 0px;
+
+  animation: fadeIn 1s;
+  -webkit-animation: fadeIn 1s;
+  -moz-animation: fadeIn 1s;
+  -o-animation: fadeIn 1s;
+  -ms-animation: fadeIn 1s;
+  animation: moveIn 0.5s;
+  -webkit-animation: moveIn 0.5s;
+  -moz-animation: moveIn 0.5s;
+  -o-animation: moveIn 0.5s;
+  -ms-animation: moveIn 0.5s;
+}
+
 #activity-input-header {
   font-weight: bold;
 }
 
 #activity-inputs {
   overflow-y: auto;
-  padding-top: 30px;
+  padding-top: 0px;
   padding-bottom: 30px;
   padding-left: 30px;
   padding-right: 30px;
 }
 
-.activity-input label {
+.activity-input label,
+.activity-input-edit label {
   display: block;
   margin-bottom: 10px;
   font-size: 80%;
@@ -90,7 +135,8 @@ input::-webkit-inner-spin-button {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
-.activity-input input {
+.activity-input input,
+.activity-input-edit input {
   display: block;
   width: 100%;
   padding: 5px;
@@ -197,6 +243,18 @@ input::-webkit-inner-spin-button {
 
 .div-activities {
   width: 85%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px 20px 30px;
+  border-radius: 10px;
+  border: 1.5px solid rgb(176, 176, 176);
+  background-color: rgb(255, 255, 255);
+  margin-bottom: 20px;
+}
+
+.div-activities-edit {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;

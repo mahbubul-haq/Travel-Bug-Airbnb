@@ -18,6 +18,7 @@
 .card_title11 > h1 {
   font-size: 30px;
   margin-bottom: 30px;
+  overflow-wrap: anywhere;
 }
 .card_text11 {
   padding-bottom: 0;
@@ -38,10 +39,13 @@
 
 .card_owner11 {
   font-size: 140%;
+  overflow-wrap: anywhere;
 }
 
 .card_description11 {
   font-size: 80%;
+  width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .card_facilities11 > h3 {

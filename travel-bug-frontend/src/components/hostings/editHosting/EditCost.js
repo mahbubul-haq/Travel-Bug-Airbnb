@@ -1,5 +1,4 @@
-import React from "react";
-import {useEffect} from "react"
+import React, { useEffect } from "react";
 import "../cssFiles/EditCost.css";
 
 
@@ -26,11 +25,6 @@ const EditCost = (props) => {
 
   return (
     <div>
-      <br></br>
-      <p style={{ marginBottom: "5px", marginLeft: "50px", fontWeight: "bold" }}>
-        Change values and save
-      </p>
-            <br></br>
 
       <div id="edit-price10">
         <button

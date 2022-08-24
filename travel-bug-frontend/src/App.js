@@ -20,6 +20,7 @@ import Listings from "./components/hostings/ManagementDashboard/Listings";
 import ManagementHome from "./components/hostings/ManagementDashboard/ManagementHome";
 import Conversation from "./components/messages/Conversation";
 import Messages from "./components/messages/Messages";
+import Nav from "./components/nav/Nav";
 import Notifications from "./components/notifications/Notifications";
 import TransportGuidelines from "./components/transportguidelines/TransportGuidelines";
 import ReservationState from "./context/booking/ReservationState";
@@ -37,7 +38,7 @@ function App() {
             <HostingState>
               <ReservationState>
                 <Router>
-                  {/* <Nav /> */}
+                  <Nav/>
                   <div>
                     <Routes>
                       <Route exact path="/" element={<Home />} />

@@ -1,4 +1,4 @@
-#addPhoto7 {
+#addPhoto7-edit {
   text-align: center;
   display: grid;
   grid-template-columns: 100%;
@@ -13,6 +13,7 @@
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 10px;
+  /* border: 10px solid black; */
 }
 
 #dummy7 {

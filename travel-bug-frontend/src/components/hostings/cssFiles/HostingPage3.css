@@ -7,6 +7,17 @@
   overflow-x: hidden;
 }
 
+#edit-location {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-y: hidden;
+  padding-top: 0px;
+  overflow-x: hidden;
+  height: 400px;
+  width: 500px;
+}
+
 @media screen and (max-width: 800px) {
 }
 
