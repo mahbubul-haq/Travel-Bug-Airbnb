@@ -179,6 +179,84 @@
   grid-template-rows: 100%;
 }
 
+#confirm-delete {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  left: 0px;
+  top: 0px;
+  bottom: 0px;
+  right: 0;
+  background-color: rgba(9, 9, 9, 0.7);
+  z-index: 1000;
+  display: none;
+}
+
+#confirm-middle {
+  margin: auto;
+  height: 150px;
+  width: 400px;
+  background-color: white;
+  border-radius: 4px;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 50% 50%;
+  row-gap: 5px;
+  column-gap: 20px;
+  text-align: center;
+  justify-content: center;
+}
+
+#confirm-message {
+  grid-column: 1 / 3;
+  grid-row: 1 / 1;
+  font-weight: bold;
+}
+
+#confirm-button,
+#confirm-cancel {
+  grid-column: 1 / 2;
+  grid-row: 2 / 2;
+  margin: 5px 50px 15px 50px;
+  border: 1.5px solid gray;
+  border-radius: 2px;
+  background-color: rgb(26, 67, 202);
+  color: white;
+}
+
+#confirm-cancel {
+  grid-column: 2 / 3;
+  grid-row: 2 / 2;
+}
+
+#delete-wrapper {
+  position: absolute;
+  background-color: rgb(12, 8, 46);
+  height: 60px;
+  width: 20%;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  padding-left: 25px;
+}
+
+#delete-button {
+  padding: 6px 20px 6px 20px;
+  /* border: 1.5px solid red; */
+  background-color: rgb(222, 47, 47);
+  color: white;
+  align-self: center;
+  justify-self: flex-start;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#delete-button:hover {
+  background-color: red;
+}
+
 #edit-container-left {
   background-color: rgb(12, 8, 46);
   width: 100%;

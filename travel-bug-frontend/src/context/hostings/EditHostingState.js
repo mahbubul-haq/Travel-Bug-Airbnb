@@ -54,8 +54,8 @@ const EditHostingState = (props) => {
     setAllCategories(data);
   };
 
-  const updateValue = async (obj) => {
-    const response = await fetch(`${host}/host/experience/update/${hostingId}`, {
+  const updateValue = async (obj, id) => {
+    const response = await fetch(`${host}/host/experience/update/${id}`, {
         method: "POST",
         headers: {
             "auth-token": localStorage.getItem("token"),

@@ -26,7 +26,7 @@ const HostingPage1 = (props) => {
 
           <div id="bottom-intro">
             <button id="intro-back-button" onClick={() => {
-               navigate("/");
+               navigate("/hostings");
             }}>
               Exit
             </button>

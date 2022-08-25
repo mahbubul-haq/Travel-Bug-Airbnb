@@ -8,7 +8,7 @@ const HostingActivities = (props) => {
   const [dayTimeSlot, setDayTimeSlot] = useState({ start: 9, end: 17 });
   const [duration, setDuration] = useState({ days: 1, hours: 0 });
   const [activityCost, setActivityCost] = useState(10);
-  const [additionalRequiremnents, setAdditionalRequiremnents] = useState("");
+  const [additionalRequirements, setAdditionalRequirements] = useState("");
   const [isNewActivity, setIsNewActivity] = useState(false);
   const [index, setIndex] = useState(-1);
   const [_id, setId] = useState(null);
@@ -24,7 +24,7 @@ const HostingActivities = (props) => {
         dayTimeSlot,
         duration,
         activityCost,
-        additionalRequiremnents,
+        additionalRequirements,
         _id,
       };
       return;
@@ -36,7 +36,7 @@ const HostingActivities = (props) => {
       dayTimeSlot,
       duration,
       activityCost,
-      additionalRequiremnents,
+      additionalRequirements,
     });
     
   };
@@ -45,7 +45,7 @@ const HostingActivities = (props) => {
     setDayTimeSlot({ start: 9, end: 17 });
     setDuration({ days: 1, hours: 0 });
     setActivityCost(10);
-    setAdditionalRequiremnents("");
+    setAdditionalRequirements("");
     setIndex(-1);
     setId(null);
   };
@@ -56,7 +56,7 @@ const HostingActivities = (props) => {
       setDayTimeSlot(props.activities()[index].dayTimeSlot);
       setDuration(props.activities()[index].duration);
       setActivityCost(props.activities()[index].activityCost);
-      setAdditionalRequiremnents(props.activities()[index].additionalRequiremnents);
+      setAdditionalRequirements(props.activities()[index].additionalRequirements);
       setId(props.activities()[index]._id);
     }
   } , [index]);
@@ -192,8 +192,8 @@ const HostingActivities = (props) => {
                   type="text"
                   id="activity-requirements"
                   placeholder="write description here..."
-                  value={additionalRequiremnents}
-                  onChange={(e) => setAdditionalRequiremnents(e.target.value)}
+                  value={additionalRequirements}
+                  onChange={(e) => setAdditionalRequirements(e.target.value)}
                 />
               </div>
               <div id="new-activity-bottom">
