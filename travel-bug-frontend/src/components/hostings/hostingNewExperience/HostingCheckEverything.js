@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import CheckBeforePublishingCard from "./CheckBeforePublishingCard";
 
@@ -7,6 +7,9 @@ import "../cssFiles/HostingCheckEverything.css";
 import "../cssFiles/HostingPage1Base.css";
 
 const HostingCheckEverything = (props) => {
+
+  const navigate = useNavigate();
+
   return (
     <div id="body">
       <div id="container">
@@ -15,9 +18,9 @@ const HostingCheckEverything = (props) => {
           <div id="top">
             {/* <button id="saveAndExit" onClick={props.saveAndExit()}>Save and Exit</button> */}
 
-            <Link to="/host/home">
-              <button id="saveAndExit">Exit</button>
-            </Link>
+            <button id="saveAndExit" style={{width: "70px"}}onClick={() => navigate("/hostings")}>
+              Exit
+            </button>
           </div>
 
           <div id="middle11">
@@ -35,8 +38,8 @@ const HostingCheckEverything = (props) => {
                   description={props.description()}
                   category={props.category().category}
                   location={props.location()}
-                  user = {props.user()}
-                  activities = {props.activities()}
+                  user={props.user()}
+                  activities={props.activities()}
                 />
               </div>
             </div>

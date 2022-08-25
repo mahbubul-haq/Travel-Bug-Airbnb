@@ -141,6 +141,7 @@ function MyMap(props) {
   return (
     <MapContainer
       center={
+  
         props.latLong !== null
           ? { lat: props.latLong.y, lng: props.latLong.x }
           : center

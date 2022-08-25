@@ -246,7 +246,7 @@ const Hostings = () => {
         }
 
         if (draft) {
-          navigate("/");
+          navigate("/hostings");
         } else {
           setPageNo(12);
         }

@@ -39,6 +39,7 @@ const HostingGuestRequirements = (props) => {
                       onChange={(event) => {
                         props.setMinAgeRequirement(event.target.value);
                       }}
+                      value={props.minAgeRequirement()}
                     >
                       {ages.map((age) => {
                         return (
@@ -68,6 +69,7 @@ const HostingGuestRequirements = (props) => {
                       onChange={(event) => {
                         props.setMaxGroupSize(event.target.value);
                       }}
+                      value={props.maxGroupSize()}
                     >
                       {group_sizes.map((size) => {
                         return (
