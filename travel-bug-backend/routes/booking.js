@@ -46,4 +46,26 @@ router.post('/', fetchuser, async (req, res) => {
         });
     }
 });
+
+// ROUTE 2 Get Booking : GET "booking/all". Login  required
+router.get('/all', fetchuser, async (req, res) => {
+    var success = false;
+    try {
+        //get all bookings
+        const bookings = await Booking.find({ host: req.user.id });
+        success = true;
+        res.json({
+            success: success,
+            bookings: bookings,
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({
+            success: success,
+            error: "Bookings not found."
+        });
+    }
+});
+
+
 module.exports = router;

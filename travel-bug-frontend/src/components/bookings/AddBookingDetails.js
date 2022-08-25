@@ -15,11 +15,27 @@ const AddBookingDetails = () => {
     const { user, getUser } = context1;
   const [ show, setShow ] = useState(false);
   const [activities, setActivities] = useState([]);
+  const [experience, setExperience] = useState([]);
+
+  const getExperience = async () => {
+    const res = await fetch(`http://localhost:5000/experience/hostingid/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": localStorage.getItem("token"),
+      },
+    });
+
+    const data = await res.json();
+    console.log(data);
+    setExperience(data);
+  }
+
   useEffect(() => {
 
     fetchActivities();
     setReservation({ ...reservation, hostingID: id ,user:user._id});
-    
+    getExperience();
 
 
   }, []);
@@ -47,7 +63,7 @@ const AddBookingDetails = () => {
               'Content-Type': 'application/json',
                 'auth-token': localStorage.getItem('token')
             },
-            body: JSON.stringify(reservation)
+            body: JSON.stringify({...reservation, host: experience.host._id})
         });
         const data = await response.json();
         setShow(data.success);

@@ -74,7 +74,8 @@ const SingleExperience = () => {
         console.log(experience)
         setHost(data.host);
         setActivities(data.activities);
-        setReservation({...reservation,cost:data.totalCost})
+        setReservation({...reservation,cost:data.totalCost});
+        //setReservation({...reservation,host: data.host._id});
         console.log("my something");
         console.log(activities);
 
