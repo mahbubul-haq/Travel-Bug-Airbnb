@@ -1,6 +1,8 @@
 const express = require('express');
 const fetchuser = require("../middleware/fetchUser");
 const Booking =require("../models/Booking");
+const ExperienceHosting =require("../models/ExperienceHosting");
+const Notification =require("../models/Notification");
 router = express.Router();
 
 // ROUTE 1 Post Booking : POST "booking/". Login  required
@@ -17,7 +19,7 @@ router.post('/', fetchuser, async (req, res) => {
         // }
 
         //create boooking
-        console.log(req.body);
+       
         const userId = req.user.id;
         const booking = await Booking.create({
             hostingID: req.body.hostingID,
@@ -30,6 +32,7 @@ router.post('/', fetchuser, async (req, res) => {
             status: req.body.status,
             cost: req.body.cost,
         });
+        
         success = true;
 
         //send a response after creating booking
@@ -47,25 +50,6 @@ router.post('/', fetchuser, async (req, res) => {
     }
 });
 
-// ROUTE 2 Get Booking : GET "booking/all". Login  required
-router.get('/all', fetchuser, async (req, res) => {
-    var success = false;
-    try {
-        //get all bookings
-        const bookings = await Booking.find({ host: req.user.id });
-        success = true;
-        res.json({
-            success: success,
-            bookings: bookings,
-        });
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).json({
-            success: success,
-            error: "Bookings not found."
-        });
-    }
-});
 
 
 module.exports = router;

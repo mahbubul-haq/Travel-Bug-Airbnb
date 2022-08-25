@@ -1,4 +1,5 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+
 import { Navbar, NavbarBrand, NavItem } from 'react-bootstrap';
 import { Link, useNavigate } from "react-router-dom";
 import '../../App.css';
@@ -6,6 +7,40 @@ import userContext from '../../context/user/userContext';
 const Nav = () => {
     const context = useContext(userContext);
     const { user, getUser } = context;
+    //useState for notification count
+    const [notificationCount, setNotificationCount] = useState(0);
+    //find notifcation count
+    const findNotificationCount = async () => {
+        const response = await fetch("http://localhost:5000/booking/notificationcount/", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': localStorage.getItem('token')
+            },
+            body: JSON.stringify({})
+            
+            
+        });
+        const data = await response.json();
+        if(data.success){
+
+        setNotificationCount(data.count);
+        }
+        
+
+    }
+    //update notification count after 30s time interval
+    useEffect(() => {
+        setInterval(() => {
+            if(localStorage.getItem('token'))
+            {
+               
+                findNotificationCount();
+
+            }
+                
+        } , 3000);
+    } , []);
 
     useEffect(() => {
         if (localStorage.getItem('token')) {
@@ -86,7 +121,7 @@ const Nav = () => {
                                         </button>
                                         <ul className="dropdown-menu">
                                             <li><button className="dropdown-item" onClick={handleMessages}>Messages</button></li>
-                                            <li><button className="dropdown-item" onClick={handleNotifications}>Notifications</button></li>
+                                            <li><button className="dropdown-item" onClick={handleNotifications}>Notifications <strong>({notificationCount})</strong></button></li>
                                             <li><button className="dropdown-item" onClick={handleBookings}>Bookings</button></li>
                                             <li><hr className="dropdown-divider" /></li>
                                             <li><button className="dropdown-item" onClick={handleAccount}>Account</button></li>
