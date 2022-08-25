@@ -12,7 +12,7 @@ const HostingTitle = (props) => {
   };
 
   const nextButton = () => {
-    if (props.title() !== null && props.title() !== "") {
+    if (props.title() !== null && props.title().length >= 5) {
       return (
         <button id="nextButton" onClick={() => props.nextPage()}>
           Next

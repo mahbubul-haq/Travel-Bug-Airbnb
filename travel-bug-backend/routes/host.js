@@ -101,17 +101,19 @@ router.post("/", fetchuser, [], async (req, res) => {
     subCategoryIds = subCategoryIds.filter(
       (subCategory) => subCategory !== null
     );
-      console.log("sub ids", subCategoryIds);
+    console.log("sub ids", subCategoryIds);
     //create experience hosting
     var experienceHosting;
 
     if ("id" in req.body && req.body.id !== null) {
-
       const exp = await ExperienceHosting.findById(req.body.id);
       //remove all activities from Activity model
       await Activity.deleteMany({ experienceId: exp._id });
       //remove all activities from experience hosting
-      await ExperienceHosting.updateOne({_id: req.body.id}, {$set: {activities: []}});
+      await ExperienceHosting.updateOne(
+        { _id: req.body.id },
+        { $set: { activities: [] } }
+      );
 
       //update experience hosting if id is provided
       experienceHosting = await ExperienceHosting.findByIdAndUpdate(
@@ -196,7 +198,38 @@ router.get("/all", fetchuser, async (req, res) => {
     const user = await User.findById(userId).select("-password"); //except the password
 
     //get all experience hosting
-    const experienceHosting = await ExperienceHosting.find({ host: userId });
+    const experienceHosting = await ExperienceHosting.find({
+      host: userId,
+      draft: false,
+    }).populate("activities categories subCategories location");
+
+    //send a response after getting experience hosting
+    res.json({
+      experienceHosting: experienceHosting,
+      user: user,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res
+      .status(500)
+      .send("Internal Server Error from get all experience hosting");
+  }
+});
+
+// - Get all exeperience hosting using GET "host/experience/all/draft". Login required
+router.get("/drafts", fetchuser, async (req, res) => {
+  try {
+    //get the user data
+    const userId = req.user.id;
+    const user = await User.findById(userId)
+      .select("-password");
+       //except the password
+
+    //get all experiene hosting
+    const experienceHosting = await ExperienceHosting.find({
+      host: userId,
+      draft: true,
+    }).populate("activities categories subCategories location");
 
     //send a response after getting experience hosting
     res.json({
@@ -348,56 +381,27 @@ router.post("/update/:id", async (req, res) => {
       res.json(experience);
     } else if ("activities" in req.body.obj) {
       //find all activities of the current experience hosting that is in ExperienceHosting.activities
-      const activities = await ExperienceHosting.findById(req.params.id).select(
-        "activities"
+      await Activity.deleteMany({ experienceId: req.params.id });
+      //remove all activities from experience hosting
+      await ExperienceHosting.updateOne(
+        { _id: req.params.id },
+        { $set: { activities: [] } }
       );
-      console.log(activities.activities);
-      //console.log(req.body.obj.activities);
-      //console.log(activities.activities[0], req.body.obj.activities[0]._id);
 
-      const activityIds = req.body.obj.activities
-        .map((activity) => activity._id)
-        .filter((activity) => typeof activity !== "undefined");
-      //console.log(activityIds);
-
-      const activitiesToDelete = [];
-
-      for (var i = 0; i < activities.activities.length; i++) {
-        var found = false;
-        for (var j = 0; j < activityIds.length; j++) {
-          if (
-            activities.activities[i]._id.toString() ===
-            activityIds[j].toString()
-          ) {
-            found = true;
-            break;
-          }
-        }
-        if (!found) {
-          activitiesToDelete.push(activities.activities[i]._id);
-        }
-      }
-
-      console.log("to delete", activitiesToDelete);
-
-      for (var i = 0; i < activitiesToDelete.length; i++) {
-        ///delete activity from activity collection
-        await Activity.deleteOne({ _id: activitiesToDelete[i] });
-      }
+      var activityIds = [];
+      console.log(req.body.obj.activities);
 
       for (var i = 0; i < req.body.obj.activities.length; i++) {
-        if (!("_id" in req.body.obj.activities[i])) {
-          const activity = await Activity.create({
-            activityTitle: req.body.obj.activities[i].activityTitle,
-            dayTimeSlots: req.body.obj.activities[i].dayTimeSlots,
-            activityDuration: req.body.obj.activities[i].activityDuration,
-            activityCost: req.body.obj.activities[i].activityCost,
-            additionalRequirements:
-              req.body.obj.activities[i].additionalRequirements,
-            hostingId: req.params.id,
-          });
-          activityIds.push(activity._id);
-        }
+        const activity = await Activity.create({
+          activityTitle: req.body.obj.activities[i].activityTitle,
+          dayTimeSlots: req.body.obj.activities[i].dayTimeSlots,
+          activityDuration: req.body.obj.activities[i].activityDuration,
+          activityCost: req.body.obj.activities[i].activityCost,
+          additionalRequirements:
+            req.body.obj.activities[i].additionalRequirements,
+          hostingId: req.params.id,
+        });
+        activityIds.push(activity._id);
       }
 
       const experience = await ExperienceHosting.updateOne(
@@ -418,6 +422,25 @@ router.post("/update/:id", async (req, res) => {
     res
       .status(500)
       .send("Internal Server Error from update experience hosting");
+  }
+});
+
+//Method delete delete experience hosting: hostingId
+router.delete("/delete:id", async (req, res) => {
+  try {
+    //delete all activities of the current experience hosting that is in ExperienceHosting.activities
+    await Activity.deleteMany({ experienceId: req.params.id });
+    //remove exeperience hosting from experience hosting
+    await ExperienceHosting.deleteOne({ _id: req.params.id });
+    res.json({
+      message: "Experience hosting deleted",
+      success: true,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res
+      .status(500)
+      .send("Internal Server Error from delete experience hosting");
   }
 });
 

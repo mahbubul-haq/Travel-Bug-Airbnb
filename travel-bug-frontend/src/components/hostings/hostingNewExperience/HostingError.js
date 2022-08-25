@@ -18,7 +18,7 @@ const HostingError = (props) => {
           <button
             id="butt13"
             onClick={() => {
-                navigate("/");
+                navigate("/hostings");
             }}
           >
             Home Page

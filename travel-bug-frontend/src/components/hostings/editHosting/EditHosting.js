@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import editHostingContext from "../../../context/hostings/editHostingContext";
 import "../cssFiles/EditHosting.css";
 import EditActivity from "./EditActivity";
@@ -15,8 +15,9 @@ const EditHosting = (props) => {
   //const {hostingId} = useParams();
   const [edit, setEdit] = useState(false);
   const [editNo, setEditNo] = useState(0);
+  const [hostingId, setHostingId] = useState(null);
   const [experience, setExperience] = useState({
-    hostingTitle: "",
+    hostingTitle: "Title",
     description: "",
     hostingDate: "",
     categories: ["0"],
@@ -36,14 +37,33 @@ const EditHosting = (props) => {
     location: "",
     activities: [],
   });
+
+  const [experienceDocument, setExperienceDocument] = useState({
+    hostingTitle: "Title",
+    description: "",
+    hostingDate: "",
+    categories: ["0"],
+    subCategories: ["0"],
+    totalCost: "",
+    maxGroupSize: "",
+    minAge: "",
+    itemsToBring: [""],
+    hostingDuration: { days: "", hours: "" },
+    hostAvailability: { start: "", end: "" },
+    maxRefundDays: "",
+    partialPayAllowed: "",
+    additionalRequirements: [""],
+    hostingPhotos: [""],
+    draft: "",
+    individualOrTeam: "",
+    location: "",
+    activities: [],
+  });
+
   const context = useContext(editHostingContext);
 
-  console.log(context);
+  //console.log(context);
   const {
-    hostingId,
-    setHostingId,
-    experienceDocument,
-    setExperienceDocument,
     allCategories,
     setAllCategories,
     subCategories,
@@ -52,11 +72,42 @@ const EditHosting = (props) => {
     setSubCategoryId,
     getExperience,
     getCategories,
-    updateValue,
   } = context;
 
   const { expId } = useLocation().state;
-  console.log(expId);
+  console.log('expId', expId);
+
+  const getExperience1 = async () => {
+    const response = await fetch(`http://localhost:5000/experience/hostingid/${hostingId}`, {
+      method: "GET",
+      headers: {
+        "auth-token": localStorage.getItem("token"),
+      },
+    });
+    const data = await response.json();
+    //console.log(data);
+    setExperience(data);
+    setExperienceDocument(data);
+  };
+
+  const updateValue = async (obj) => {
+    const response = await fetch(`http://localhost:5000/host/experience/update/${experience._id}`, {
+      method: "POST",
+      headers: {
+        "auth-token": localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        obj: obj,
+      }),
+    });
+    const data = await response.json();
+    //alert("Successfully updated");
+    //console.log(data);
+    // setExperienceDocument(data);
+    getExperience1();
+  };
+
   //setHostingId(expId);
   useEffect(() => {
     setHostingId(expId);
@@ -66,13 +117,13 @@ const EditHosting = (props) => {
     console.log(expId);
     console.log("hostingId: " + hostingId);
     if (hostingId) {
-      getExperience();
-      setExperience(experienceDocument);
+      getExperience1();
       getCategories();
     }
   }, [hostingId]);
 
   useEffect(() => {
+    console.log('here you go',  hostingId, expId);
     setExperience(experienceDocument);
   }, [experienceDocument]);
 
@@ -629,10 +680,65 @@ const EditHosting = (props) => {
       }
     }
   };
+  const navigate = useNavigate();
+  const deleteHosting = async () => {
+    const response = await fetch(`http://localhost:5000/host/experience/delete${hostingId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": localStorage.getItem("auth-token"),
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    if (data.success) {
+      //navigate("/hostings/listings");
+    }
+    else {
+      console.log("failure to delete");
+    }
+    
+  }
+
+  const navigateListings = () => {
+    navigate("/hostings/listings");
+  }
+
 
   return (
     <>
       {changeNavStyle(editNo)}
+      <div id="confirm-delete">
+        <div id="confirm-middle">
+          <div id="confirm-message">Are you sure you want to delete your hosting?</div>
+          <button id="confirm-button" onClick={ async () => {
+            await deleteHosting();
+            navigateListings();
+          }}>
+            Yes
+          </button>
+          <button
+            id="confirm-cancel"
+            onClick={() => {
+              var element = document.getElementById("confirm-delete");
+              element.style.display = "none";
+            }}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+      <div id="delete-wrapper">
+        <button
+          id="delete-button"
+          onClick={() => {
+            var element = document.getElementById("confirm-delete");
+            element.style.display = "flex";
+          }}
+        >
+          Delete
+        </button>
+      </div>
       <div id="edit-container">
         <div id="edit-container-left">
           <div id="edit-container-left-top">Edit Experience Info Here</div>
