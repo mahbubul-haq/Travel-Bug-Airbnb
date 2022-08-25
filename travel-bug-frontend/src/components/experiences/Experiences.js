@@ -8,32 +8,71 @@ import experienceContext from "../../context/experiences/experienceContext";
 
 const Experiences = () => {
   const context = useContext(experienceContext);
-  const { experiences, getAllExperiences } = context;
+  const { experiences, getAllExperiences, categories, getAllCategories } = context;
 
-  const [search, setSearch] = useState({ location: '', checkin: '', checkout: '', lguests: 0 });
+  const [search, setSearch] = useState({ checkin: '', checkout: '', location: '', hostingTitle:'', lguests: 0, maxCost: 0 });
   const [filteredExperiences, setFilteredExperiences] = useState(experiences);
+
+  const [checkedCategories, setCheckedCategories] = useState([]);
 
 
   useEffect(() => {
     getAllExperiences();
-    console.log("experiences", experiences);
+    getAllCategories();
   }, []);
 
-  const filterExperiences = (val) => {
-    let temp = [];
-    for (let i = 0; i < experiences.length; i++) {
-      if (experiences[i].hostingTitle.toLowerCase().includes(val.toLowerCase())) {
-        temp.push(experiences[i]);
-      }
+  const filterExperiences = async () => {
+    //hostingTitle filter
+    let updatedExperiences = experiences;
+    if (search.hostingTitle !== '') {
+      updatedExperiences = updatedExperiences.filter(experience => experience.hostingTitle.toLowerCase().includes(search.hostingTitle.toLowerCase()));
     }
-    setFilteredExperiences(temp);
+    
+    // category filter
+    if(checkedCategories.length > 0){
+      updatedExperiences = updatedExperiences.filter(experience => {
+        for(let i = 0; i < checkedCategories.length; i++){
+          for(let j = 0; j < experience.categories.length; j++){
+            if(experience.categories[j] === checkedCategories[i]._id){
+              return true;
+            }
+          }
+        }
+        return false;
+      }
+      );
+      console.log("checkedCategories", checkedCategories);
+    }
+
+    //lguests filter
+    if (search.lguests !== 0) {
+      updatedExperiences = updatedExperiences.filter(experience => experience.maxGroupSize >= search.lguests);
+    }
+
+    //maxCost filter
+    if (search.maxCost !== 0) {
+      updatedExperiences = updatedExperiences.filter(experience => experience.totalCost <= search.maxCost);
+    }
+
+    setFilteredExperiences(updatedExperiences);
   }
+
+  useEffect(() => {
+    filterExperiences();
+  } , [search, checkedCategories]);
+
 
   const onChange = (e) => {
     setSearch({ ...search, [e.target.name]: e.target.value });
-    console.log("my search here = ", e.target.value);
-    filterExperiences(e.target.value);
   }
+
+
+  const handleChecked = e => {
+    const category = categories[e.target.dataset.id];
+    let newCheckedCategories = checkedCategories.filter(item => item !== category);
+    if (e.target.checked) newCheckedCategories.push(category);
+    setCheckedCategories(newCheckedCategories);
+  };
 
   const renderPage = (list) => {
     return (
@@ -42,11 +81,11 @@ const Experiences = () => {
           <form action="" method="get">
             <div className="product-search">
               <div className="search-element">
-                <label className="search-label">What is Your Checkin Date?</label>
+                <label className="search-label">Checkin Date?</label>
                 <input className="search-input" type="date" autocomplete="on" name="checkin" />
               </div>
               <div className="search-element">
-                <label className="search-label">What is Your Checkout Date?</label>
+                <label className="search-label">Checkout Date?</label>
                 <input className="search-input" type="date" autocomplete="on" name="checkout" />
               </div>
               <div className="search-element">
@@ -54,16 +93,31 @@ const Experiences = () => {
                 <input className="search-input" type="text" placeholder="Enter Your Location" autocomplete="on" name="location" value={search.location} onChange={onChange} />
               </div>
               <div className="search-element">
+                <label className="search-label">Theme of Experience?</label>
+                <input className="search-input" type="text" placeholder="Enter theme" autocomplete="on" name="hostingTitle" value={search.hostingTitle} onChange={onChange} />
+              </div>
+              <div className="search-element">
                 <label className="search-label">How Many People?</label>
-                <input className="search-input" type="number" placeholder="Enter Your Team Size" autocomplete="on" name="lguests" value={search.lguests} onChange={onChange} />
+                <input className="search-input" type="number" placeholder="Enter team size" autocomplete="on" name="lguests" value={search.lguests} onChange={onChange} />
+              </div>
+              <div className="search-element">
+                <label className="search-label">Maximum Cost</label>
+                <input className="search-input" type="number" placeholder="Enter max cost" autocomplete="on" name="maxCost" value={search.maxCost} onChange={onChange} />
               </div>
               {/* <Button type="submit" className="search-button">Search</Button> */}
             </div>
           </form>
         </div>
+        <div className="container">
+        {categories.map((category, id) => (
+        <label key={id}  className="mx-3">
+          <input type="checkbox" data-id={id} onClick={handleChecked} /> {category.categoryName}
+        </label>
+      ))}
+        </div>
         <br />
         <h2 className="text-center">Experiences</h2>
-        <h5 className="text-center">Searching...  Location: {search.location} | Guest No: {search.lguests}</h5>
+        <h5 className="text-center">Searching...  Theme: {search.hostingTitle} | Guest No: {search.lguests} | {checkedCategories.join(", ")}</h5>
         <div className="row my-10">
           {list.map((experience, index) => (
             <div className="col-lg-4 mb-4">
@@ -90,9 +144,18 @@ const Experiences = () => {
     )
   }
 
+  const renderMain = ()=>{
+    if(search.hostingTitle === '' && search.checkin === '' && search.checkout === '' && search.lguests === 0 && checkedCategories.length === 0){
+      return renderPage(experiences);
+    } else {
+      return renderPage(filteredExperiences);
+    }
+  }
+
   return (
     <div>
-      {search.location === '' ? renderPage(experiences) : renderPage(filteredExperiences)}
+      {/* {search.location === ''  ? renderPage(experiences) : renderPage(filteredExperiences)} */}
+      {renderMain()}
     </div>
 
   );
