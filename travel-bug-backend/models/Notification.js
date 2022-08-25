@@ -12,7 +12,7 @@ const NotificationSchema = new Schema({
     default: Date.now,
     required: true,
   },
- 
+
   host: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
