@@ -12,13 +12,24 @@ const NotificationSchema = new Schema({
     default: Date.now,
     required: true,
   },
-  destinationLink: {
-    type: String,
-    required: true,
-  },
-  user: {
+ 
+  host: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    required: true,
+  },
+  unread: {
+    type: Boolean,
+    default: true,
+    required: true,
+  },
+  bookingID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Booking",
+    required: true,
+  },
+  type: {
+    type: String,
     required: true,
   },
 });

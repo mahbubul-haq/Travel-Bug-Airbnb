@@ -19,7 +19,7 @@ const ManagementHome = () => {
   return (
     <>
       <Card className="card-style-9">
-        <Card.Title className="text-light my-10">
+        <Card.Title className="text-dark my-10">
           <div className="container">
             <h3>Today</h3>
           </div>

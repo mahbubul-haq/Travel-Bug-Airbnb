@@ -12,9 +12,10 @@ const AddBookingDetails = () => {
   const context = useContext(reservationContext);
   const { reservation, setReservation } = context;
   const context1 = useContext(userContext);
-    const { user, getUser } = context1;
+  const { user, getUser } = context1;
   const [ show, setShow ] = useState(false);
   const [activities, setActivities] = useState([]);
+  const [bookingID, setBookingID] = useState('');
   useEffect(() => {
 
     fetchActivities();
@@ -23,9 +24,40 @@ const AddBookingDetails = () => {
 
 
   }, []);
+  //send notification to host when a booking is made
+  const sendNotification = async () => {
+    const response = await fetch("http://localhost:5000/booking/notification", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+          'auth-token': localStorage.getItem('token')
+      },
+      body: JSON.stringify(
+        {
+          notificationTitle: "You have a new booking by "+user.firstName+" "+user.lastName,
+          timeStamp: Date.now(),
+          hostingID: id,
+          bookingID: bookingID,
+          type:"request"
+          
+        }
+      )
+  });
+  const data = await response.json();
+  console.log(data);
+}
+useEffect(() => {
+ 
+  if (bookingID!=='') {
+    sendNotification();
+    console.log("booking id",bookingID);
+  }
+} , [bookingID]);
+
   const hostAddress = 'http://localhost:5000';
   const fetchActivities = async () => {
     const response = await fetch(`${hostAddress}/experience/activities/hostingid/${id}`, {
+
       method: "GET",
     });
     const data = await response.json();
@@ -50,7 +82,12 @@ const AddBookingDetails = () => {
             body: JSON.stringify(reservation)
         });
         const data = await response.json();
-        setShow(data.success);
+         
+        if(data.success){
+          setBookingID(data.booking._id);
+          setShow(true);
+        }
+        
   }
   const onChange = (e) => {
     

@@ -135,7 +135,7 @@ const AddTransport = () => {
           <form>
             <div className="form-group">
 
-              <input type="text" className="form-control" placeholder=" Enter Source" />
+              <input type="text" className="form-control" placeholder={source.long===' ? '?" Enter Source":"long: "+source.long+", lat: "+source.lat} />
             </div>
           </form>
         </div>
@@ -164,13 +164,13 @@ const AddTransport = () => {
               <div className='col'>
                 <div className="form-group">
 
-                  <input type="text" className="form-control" placeholder=" Enter Destination" />
+                  <input type="text" className="form-control" placeholder={destination.long===' ? '?" Enter Destination":"long: "+destination.long+", lat: "+destination.lat} />
                 </div>
               </div>
               <div className='col'>
                 <div className="form-group">
 
-                  <input type="number" className="form-control" placeholder="Enter Total Cost" onChange={(e) => { setTotalCost(e.target.value); }} />
+                  <input type="number" className="form-control" placeholder={totalCost===0?"Enter Total Cost":totalCost}  onChange={(e) => { setTotalCost(e.target.value); }} />
 
                 </div>
               </div>
@@ -220,14 +220,17 @@ const AddTransport = () => {
             <div className='row'>
               <div className='col'>
                 <div className="form-group">
-
-                  <input type="text" className="form-control" placeholder="Enter Stopage" />
+                
+                  
+                 <input type="text" className="form-control" placeholder= "Enter Stopage" />
+                  
+                  
                 </div>
               </div>
               <div className='col'>
                 <div className="form-group">
 
-                  <input type="number" className="form-control" placeholder="Enter Total Cost" onChange={(e) => { let stopagesArr = [...stopages]; console.log(stopagesArr); stopagesArr[index - 1].cost = parseInt(e.target.value); setStopages(stopagesArr); }} />
+                  <input type="number" className="form-control" placeholder="Enter Cost" onChange={(e) => { let stopagesArr = [...stopages]; stopagesArr[index - 1].cost = parseInt(e.target.value); setStopages(stopagesArr); }} />
                 </div>
               </div>
             </div>
