@@ -121,4 +121,24 @@ router.post("/notification/", fetchuser, async (req, res) => {
   }
 });
 
+//get all bookings for a user : POST "booking/all/"
+router.get("/all", fetchuser, async (req, res) => {
+  var success = false;
+  try {
+    const userId = req.user.id;
+    const bookings = await Booking.find({host: userId });
+    success = true;
+    res.json({
+      success: success,
+      bookings: bookings,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({
+      success: success,
+      error: "Bookings not found.",
+    });
+  }
+});
+
 module.exports = router;
