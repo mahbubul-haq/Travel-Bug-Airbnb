@@ -91,7 +91,7 @@ export default function Request() {
             <br /><br />
             <Container>
                 <h5><center>Booking Request</center></h5>
-                <div className="card-style-5">
+                <div className="card-style-67">
                     <div className="card-body">
                         <div className="row my-10">
                             <div className="col-md-6">
@@ -128,7 +128,7 @@ export default function Request() {
                             {//if boooking.selected activity is not null
                                 booking.selectedActivities && (
                                     <div className="col-md-6">
-                                        <div className="card-style-7">
+                                        <div className="card-style-69">
                                             <center><h4><div className='card-title'>Selected Activities</div></h4>
                                                 <div className='card-body'>
                                                     {booking.selectedActivities.map((activity) => (
