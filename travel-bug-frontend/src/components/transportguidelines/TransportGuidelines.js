@@ -167,7 +167,9 @@ const TransportGuidelines = () => {
         return (
           <center>
             <h2>Step {componentNo} - Enter your source</h2>
+            <div id='transport-guideline-map'>
             <CustomMap setPositions={(e) => setPositions(e)} />
+            </div>
             {SourceInput()}
           </center>
         );
@@ -176,7 +178,9 @@ const TransportGuidelines = () => {
         return (
           <center>
             <h2>Step {componentNo} - Enter your destination</h2>
+            <div id='transport-guideline-map'>
             <CustomMap setPositions={(e) => setPositions(e)} />
+            </div>
             {DestinationInput()}
           </center>
         );
@@ -185,7 +189,9 @@ const TransportGuidelines = () => {
         return (
           <center>
             <h2 className='text-center'>Details for you</h2>
+            <div id='transport-guideline-map'>
             <CustomMap setPositions={(e) => setPositions(e)} />
+            </div>
             {ViewInputs()}
           </center>
         );
@@ -193,7 +199,9 @@ const TransportGuidelines = () => {
         return (
           <center>
             <h2 className='text-center'>Details for you</h2>
+            <div id='transport-guideline-map'>
             <CustomMap setPositions={(e) => setPositions(e)} />
+            </div>
             {ViewGuidelines()}
           </center>
         )
