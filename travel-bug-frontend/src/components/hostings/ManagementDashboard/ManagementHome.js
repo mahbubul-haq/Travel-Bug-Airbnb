@@ -56,8 +56,8 @@ const ManagementHome = () => {
       var temp_data = data.bookings.filter(
         (item) =>
           item.status === "approved" &&
-          Date.parse(item.bookingStartDate) >= Date.now() &&
-          Date.parse(item.bookingEndDate) <= Date.now()
+          Date.parse(item.bookingStartDate) <= Date.now() &&
+          Date.parse(item.bookingEndDate) >= Date.now()
       );
       return temp_data;
     });
@@ -66,7 +66,9 @@ const ManagementHome = () => {
       var temp_data = data.bookings.filter(
         (item) =>
           item.status === "approved" &&
-          (Date.parse(item.bookingEndDate) - Date.now()) /
+          Date.parse(item.bookingStartDate) <= Date.now()
+          && Date.parse(item.bookingEndDate) >= Date.now()
+          && (Date.parse(item.bookingEndDate) - Date.now()) /
             (1000 * 60 * 60 * 24) <=
             3
       );
@@ -77,7 +79,8 @@ const ManagementHome = () => {
       var temp_data = data.bookings.filter(
         (item) =>
           item.status === "approved" &&
-          (Date.parse(item.bookingStartDate) - Date.now()) /
+          Date.parse(item.bookingStartDate) > Date.now()
+          && (Date.parse(item.bookingStartDate) - Date.now()) /
             (1000 * 60 * 60 * 24) <=
             7
       );
@@ -87,6 +90,8 @@ const ManagementHome = () => {
       var temp_data = data.bookings.filter(
         (item) =>
           item.status === "approved" &&
+          Date.parse(item.bookingStartDate) > Date.now()
+          &&
           (Date.parse(item.bookingStartDate) - Date.now()) /
             (1000 * 60 * 60 * 24) >
             7
