@@ -54,7 +54,7 @@ router.post('/getnotifications/',fetchuser,  async (req, res) => {
     var success = false;
     try {
         const userId = req.user.id;
-        const notifications = await Notification.find({ host: userId }).sort({ timeStamp: -1 });
+        const notifications = await Notification.find({ user: userId }).sort({ timeStamp: -1 });
         success = true;
         res.json({
             success: success,
@@ -73,7 +73,7 @@ router.post('/notificationcount/', fetchuser,async (req, res) => {
     var success = false;
     try {
         const userId = req.user.id;
-        const count = await Notification.countDocuments({ host: userId, unread: true });
+        const count = await Notification.countDocuments({ user: userId, unread: true });
         success = true;
         //console.log('count ',count);
         res.json({
@@ -99,8 +99,9 @@ router.post('/notification/', fetchuser, async (req, res) => {
         const notification = await Notification.create({
             notificationTitle: req.body.notificationTitle,
             timeStamp: req.body.timeStamp,
-            host: hosting.host,
+            user: hosting.host,
             bookingID: req.body.bookingID,
+            type: req.body.type,
            
         });
         success = true;
@@ -116,6 +117,73 @@ router.post('/notification/', fetchuser, async (req, res) => {
         });
     }
 } );
+//Route 5 Get booking details for a user : POST "booking/:bookingID"
+router.post('/:bookingID', async (req, res) => {
+    var success = false;
+    try {
+        const booking = await Booking.findById(req.params.bookingID).populate('selectedActivities');
+        //update notification to read
+        const notification = await Notification.findByIdAndUpdate(req.body.notificationId, { unread: false });
+        success = true;
+        res.json({
+            success: success,
+            booking: booking,
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({
+            success: success,
+            error: "Booking not found."
+        });
+    }
+} );
+//Route 6 update a booking : PUT "booking/:status/:bookingID"
+router.post('/:status/:bookingID', async (req, res) => {
+    var success = false;
+    try {
+        const booking = await Booking.findByIdAndUpdate(req.params.bookingID, { status: req.params.status });
+        success = true;
+        //console.log(booking);
+        res.json({
+            success: success,
+            booking: booking,
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({
+            success: success,
+            error: "Booking not updated."
+        });
+    }
+} );
+//Route 7 send notification of the booking status : POST "booking/sendnotification/:status/:bookingID"
+router.post('/sendnotification/:status/:bookingID', async (req, res) => {
+    var success = false;
+    try {
+        const booking = await Booking.findById(req.params.bookingID);
+        const hosting= await ExperienceHosting.findById(booking.hostingID);
+        
+        const notification = await Notification.create({
+            notificationTitle: "Your request for "+ hosting.hostingTitle +" has been "+ req.params.status,
+            timeStamp: Date.now(),
+            user:booking.user,
+            bookingID: req.params.bookingID,
+            type:"reply"
+        });
+        success = true;
+        res.json({
+            success: success,
+            notification: notification,
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({
+            success: success,
+            error: "Notification not added."
+        });
+    }
+} );
+            
 
 
 module.exports = router;

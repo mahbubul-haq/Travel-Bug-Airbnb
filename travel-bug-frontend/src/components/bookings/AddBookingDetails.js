@@ -155,6 +155,12 @@ useEffect(() => {
                     <input type="Date" className="form-control" id="date" name="bookingStartDate" placeholder={reservation.bookingStartDate} onChange={onChange} />
                   </div>
                 </div>
+                <div className="form-group">
+                  <div className="mb-3">
+                    <label htmlFor="checkout">Check Out</label>
+                    <input type="Date" className="form-control" id="date" name="bookingEndtDate" placeholder={reservation.bookingEndtDate} onChange={onChange} />
+                  </div>
+                </div>
 
                 <div className="form-group">
                   <div className="mb-3">

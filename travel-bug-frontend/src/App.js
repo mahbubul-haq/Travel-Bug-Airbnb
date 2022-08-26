@@ -22,6 +22,7 @@ import Conversation from "./components/messages/Conversation";
 import Messages from "./components/messages/Messages";
 import Nav from "./components/nav/Nav";
 import Notifications from "./components/notifications/Notifications";
+import Request from "./components/notifications/Request";
 import TransportGuidelines from "./components/transportguidelines/TransportGuidelines";
 import ReservationState from "./context/booking/ReservationState";
 import ExperienceState from "./context/experiences/ExperienceState";
@@ -38,7 +39,7 @@ function App() {
             <HostingState>
               <ReservationState>
                 <Router>
-                  <Nav/>
+                  <Nav />
                   <div>
                     <Routes>
                       <Route exact path="/" element={<Home />} />
@@ -118,8 +119,13 @@ function App() {
 
                       <Route
                         exact
-                        path="/booking/payment/"
+                        path="/booking/payment/:id"
                         element={<Payment />}
+                      />
+                       <Route
+                        exact
+                        path="/bookingrequest/:bookingId/:notificationId/:type"
+                        element={<Request />}
                       />
                     </Routes>
                   </div>

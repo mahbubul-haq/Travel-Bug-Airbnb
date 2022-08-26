@@ -13,7 +13,7 @@ const NotificationSchema = new Schema({
     required: true,
   },
  
-  host: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
