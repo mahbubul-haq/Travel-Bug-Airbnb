@@ -10,11 +10,12 @@ import EditGuestRequirements from "./EditGuestRequirements";
 import EditLocation from "./EditLocation";
 import EditPhotos from "./EditPhotos";
 import FindRoute from "./FindRoute";
+import HostingAvailability from "./HostingAvailability";
 
 const EditHosting = (props) => {
   //const {hostingId} = useParams();
   const [edit, setEdit] = useState(false);
-  const [editNo, setEditNo] = useState(0);
+  const [editNo, setEditNo] = useState(-1);
   const [hostingId, setHostingId] = useState(null);
   const [experience, setExperience] = useState({
     hostingTitle: "Title",
@@ -75,15 +76,18 @@ const EditHosting = (props) => {
   } = context;
 
   const { expId } = useLocation().state;
-  console.log('expId', expId);
+  console.log("expId", expId);
 
   const getExperience1 = async () => {
-    const response = await fetch(`http://localhost:5000/experience/hostingid/${hostingId}`, {
-      method: "GET",
-      headers: {
-        "auth-token": localStorage.getItem("token"),
-      },
-    });
+    const response = await fetch(
+      `http://localhost:5000/experience/hostingid/${hostingId}`,
+      {
+        method: "GET",
+        headers: {
+          "auth-token": localStorage.getItem("token"),
+        },
+      }
+    );
     const data = await response.json();
     //console.log(data);
     setExperience(data);
@@ -91,16 +95,19 @@ const EditHosting = (props) => {
   };
 
   const updateValue = async (obj) => {
-    const response = await fetch(`http://localhost:5000/host/experience/update/${experience._id}`, {
-      method: "POST",
-      headers: {
-        "auth-token": localStorage.getItem("token"),
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        obj: obj,
-      }),
-    });
+    const response = await fetch(
+      `http://localhost:5000/host/experience/update/${experience._id}`,
+      {
+        method: "POST",
+        headers: {
+          "auth-token": localStorage.getItem("token"),
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          obj: obj,
+        }),
+      }
+    );
     const data = await response.json();
     //alert("Successfully updated");
     //console.log(data);
@@ -123,7 +130,7 @@ const EditHosting = (props) => {
   }, [hostingId]);
 
   useEffect(() => {
-    console.log('here you go',  hostingId, expId);
+    console.log("here you go", hostingId, expId);
     setExperience(experienceDocument);
   }, [experienceDocument]);
 
@@ -635,9 +642,58 @@ const EditHosting = (props) => {
     );
   };
 
+  const showHostingAvailability = () => {
+    return (
+      <>
+        <b
+          style={{
+            position: "absolute",
+            top: "70px",
+            left: "22%",
+            display: "block",
+          }}
+        >
+          {" "}
+          Hosting Availability
+        </b>
+        <div id="edit-content-wrapper1">
+          <div id="edit-content-wrapper-inner">
+            <div id="update-message"></div>
+
+            <HostingAvailability
+              experience={() => experience}
+              setExperience={(data) => setexperience(data)}
+            />
+            {errorMessage(-1, "At least 5 photos must be uploaded")}
+          </div>
+        </div>
+        <div id="button-container">
+          <button
+            id="saveEdit"
+            onClick={() => {
+              if (true) {
+                updateValue({
+                  hostingStartDate: experience.hostingStartDate,
+                  hostingEndDate: experience.hostingEndDate,
+                });
+                valueUpdatedMessage(-1, "Availability", true);
+              } else {
+                valueUpdatedMessage(-1, "Availability", false);
+              }
+            }}
+          >
+            Save
+          </button>
+        </div>
+      </>
+    );
+  };
+
   const getEditContent = () => {
     //setExperience(experienceDocument);
-    if (editNo == 0) {
+    if (editNo === -1) {
+      return showHostingAvailability();
+    } else if (editNo == 0) {
       return showTitle();
     } else if (editNo == 1) {
       return showDescription();
@@ -665,7 +721,7 @@ const EditHosting = (props) => {
 
     console.log(index);
     for (var i = 0; i < elements.length; i++) {
-      if (i == index) {
+      if (i == index + 1) {
         elements[i].style.backgroundColor = "rgb(13, 182, 244)";
         elements[i].style.color = "black";
       } else {
@@ -682,39 +738,44 @@ const EditHosting = (props) => {
   };
   const navigate = useNavigate();
   const deleteHosting = async () => {
-    const response = await fetch(`http://localhost:5000/host/experience/delete${hostingId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token": localStorage.getItem("auth-token"),
-      },
-    });
+    const response = await fetch(
+      `http://localhost:5000/host/experience/delete${hostingId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": localStorage.getItem("auth-token"),
+        },
+      }
+    );
     const data = await response.json();
     console.log(data);
     if (data.success) {
       //navigate("/hostings/listings");
-    }
-    else {
+    } else {
       console.log("failure to delete");
     }
-    
-  }
+  };
 
   const navigateListings = () => {
     navigate("/hostings/listings");
-  }
-
+  };
 
   return (
     <>
       {changeNavStyle(editNo)}
       <div id="confirm-delete">
         <div id="confirm-middle">
-          <div id="confirm-message">Are you sure you want to delete your hosting?</div>
-          <button id="confirm-button" onClick={ async () => {
-            await deleteHosting();
-            navigateListings();
-          }}>
+          <div id="confirm-message">
+            Are you sure you want to delete your hosting?
+          </div>
+          <button
+            id="confirm-button"
+            onClick={async () => {
+              await deleteHosting();
+              navigateListings();
+            }}
+          >
             Yes
           </button>
           <button
@@ -742,6 +803,16 @@ const EditHosting = (props) => {
       <div id="edit-container">
         <div id="edit-container-left">
           <div id="edit-container-left-top">Edit Experience Info Here</div>
+          <div
+            className="edit-container-middle-navitem"
+            onClick={() => {
+              setEditNo(-1);
+              setExperience(experienceDocument);
+              changeNavStyle(-1);
+            }}
+          >
+            Hosting Availability
+          </div>
           <div id="edit-container-left-middle">
             <div
               className="edit-container-middle-navitem"

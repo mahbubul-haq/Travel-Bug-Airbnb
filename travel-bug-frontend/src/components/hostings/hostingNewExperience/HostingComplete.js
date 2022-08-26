@@ -11,7 +11,7 @@ const HostingComplete = (props) => {
       <div id="container12">
         <div id="center12">
           <h3 id="header12">Your hosting is complete!</h3>
-          <p id="para12">Check your listing in your home page.</p>
+          <p id="para12">Set hosting availability and get started!</p>
           
             <button id="butt12" onClick={() => {
               navigate('/hostings');

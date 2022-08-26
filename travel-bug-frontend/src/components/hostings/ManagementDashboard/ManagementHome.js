@@ -8,7 +8,12 @@ const ManagementHome = () => {
 
   const [hostings, setHostings] = useState([]);
   const [drafts, setDrafts] = useState([]);
+  const [bookings, setBookings] = useState([]);
   const navigate = useNavigate();
+  const [arivingSoon, setArivingSoon] = useState([]);
+  const [upComing, setUpComing] = useState([]);
+  const [currentlyHosting_, setCurrentlyHosting_] = useState([]);
+  const [checkingOut_, setCheckingOut_] = useState([]);
 
   const getAllHostings = async () => {
     const res = await fetch("http://localhost:5000/host/experience/all", {
@@ -46,13 +51,59 @@ const ManagementHome = () => {
     });
     const data = await res.json();
     console.log(data);
-  }
+    for (let i = 0; i < data.bookings.length; i++) {
+      data.bookings[i].bookingStartDate = data.bookings[
+        i
+      ].bookingStartDate.slice(0, 10);
+      //console.log(data.bookings[i].bookingStartDate);
+      //console.log(typeof data.bookings[i].bookingStartDate);
+      //console.log(typeof new Date(data.bookings[i].bookingStartDate).getTime());
+      //console.log(new Date("2020-12-20"));
+      //console.log(typeof Date.now());
+      const first = new Date(data.bookings[i].bookingStartDate).getTime();
+      const second = Date.now();
+      var diffTime = first - second;
+
+      if (first < second) {
+        continue;
+      }
+
+      // let time = moment("2020-09-15T20:05:28.000Z")
+      //   .utc()
+      //   .format("ddd MMM DD GGGG, h:mm A");
+
+      // console.log(time);
+      const days = diffTime / (1000 * 60 * 60 * 24);
+      console.log(days);
+      if (days <= 7) {
+        setArivingSoon((prev) => {
+          return [...prev, data.bookings[i]];
+        });
+        console.log("ariving soon");
+      } else if (days > 7) {
+        setUpComing((prev) => {
+          return [...prev, data.bookings[i]];
+          });
+        console.log("upcoming");
+      }
+    }
+    setBookings(data.bookings);
+  };
 
   useEffect(() => {
     getAllHostings();
     getAllDrafts();
-    getAllBookings();
+    
   }, []);
+
+  useEffect(() => {
+    getAllBookings();
+  } , []);
+
+  useEffect(() => {
+  console.log(upComing);
+  console.log(arivingSoon);
+  }, [upComing, arivingSoon]);
 
   const checkingOut = () => {
     SetlistType("checkingOut");
@@ -68,10 +119,8 @@ const ManagementHome = () => {
   };
 
   const completeListing = () => {
-    navigate("/newlisting", {state: {draft_experience: [drafts[0]]}});
-  }
-
-
+    navigate("/newlisting", { state: { draft_experience: [drafts[0]] } });
+  };
 
   return (
     <>
@@ -86,8 +135,10 @@ const ManagementHome = () => {
             <Card.Body>
               <div className="container">
                 <div id="no-draft">
-                  <h4 style={{color:"white", textAlign: "center"}}>Booking Management Dashboard</h4>
-                  </div>
+                  <h4 style={{ color: "white", textAlign: "center" }}>
+                    Booking Management Dashboard
+                  </h4>
+                </div>
               </div>
             </Card.Body>
           )}
