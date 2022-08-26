@@ -14,6 +14,14 @@ const ExperienceHostingSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  hostingStartDate: {
+    type: Date,
+    default: Date.now,
+  },
+  hostingEndDate: {
+    type: Date,
+    default: Date.now,
+  },
   draft: {
     type: Boolean,
     default: false,
