@@ -39,9 +39,10 @@ const BookingSchema = new Schema({
   ],
   status: {
     type: String,
-    enum: ["waiting", "approved", "cancelled", "completed"],
-    default: "waiting",
-  },
+
+    enum : ['waiting','approved','rejected','completed'],
+    default: 'waiting'
+},
   host: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -51,6 +52,7 @@ const BookingSchema = new Schema({
     min: 1,
     required: true,
   },
+
 });
 const Booking = mongoose.model("Booking", BookingSchema);
 module.exports = Booking;
