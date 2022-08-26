@@ -17,6 +17,7 @@ import Home from "./components/home/Home";
 import EditHosting from "./components/hostings/editHosting/EditHosting";
 import Hostings from "./components/hostings/Hostings";
 import Listings from "./components/hostings/ManagementDashboard/Listings";
+import ManageBooking from "./components/hostings/ManagementDashboard/ManageBooking";
 import ManagementHome from "./components/hostings/ManagementDashboard/ManagementHome";
 import Conversation from "./components/messages/Conversation";
 import Messages from "./components/messages/Messages";
@@ -126,6 +127,10 @@ function App() {
                         exact
                         path="/bookingrequest/:bookingId/:notificationId/:type"
                         element={<Request />}
+                      />
+                      <Route
+                        exact path = "/hostings/booking/:id"
+                        element={<ManageBooking/>}
                       />
                     </Routes>
                   </div>

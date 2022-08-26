@@ -85,6 +85,17 @@
   font-weight: bold;
 }
 
+.error-message-green {
+  background-color: rgb(195, 255, 197);
+  position: absolute;
+  top: 70px;
+  text-align: center;
+  color: rgb(0, 171, 51);
+  padding: 3px 20px 3px 20px;
+  border-radius: 3px;
+  font-weight: bold;
+}
+
 /* #message-container {
   background-color: transparent;
   display: flex;
