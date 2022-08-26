@@ -10,7 +10,7 @@ const Experiences = () => {
   const context = useContext(experienceContext);
   const { experiences, getAllExperiences, categories, getAllCategories } = context;
 
-  const [search, setSearch] = useState({ checkin: '', checkout: '', location: '', hostingTitle:'', lguests: 0, maxCost: 0 });
+  const [search, setSearch] = useState({ checkin: '', checkout: '', location: '', hostingTitle:'', lguests: '', maxCost: '' });
   const [filteredExperiences, setFilteredExperiences] = useState(experiences);
 
   const [checkedCategories, setCheckedCategories] = useState([]);
@@ -44,13 +44,25 @@ const Experiences = () => {
       console.log("checkedCategories", checkedCategories);
     }
 
+    //checkin filter
+    if (search.checkin !== '') {
+      const checkinDate = Date.parse(search.checkin);
+      updatedExperiences = updatedExperiences.filter(experience => Date.parse(experience.hostingDate) >= checkinDate);
+    }
+
+    //checkout filter
+    if (search.checkout !== '') {
+      const checkoutDate = Date.parse(search.checkout);
+      updatedExperiences = updatedExperiences.filter(experience => Date.parse(experience.hostingDate) <= checkoutDate);
+    }
+
     //lguests filter
-    if (search.lguests !== 0) {
+    if (search.lguests !== '') {
       updatedExperiences = updatedExperiences.filter(experience => experience.maxGroupSize >= search.lguests);
     }
 
     //maxCost filter
-    if (search.maxCost !== 0) {
+    if (search.maxCost !== '') {
       updatedExperiences = updatedExperiences.filter(experience => experience.totalCost <= search.maxCost);
     }
 
@@ -82,11 +94,11 @@ const Experiences = () => {
             <div className="product-search">
               <div className="search-element">
                 <label className="search-label">Checkin Date?</label>
-                <input className="search-input" type="date" autocomplete="on" name="checkin" />
+                <input className="search-input" type="date" autocomplete="on" name="checkin" value={search.checkin} onChange={onChange}/>
               </div>
               <div className="search-element">
                 <label className="search-label">Checkout Date?</label>
-                <input className="search-input" type="date" autocomplete="on" name="checkout" />
+                <input className="search-input" type="date" autocomplete="on" name="checkout" value={search.checkout} onChange={onChange}/>
               </div>
               <div className="search-element">
                 <label className="search-label">Where to Go?</label>
@@ -98,11 +110,11 @@ const Experiences = () => {
               </div>
               <div className="search-element">
                 <label className="search-label">How Many People?</label>
-                <input className="search-input" type="number" placeholder="Enter team size" autocomplete="on" name="lguests" value={search.lguests} onChange={onChange} />
+                <input className="search-input" type="number" placeholder="Enter team size" autocomplete="on" name="lguests" value={search.lguests} onChange={onChange} min="0"/>
               </div>
               <div className="search-element">
                 <label className="search-label">Maximum Cost</label>
-                <input className="search-input" type="number" placeholder="Enter max cost" autocomplete="on" name="maxCost" value={search.maxCost} onChange={onChange} />
+                <input className="search-input" type="number" placeholder="Enter max cost" autocomplete="on" name="maxCost" value={search.maxCost} onChange={onChange} min="0"/>
               </div>
               {/* <Button type="submit" className="search-button">Search</Button> */}
             </div>
@@ -145,7 +157,7 @@ const Experiences = () => {
   }
 
   const renderMain = ()=>{
-    if(search.hostingTitle === '' && search.checkin === '' && search.checkout === '' && search.lguests === 0 && checkedCategories.length === 0){
+    if(search.hostingTitle === '' && search.checkin === '' && search.checkout === '' && search.lguests === '' && search.maxCost === ''  && checkedCategories.length === 0){
       return renderPage(experiences);
     } else {
       return renderPage(filteredExperiences);
