@@ -15,29 +15,79 @@ const ManageBooking = () => {
     console.log(item);
   }, [item]);
 
+  const deleteBooking = async () => {
+    const booking = await fetch(
+      `http://localhost:5000/booking/rejected/${item._id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify({}),
+      }
+    );
+    const result = await booking.json();
+    console.log(result);
+    if (result.success) {
+      navigate("/hostings");
+    } else {
+      console.log(result.error);
+      alert("Booking not deleted");
+    }
+  };
 
-  const deleteBooking = async (id) => {}
+  const completeHosting = async () => {
+    const hosting = await fetch(
+      `http://localhost:5000/booking/completed/${item._id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify({}),
+      }
+    );
+    const result = await hosting.json();
+    console.log(result);
+    if (result.success) {
+      navigate("/hostings");
+    } else {
+      console.log(result.error);
+      alert("Booking not deleted");
+    }
+  };
 
   const getButton = () => {
-    if (listType === "upcoming" || listType === "arivingSoon") {
-        return (
-            <>
-            <button className="btn btn-primary" id="m-b-delete-button">
-                Delete 
-            </button>
-            </>
-        )
+    console.log(listType);
+    if (listType === "upcoming" || listType === "arrivingSoon") {
+      return (
+        <>
+          <button
+            className="btn btn-primary"
+            id="m-b-delete-button"
+            onClick={() => {
+              deleteBooking();
+            }}
+          >
+            Delete
+          </button>
+        </>
+      );
+    } else if (listType === "currentlyHosting" || listType === "checkingOut") {
+      return (
+        <>
+          <button className="btn btn-primary" id="m-b-complete-button"
+          onClick={() => {
+            completeHosting();
+          }}>
+            Complete
+          </button>
+        </>
+      );
     }
-    else if (listType === "currentlyHosting" || listType === "checkingOut") {
-        return (
-          <>
-            <button className="btn btn-primary" id="m-b-complete-button">
-              Complete
-            </button>
-          </>
-        );
-    }
-}
+  };
 
   return (
     <div>
@@ -73,13 +123,14 @@ const ManageBooking = () => {
             <h3>selected activities</h3>
           </div>
           <div id="m-b-buttons">
-            <button className="btn btn-primary" id="m-b-back-button"
-            onClick={() => {
-                navigate('/hostings');
-            }
-            }
+            <button
+              className="btn btn-primary"
+              id="m-b-back-button"
+              onClick={() => {
+                navigate("/hostings");
+              }}
             >
-                Back
+              Back
             </button>
             {getButton()}
           </div>
