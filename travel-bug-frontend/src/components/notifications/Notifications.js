@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from "react";
 
-import { Container } from "react-bootstrap";
+import React, { useEffect, useState } from 'react';
+import { Container } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+
+
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
@@ -34,18 +37,15 @@ const Notifications = () => {
         <br />
         <br />
         <ul class="list-group">
-          {notifications.map((notification, index) =>
-            notification.unread ? (
-              <li class="list-group-item list-group-item-dark">
-                {notification.notificationTitle}
-              </li>
-            ) : (
-              <li class="list-group-item list-group-item-light">
-                Meo meo
-                {notification.notificationTitle}
-              </li>
-            )
-          )}
+
+         {notifications.map((notification, index) => (
+          notification.unread?(<Link className ="list-group-item list-group-item-dark" to={`/bookingrequest/${notification.bookingID}/${notification._id}/${notification.type}`}>{notification.notificationTitle}</Link>):
+        
+          <Link className = "list-group-item list-group-item-light" to={`/bookingrequest/${notification.bookingID}/${notification._id}/${notification.type}`}> 
+            {notification.notificationTitle}</Link>
+         
+          ))}
+
         </ul>
       </Container>
     </div>

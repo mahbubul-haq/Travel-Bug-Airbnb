@@ -50,6 +50,142 @@ router.post("/", fetchuser, async (req, res) => {
   }
 });
 //Route 2 Get notifications for a user : POST "booking/notifications/"
+
+router.post('/getnotifications/',fetchuser,  async (req, res) => {
+    var success = false;
+    try {
+        const userId = req.user.id;
+        const notifications = await Notification.find({ user: userId }).sort({ timeStamp: -1 });
+        success = true;
+        res.json({
+            success: success,
+            notifications: notifications,
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({
+            success: success,
+            error: "Notifications not found."
+        });
+    }
+} );
+//Route 3 Get notification count for a user : POST "booking/notificationcount/"
+router.post('/notificationcount/', fetchuser,async (req, res) => {
+    var success = false;
+    try {
+        const userId = req.user.id;
+        const count = await Notification.countDocuments({ user: userId, unread: true });
+        success = true;
+        //console.log('count ',count);
+        res.json({
+            success: success,
+            count: count,
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({
+            success: success,
+            error: "Notification count not found."
+        });
+    }
+} );
+
+//Route 4 add notification for a user : POST "booking/notification/
+router.post('/notification/', fetchuser, async (req, res) => {
+    var success = false;
+    console.log(req.body);
+    const hosting= await ExperienceHosting.findById(req.body.hostingID);
+   
+    try {
+        const notification = await Notification.create({
+            notificationTitle: req.body.notificationTitle,
+            timeStamp: req.body.timeStamp,
+            user: hosting.host,
+            bookingID: req.body.bookingID,
+            type: req.body.type,
+           
+        });
+        success = true;
+        res.json({
+            success: success,
+            notification: notification,
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({
+            success: success,
+            error: "Notification not added."
+        });
+    }
+} );
+//Route 5 Get booking details for a user : POST "booking/:bookingID"
+router.post('/:bookingID', async (req, res) => {
+    var success = false;
+    try {
+        const booking = await Booking.findById(req.params.bookingID).populate('selectedActivities');
+        //update notification to read
+        const notification = await Notification.findByIdAndUpdate(req.body.notificationId, { unread: false });
+        success = true;
+        res.json({
+            success: success,
+            booking: booking,
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({
+            success: success,
+            error: "Booking not found."
+        });
+    }
+} );
+//Route 6 update a booking : PUT "booking/:status/:bookingID"
+router.post('/:status/:bookingID', async (req, res) => {
+    var success = false;
+    try {
+        const booking = await Booking.findByIdAndUpdate(req.params.bookingID, { status: req.params.status });
+        success = true;
+        //console.log(booking);
+        res.json({
+            success: success,
+            booking: booking,
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({
+            success: success,
+            error: "Booking not updated."
+        });
+    }
+} );
+//Route 7 send notification of the booking status : POST "booking/sendnotification/:status/:bookingID"
+router.post('/sendnotification/:status/:bookingID', async (req, res) => {
+    var success = false;
+    try {
+        const booking = await Booking.findById(req.params.bookingID);
+        const hosting= await ExperienceHosting.findById(booking.hostingID);
+        
+        const notification = await Notification.create({
+            notificationTitle: "Your request for "+ hosting.hostingTitle +" has been "+ req.params.status,
+            timeStamp: Date.now(),
+            user:booking.user,
+            bookingID: req.params.bookingID,
+            type:"reply"
+        });
+        success = true;
+        res.json({
+            success: success,
+            notification: notification,
+        });
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({
+            success: success,
+            error: "Notification not added."
+        });
+    }
+} );
+            
+
 router.post("/getnotifications/", fetchuser, async (req, res) => {
   var success = false;
   try {
@@ -67,56 +203,6 @@ router.post("/getnotifications/", fetchuser, async (req, res) => {
     res.status(500).json({
       success: success,
       error: "Notifications not found.",
-    });
-  }
-});
-//Route 3 Get notification count for a user : POST "booking/notificationcount/"
-router.post("/notificationcount/", fetchuser, async (req, res) => {
-  var success = false;
-  try {
-    const userId = req.user.id;
-    const count = await Notification.countDocuments({
-      host: userId,
-      unread: true,
-    });
-    success = true;
-    //console.log('count ',count);
-    res.json({
-      success: success,
-      count: count,
-    });
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json({
-      success: success,
-      error: "Notification count not found.",
-    });
-  }
-});
-
-//Route 4 add notification for a user : POST "booking/notification/
-router.post("/notification/", fetchuser, async (req, res) => {
-  var success = false;
-  console.log(req.body);
-  const hosting = await ExperienceHosting.findById(req.body.hostingID);
-
-  try {
-    const notification = await Notification.create({
-      notificationTitle: req.body.notificationTitle,
-      timeStamp: req.body.timeStamp,
-      host: hosting.host,
-      bookingID: req.body.bookingID,
-    });
-    success = true;
-    res.json({
-      success: success,
-      notification: notification,
-    });
-  } catch (error) {
-    console.log(error.message);
-    res.status(500).json({
-      success: success,
-      error: "Notification not added.",
     });
   }
 });
