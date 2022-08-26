@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import HostingActivities from "./hostingNewExperience/HostingActivities";
 import HostingCheckEverything from "./hostingNewExperience/HostingCheckEverything";
 import HostingComplete from "./hostingNewExperience/HostingComplete";
@@ -39,6 +39,7 @@ const Hostings = () => {
   const [individual, setIndividual] = useState("individual");
   const [activities, setActivities] = useState([]);
   const [experienceId, setExperienceId] = useState(null);
+  const [draftExperience, setDraftExperience] = useState(null);
 
   const context = useContext(userContext);
   const { user, getUser } = context;
@@ -73,31 +74,31 @@ const Hostings = () => {
   }, []);
 
   useEffect(() => {
-    console.log(user);
-    if (!Array.isArray(user)) {
-      console.log(user._id);
-      const response = async () => {
-        const result = await fetch(
-          `http://localhost:5000/experience/hostid/${user._id}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "auth-token": localStorage.getItem("token"),
-            },
-          }
-        );
-        const data = await result.json();
+    console.log(draftExperience);
+    if (draftExperience !== null) {
+      // console.log(user._id);
+      // const response = async () => {
+      //   const result = await fetch(
+      //     `http://localhost:5000/experience/hostid/${user._id}`,
+      //     {
+      //       method: "GET",
+      //       headers: {
+      //         "Content-Type": "application/json",
+      //         "auth-token": localStorage.getItem("token"),
+      //       },
+      //     }
+      //   );
+        const data = draftExperience;
         console.log("here bro", data);
 
         if (data.length == 0) return;
-        if (data[0].categories.length > 0) {
+        if (data[0].categories.length > 0 && data[0].categories[0] !== null) {
           setSelectedCategory({
             category: data[0].categories[0].categoryName,
             id: data[0].categories[0]._id,
           });
         }
-        if (data[0].subCategories.length > 0) {
+        if (data[0].subCategories.length > 0 && data[0].subCategories[0] !== null) {
           setSelectedSubCategory({
             subCategoryName: data[0].subCategories[0].subCategoryName,
             id: data[0].subCategories[0]._id,
@@ -142,10 +143,7 @@ const Hostings = () => {
         });
         setExperienceId(data[0]._id);
       };
-
-      response().catch((err) => console.log(err));
-    }
-  }, [user]);
+  }, [draftExperience]);
 
   useEffect(() => {
     console.log("experience Id");
@@ -164,6 +162,7 @@ const Hostings = () => {
     }
   }, [experienceId]);
 
+  
   useEffect(() => {
     console.log("draft outside");
     if (draft) {
@@ -199,6 +198,18 @@ const Hostings = () => {
       console.log(err);
     }
   };
+  
+  const locationState = useLocation().state;
+  //setDraftExperience(draft_experience);
+  useEffect(() => {
+    console.log("draft ------", locationState);
+    if (locationState !== null) {
+      setDraftExperience(locationState.draft_experience);
+    }
+  }, [locationState]);
+
+
+
 
   const saveAndExit = () => {
     console.log("saveAndExit");

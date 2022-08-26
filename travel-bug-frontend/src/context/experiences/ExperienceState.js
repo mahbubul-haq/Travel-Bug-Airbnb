@@ -6,6 +6,7 @@ const ExperienceState = (props) => {
 
     const experiencesInitial = [];
     const [experiences, setExperiences] = useState(experiencesInitial);
+    const [categories, setCategories] = useState([]);
 
     const getAllExperiences = async () => {
         const response = await fetch(`${host}/experience/all`, {
@@ -17,8 +18,18 @@ const ExperienceState = (props) => {
         setExperiences(data);
     }
 
+    const getAllCategories = async () => {
+        const response = await fetch(`${host}/experience/categories`, {
+          method: "GET",
+        });
+
+        const data = await response.json();
+        // console.log("categories", data);
+        setCategories(data);
+    }
+
     return (
-        <ExperienceContext.Provider value={{ experiences, getAllExperiences }}>
+        <ExperienceContext.Provider value={{ experiences, getAllExperiences, categories, getAllCategories }}>
             {props.children}
         </ExperienceContext.Provider>
     )

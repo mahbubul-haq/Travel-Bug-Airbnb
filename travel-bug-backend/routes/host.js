@@ -198,7 +198,38 @@ router.get("/all", fetchuser, async (req, res) => {
     const user = await User.findById(userId).select("-password"); //except the password
 
     //get all experience hosting
-    const experienceHosting = await ExperienceHosting.find({ host: userId });
+    const experienceHosting = await ExperienceHosting.find({
+      host: userId,
+      draft: false,
+    }).populate("activities categories subCategories location");
+
+    //send a response after getting experience hosting
+    res.json({
+      experienceHosting: experienceHosting,
+      user: user,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res
+      .status(500)
+      .send("Internal Server Error from get all experience hosting");
+  }
+});
+
+// - Get all exeperience hosting using GET "host/experience/all/draft". Login required
+router.get("/drafts", fetchuser, async (req, res) => {
+  try {
+    //get the user data
+    const userId = req.user.id;
+    const user = await User.findById(userId)
+      .select("-password");
+       //except the password
+
+    //get all experiene hosting
+    const experienceHosting = await ExperienceHosting.find({
+      host: userId,
+      draft: true,
+    }).populate("activities categories subCategories location");
 
     //send a response after getting experience hosting
     res.json({
@@ -404,10 +435,12 @@ router.delete("/delete:id", async (req, res) => {
     res.json({
       message: "Experience hosting deleted",
       success: true,
-    })
+    });
   } catch (error) {
     console.log(error.message);
-    res.status(500).send("Internal Server Error from delete experience hosting");
+    res
+      .status(500)
+      .send("Internal Server Error from delete experience hosting");
   }
 });
 
