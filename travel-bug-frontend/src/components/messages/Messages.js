@@ -39,7 +39,8 @@ const Messages = () => {
       },
     });
     const json = await response.json();
-    console.log("all users:", json);
+    //console.log("all users:", json);
+    
     setUsers(json);
   };
 
@@ -103,7 +104,7 @@ const Messages = () => {
         return tempMessages;
       });
     }
-  }, [newMessage.receiver]);
+  }, [newMessage.receiver, messages]);
 
   const hostAddress = "http://localhost:5000";
   const getAllMessages = async () => {
@@ -114,7 +115,8 @@ const Messages = () => {
       },
     });
     const json = await response.json();
-    console.log("all messages", json);
+    //console.log("all messages", json);
+    console.log("messages length: ", json.length);
 
     //sort element of messages array by timeStamp
     json.sort((a, b) => {
@@ -139,6 +141,7 @@ const Messages = () => {
     });
     const json = await response.json();
     receiverMessages.push(json.message[0]);
+    setReceiverMessages((prev) => [...prev]);
     //console.log("senttt", json.message);
     setMessages((prevMessages) => {
       return [...prevMessages, json.message[0]];
@@ -172,6 +175,7 @@ const Messages = () => {
     setInterval(async () => {
       await getAllMessages();
       await getAllUsers();
+
     }, 1000);
   }, []);
 
@@ -202,6 +206,7 @@ const Messages = () => {
     let newMessag = [];
     //console.log("messages dumb", messages);
     //console.log("type of ", user);
+
 
     for (let i = messages.length - 1; i >= 0; i--) {
       if (
