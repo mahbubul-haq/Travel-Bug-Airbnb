@@ -53,8 +53,9 @@ const TransportGuidelines = () => {
       })
     });
     const json = await response.json();
-    console.log("My desired stops");
-    console.log(json);
+    // console.log("My desired stops");
+    // console.log(json);
+    console.log("My stopages", typeof(json.guideline[0].stopages),json.guideline[0].stopages);
     setGuidelineData(json.guideline);
   }
 
@@ -134,7 +135,9 @@ const TransportGuidelines = () => {
         <button type="button" className="btn btn-primary btn-lg mx-1"
           onClick={
             () => {
+              console.log("ALL INPUT DONE. Fetching data");
               getDetails();
+              console.log("Fetching data done");
               nextComponent();
             }
           }>
@@ -162,7 +165,7 @@ const TransportGuidelines = () => {
 
   const ViewMoreModal = (guideline) => {
     return (
-      <table class="table">
+      <table className="table">
         <thead>
           <tr>
             <th scope="col">Transport Name</th>

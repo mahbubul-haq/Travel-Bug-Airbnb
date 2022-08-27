@@ -83,11 +83,11 @@ const SearchField = (props) => {
 const Markers = (props) => {
   const [selectedPosition, setSelectedPosition] = useState(null);
 
-  const map = useMapEvents({
-    click(e) {
-      setSelectedPosition([e.latlng.lat, e.latlng.lng]);
-    },
-  });
+//   const map = useMapEvents({
+//     click(e) {
+//       setSelectedPosition([e.latlng.lat, e.latlng.lng]);
+//     },
+//   });
 
   useEffect(() => {
     props.setPositions(selectedPosition);
@@ -114,6 +114,21 @@ function CustomMap(props) {
   };
 //maisha need to filter null positions
 //remove null positions from positions
+
+  useEffect(() => {
+    let temp = [];
+    const { stopages } = props;
+    for(let i = 0; i < stopages.length; i++){
+        if(stopages[i] !== null){
+            temp.push([stopages[i].lat,stopages[i].long]);
+            setpositions([stopages[i].long,stopages[i].lat]);
+        }
+    }
+    }, [props.stopages]);
+
+    useEffect(() => {
+        console.log("postion changing", positions);
+    }, [positions]);
   
   useEffect(() => {const filteredPositions = positions.filter((position) => position !== null);props.setPositions(filteredPositions); console.log(positions);}, [positions]);
 
