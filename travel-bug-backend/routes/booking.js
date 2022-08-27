@@ -243,5 +243,24 @@ router.get("/:bookingID", async (req, res) => {
     });
   }
 } );
+//get all bookings for a user
+router.get("/", fetchuser, async (req, res) => {
+  var success = false;
+  try {
+    const userId = req.user.id;
+    const bookings = await Booking.find({user: userId }).populate('hostingID');
+    success = true;
+    res.json({
+      success: success,
+      bookings: bookings,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({
+      success: success,
+      error: "Bookings not found.",
+    });
+  }
+} );
 
 module.exports = router;

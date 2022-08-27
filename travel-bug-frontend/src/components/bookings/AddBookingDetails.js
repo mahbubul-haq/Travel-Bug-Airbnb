@@ -130,7 +130,7 @@ const AddBookingDetails = () => {
       reservation.selectedActivities.splice(index, 1);
       setReservation({ ...reservation, cost: c });
     }
-    //console.log(reservation);
+   console.log(reservation);
   };
   return (
     <div>
@@ -176,7 +176,7 @@ const AddBookingDetails = () => {
                 <div className="form-group">
                   <div className="mb-3">
                     <label htmlFor="checkout">Check Out</label>
-                    <input type="Date" className="form-control" id="date" name="bookingEndtDate" placeholder={reservation.bookingEndtDate} onChange={onChange} />
+                    <input type="Date" className="form-control" id="date" name="bookingEndDate" placeholder={reservation.bookingEndDate} onChange={onChange} />
                   </div>
                 </div>
 
