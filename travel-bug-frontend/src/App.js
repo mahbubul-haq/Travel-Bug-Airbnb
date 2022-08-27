@@ -61,7 +61,7 @@ function App() {
 
                       <Route exact path="/bookings" element={<Bookings />} />
 
-                      <Route exact path="/account" element={<Account />} />
+                      <Route exact path="/account" element={<Profile />} />
                       <Route
                         exact
                         path="/account/profile"

@@ -22,14 +22,14 @@ router.post('/createuser', [
     //if error, return bad request as response
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({success: success, errors: errors.array() });
+        return res.status(400).json({ success: success, errors: errors.array() });
     }
 
     try {
         //check whether the user exists already
         let user = await User.findOne({ email: req.body.email });
         if (user) {
-            return res.status(400).json({success: success, errors: 'Sorry. User with this email already exists' });
+            return res.status(400).json({ success: success, errors: 'Sorry. User with this email already exists' });
         }
 
         //hash password
@@ -42,7 +42,7 @@ router.post('/createuser', [
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             phoneNo: req.body.phoneNo,
-            password:secPass,
+            password: secPass,
         });
 
         //send a response after creating user
@@ -77,19 +77,19 @@ router.post('/login', [
     //if error, return bad request as response
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(400).json({success: success, errors: errors.array() });
+        return res.status(400).json({ success: success, errors: errors.array() });
     }
 
-    const {email, password} = req.body;
+    const { email, password } = req.body;
     try {
         let user = await User.findOne({ email: req.body.email });
-        if(!user){
-            return res.status(400).json({success: success, errors: 'Please try to login with correct credentials' });
+        if (!user) {
+            return res.status(400).json({ success: success, errors: 'Please try to login with correct credentials' });
         }
 
         const passwordComapare = await bcrypt.compare(password, user.password);
-        if(!passwordComapare){
-            return res.status(400).json({success: success, errors: 'Please try to login with correct credentials' });
+        if (!passwordComapare) {
+            return res.status(400).json({ success: success, errors: 'Please try to login with correct credentials' });
         }
 
         //send a response after successful login
@@ -121,6 +121,35 @@ router.post('/getuser', fetchuser, async (req, res) => {
         const userId = req.user.id;
         const user = await User.findById(userId).select("-password"); //except the password
         res.send(user);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal server error");
+    }
+});
+
+//ROUTE 4 - Update user details using: POST "api/auth/updateuser". Login required
+router.post('/updateuser', fetchuser, async (req, res) => {
+    let success = false;
+    try {
+        const userId = req.user.id;
+        const user = await User.findByIdAndUpdate(
+            { _id: userId },
+            {
+                $set: {
+                    firstName: req.body.firstName,
+                    lastName: req.body.lastName,
+                    phoneNo: req.body.phoneNo,
+                    nid: req.body.nid,
+                    userDetails: req.body.userDetails,
+                }
+            },
+            { new: false }
+        )
+        success = true;
+        res.json({
+            success: success,
+            user: user
+        });
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Internal server error");
