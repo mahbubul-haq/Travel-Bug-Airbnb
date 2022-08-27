@@ -22,6 +22,12 @@ const MessageSchema = new Schema({
     ref: "User",
     required: true,
   },
+  seen: {
+    type: Boolean,
+    default: false,
+  },
+  
+
 });
 
 const Message = mongoose.model("Message", MessageSchema);
