@@ -3,6 +3,11 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const PaymentInfoSchema = new Schema({
+  bookingID: {
+    type: mongoose.Types.ObjectId,
+    ref: "Booking",
+    required: true,
+  },
   paidAmount: {
     type: Number,
     min: 1,
