@@ -13,8 +13,7 @@ const PaymentInfoSchema = new Schema({
     required: true,
   },
   billingAddress: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Location",
+    type:Object,
     required: true,
   },
 });
