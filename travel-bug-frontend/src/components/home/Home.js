@@ -17,10 +17,6 @@ const Home = () => {
   }
   return (
     <div className="container">
-      <br />
-      <SearchBar/>
-      <br />
-      <br />
       <center>
         <Card className="card-style-10">
           <Card.Img variant="top" src={travel} />

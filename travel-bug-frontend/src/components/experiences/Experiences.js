@@ -137,7 +137,7 @@ const Experiences = () => {
                 <img src={experience.hostingPhotos[0]} alt="" className="card-img-top" />
                 <div className="card-body">
                   <h5 className="card-title">{experience.hostingTitle}</h5>
-                  <p className="card-text">Location (calculated from map)</p>
+                  <p className="card-text"> {experience.location.address}</p>
                   <div className="card-text d-flex w-100 justify-content-between">
                     <h8 className="mb-1"> Cost: {experience.totalCost}</h8>
                     <Link to={`/experiences/${experience._id}`} >
