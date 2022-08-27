@@ -1,7 +1,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { Container, Row } from 'react-bootstrap';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import StripeCheckout from 'react-stripe-checkout';
 import './request.css';
 
 export default function Request() {
@@ -67,6 +68,23 @@ export default function Request() {
             sendNotification("rejected");
             navigate('/notifications');
         }
+    }
+    const makePayment = async (token) => {
+        const body = {
+            token,
+            booking
+        }
+        const headers = {
+            "Content-Type": "application/json",
+            "auth-token": localStorage.getItem("token"),
+        }
+        const response =  await fetch("http://localhost:5000/payment/create", {
+            method: "POST",
+            headers,
+            body: JSON.stringify(body)
+        });
+        const data = await response.json();
+        //console.log(data);
     }
     const sendNotification = async (status) => {
         const response = await fetch("http://localhost:5000/booking/sendnotification/"+status+"/"+bookingId, {
@@ -172,7 +190,11 @@ export default function Request() {
                         </div>
                     </center>
                     {type=="reply" && booking.status=="approved" && (
-                        <Link type="button" class="btn btn-primary" to={`/booking/payment/${bookingId}`}>Proceed to Pay</Link>
+                        <StripeCheckout stripeKey="pk_test_51LbLZjLOMUpyuAnrdPiTUuHC5zH8qH6O9VY8BfSO4TI9vKK6a1LjwGNnQNq3Z3jPTXwAIfTpK957wr4HBOe0KbsB00NJVCBzV6" token={makePayment} name="Make Payment"
+                        shippingAddress amount={booking.totalPrice*100} 
+                       >
+                         <button className="btn btn-primary">Pay Now</button>
+                       </StripeCheckout>
                         )}
                 </div>
             </Container >

@@ -138,7 +138,7 @@ router.post('/:bookingID', async (req, res) => {
         });
     }
 } );
-//Route 6 update a booking : PUT "booking/:status/:bookingID"
+//Route 6 update a booking : POST "booking/:status/:bookingID"
 router.post('/:status/:bookingID', async (req, res) => {
     var success = false;
     try {
@@ -226,5 +226,23 @@ router.get("/all", fetchuser, async (req, res) => {
     });
   }
 });
+//get booking details for a user : POST "booking/:bookingID"
+router.get("/:bookingID", async (req, res) => {
+  var success = false;
+  try {
+    const booking = await Booking.findById(req.params.bookingID).populate('host');
+    success = true;
+    res.json({
+      success: success,
+      booking: booking,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({
+      success: success,
+      error: "Booking not found.",
+    });
+  }
+} );
 
 module.exports = router;

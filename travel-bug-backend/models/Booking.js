@@ -52,6 +52,10 @@ const BookingSchema = new Schema({
     min: 1,
     required: true,
   },
+  paymentInfo: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "PaymentInfo",
+  }
 
 });
 const Booking = mongoose.model("Booking", BookingSchema);
