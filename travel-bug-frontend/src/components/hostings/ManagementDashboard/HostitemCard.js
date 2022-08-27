@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import "./style.css";
 const HostitemCard = (props) => {
     const { hostItem } = props;
     console.log(hostItem);
@@ -8,6 +9,7 @@ const HostitemCard = (props) => {
         to={`/host/experience/${hostItem._id}`}
         state={{ expId: hostItem._id }}
         class="list-group-item list-group-item-primary"
+        className='listings-item-card'
       >
         <div class="d-flex w-100 justify-content-between">
           <h3 className="mb-1"> {hostItem.hostingTitle}</h3>
