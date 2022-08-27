@@ -39,7 +39,7 @@ const Messages = () => {
       },
     });
     const json = await response.json();
-    /// console.log("all users:", json);
+    console.log("all users:", json);
     setUsers(json);
   };
 
@@ -63,8 +63,7 @@ const Messages = () => {
       });
       filteredUsers.sort();
       setRightUsers(filteredUsers);
-    }
-    else {
+    } else {
       setRightUsers([]);
     }
   }, [rightSearch]);
@@ -80,15 +79,13 @@ const Messages = () => {
       });
       filteredUsers.sort();
       setLeftSearchUsers(filteredUsers);
-    }
-    else {
+    } else {
       setLeftSearchUsers([]);
     }
   }, [leftSearch]);
 
-
   useEffect(() => {
-    console.log("You cheated on me", messages, newMessage.receiver);
+    //console.log("You cheated on me", messages, newMessage.receiver);
     if (newMessage.receiver !== null) {
       setReceiverMessages(() => {
         let tempMessages = messages.filter((message) => {
@@ -102,7 +99,7 @@ const Messages = () => {
           return Date.parse(a.timeStamp) - Date.parse(b.timeStamp);
         });
         //setMessages(tempMessages);
-        
+
         return tempMessages;
       });
     }
@@ -117,8 +114,7 @@ const Messages = () => {
       },
     });
     const json = await response.json();
-    //console.log("all messages", json);
-    
+    console.log("all messages", json);
 
     //sort element of messages array by timeStamp
     json.sort((a, b) => {
@@ -126,7 +122,6 @@ const Messages = () => {
     });
     setFetchedMessages(json);
     setMessages(json);
-
   };
 
   const handleSend = async () => {
@@ -144,14 +139,15 @@ const Messages = () => {
     });
     const json = await response.json();
     receiverMessages.push(json.message[0]);
-    console.log("senttt", json.message);
+    //console.log("senttt", json.message);
     setMessages((prevMessages) => {
-      return [...prevMessages, json.message[0]]});
+      return [...prevMessages, json.message[0]];
+    });
 
-      //sort element of messages array by timeStamp
-      messages.sort((a, b) => {
-        return Date.parse(a.timeStamp) - Date.parse(b.timeStamp);
-      });
+    //sort element of messages array by timeStamp
+    messages.sort((a, b) => {
+      return Date.parse(a.timeStamp) - Date.parse(b.timeStamp);
+    });
 
     receiverMessages.sort((a, b) => {
       return Date.parse(a.timeStamp) - Date.parse(b.timeStamp);
@@ -172,47 +168,56 @@ const Messages = () => {
     //console.log("scroll");
   });
 
-  // setInterval(async () => {
-  //   await getAllMessages();
-  //   await getAllUsers();
-  // }, 5000);
+  useEffect(() => {
+    setInterval(async () => {
+      await getAllMessages();
+      await getAllUsers();
+    }, 1000);
+  }, []);
+
+  // useEffect(() => {
+  //   //console.log("left users", leftUsers);
+  // }, [leftUsers]);
+
+  // useEffect(() => {
+  //   //console.log("receiver messages here", receiverMessages);
+  // }, [receiverMessages]);
+
+  // useEffect(() => {
+  //   console.log("all users", users);
+  // }, [users]);
 
   useEffect(() => {
-    console.log("left users", leftUsers);
-  }, [leftUsers]);
-
-  useEffect(() => {
-    console.log("receiver messages here", receiverMessages);
-  }, [receiverMessages]);
-
-  useEffect(() => {
-    console.log("all users", users);
-  }, [users]);
-
-  useEffect(() => {
-    console.log("all messages", messages);
+   // console.log("all messages", messages);
     getLeftUsers();
   }, [messages]);
 
-  useEffect(() => {
-    console.log("fetched messages", fetchedMessages);
-  } ,[fetchedMessages]);
+  // useEffect(() => {
+  //   console.log("fetched messages", fetchedMessages);
+  // }, [fetchedMessages]);
 
   const getLeftUsers = () => {
     let taken = {};
     let tempUsers = [];
     let newMessag = [];
-    console.log("messages dumb", messages);
-    console.log("type of ", user);
+    //console.log("messages dumb", messages);
+    //console.log("type of ", user);
 
     for (let i = messages.length - 1; i >= 0; i--) {
-      if (typeof user === "undefined" || typeof messages[i].sender === "undefined" || typeof messages[i].receiver === "undefined") {
+      if (
+        typeof user === "undefined" ||
+        typeof messages[i].sender === "undefined" ||
+        typeof messages[i].receiver === "undefined"
+      ) {
         continue;
       }
-      if (typeof messages[i].sender._id === "undefined" || typeof messages[i].receiver._id === "undefined") {
+      if (
+        typeof messages[i].sender._id === "undefined" ||
+        typeof messages[i].receiver._id === "undefined"
+      ) {
         continue;
       }
-      
+
       if (messages[i].sender._id.toString() === user._id.toString()) {
         if (!taken[messages[i].receiver._id.toString()]) {
           tempUsers.push(messages[i].receiver);
@@ -227,7 +232,6 @@ const Messages = () => {
     }
 
     setLeftUsers(tempUsers);
-    
   };
 
   const getRight = () => {
@@ -373,7 +377,9 @@ const Messages = () => {
                   }
                 >
                   <div id="message-text">{message_.messageText}</div>
-                  <div id="message-time">{message_.timeStamp.slice(0, 16).replace("T", " ")}</div>
+                  <div id="message-time">
+                    {message_.timeStamp.slice(0, 16).replace("T", " ")}
+                  </div>
                 </div>
               );
             })}
