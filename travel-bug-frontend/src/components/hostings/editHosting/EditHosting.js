@@ -167,6 +167,24 @@ const EditHosting = (props) => {
       if (experience.hostingPhotos.length < 5) {
         return <div className="error-message">{message}</div>;
       }
+    } else if (pageNo == -1) {
+      console.log("-------------------------");
+      console.log(experience.hostingStartDate);
+      console.log(Date.parse(experience.hostingEndDate) < Date.now());
+      console.log(Date.parse(experience.hostingStartDate) > Date.now());
+      if (Date.parse(experience.hostingStartDate) > Date.now()) {
+        return <div className="error-message">{message}</div>;
+      } else if (Date.parse(experience.hostingEndDate) < Date.now()) {
+        return <div className="error-message">{message}</div>;
+      } else {
+        return (
+          <div
+           className="error-message-green"
+          >
+           Your hosting status is currently available
+          </div>
+        );
+      }
     }
   };
 
@@ -656,7 +674,7 @@ const EditHosting = (props) => {
           {" "}
           Hosting Availability
         </b>
-        <div id="edit-content-wrapper1">
+        <div id="edit-content-wrapper">
           <div id="edit-content-wrapper-inner">
             <div id="update-message"></div>
 
@@ -664,7 +682,7 @@ const EditHosting = (props) => {
               experience={() => experience}
               setExperience={(data) => setexperience(data)}
             />
-            {errorMessage(-1, "At least 5 photos must be uploaded")}
+            {errorMessage(-1, "Your hosting status is currently unavailable")}
           </div>
         </div>
         <div id="button-container">

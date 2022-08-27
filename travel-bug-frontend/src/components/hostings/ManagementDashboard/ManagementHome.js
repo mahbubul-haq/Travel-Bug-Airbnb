@@ -50,60 +50,73 @@ const ManagementHome = () => {
       },
     });
     const data = await res.json();
-    console.log(data);
-    for (let i = 0; i < data.bookings.length; i++) {
-      data.bookings[i].bookingStartDate = data.bookings[
-        i
-      ].bookingStartDate.slice(0, 10);
-      //console.log(data.bookings[i].bookingStartDate);
-      //console.log(typeof data.bookings[i].bookingStartDate);
-      //console.log(typeof new Date(data.bookings[i].bookingStartDate).getTime());
-      //console.log(new Date("2020-12-20"));
-      //console.log(typeof Date.now());
-      const first = new Date(data.bookings[i].bookingStartDate).getTime();
-      const second = Date.now();
-      var diffTime = first - second;
+    console.log("----------", data);
 
-      if (first < second) {
-        continue;
-      }
+    setCurrentlyHosting_(() => {
+      var temp_data = data.bookings.filter(
+        (item) =>
+          item.status === "approved" &&
+          Date.parse(item.bookingStartDate) <= Date.now() &&
+          Date.parse(item.bookingEndDate) >= Date.now()
+      );
+      return temp_data;
+    });
 
-      // let time = moment("2020-09-15T20:05:28.000Z")
-      //   .utc()
-      //   .format("ddd MMM DD GGGG, h:mm A");
+    setCheckingOut_(() => {
+      var temp_data = data.bookings.filter(
+        (item) =>
+          item.status === "approved" &&
+          Date.parse(item.bookingStartDate) <= Date.now()
+          && Date.parse(item.bookingEndDate) >= Date.now()
+          && (Date.parse(item.bookingEndDate) - Date.now()) /
+            (1000 * 60 * 60 * 24) <=
+            3
+      );
+      return temp_data;
+    });
 
-      // console.log(time);
-      const days = diffTime / (1000 * 60 * 60 * 24);
-      console.log(days);
-      if (days <= 7) {
-        setArivingSoon((prev) => {
-          return [...prev, data.bookings[i]];
-        });
-        console.log("ariving soon");
-      } else if (days > 7) {
-        setUpComing((prev) => {
-          return [...prev, data.bookings[i]];
-          });
-        console.log("upcoming");
-      }
-    }
+    setArivingSoon(() => {
+      var temp_data = data.bookings.filter(
+        (item) =>
+          item.status === "approved" &&
+          Date.parse(item.bookingStartDate) > Date.now()
+          && (Date.parse(item.bookingStartDate) - Date.now()) /
+            (1000 * 60 * 60 * 24) <=
+            7
+      );
+      return temp_data;
+    });
+    setUpComing(() => {
+      var temp_data = data.bookings.filter(
+        (item) =>
+          item.status === "approved" &&
+          Date.parse(item.bookingStartDate) > Date.now()
+          &&
+          (Date.parse(item.bookingStartDate) - Date.now()) /
+            (1000 * 60 * 60 * 24) >
+            7
+      );
+      return temp_data;
+    });
+
     setBookings(data.bookings);
   };
 
   useEffect(() => {
     getAllHostings();
     getAllDrafts();
-    
   }, []);
 
   useEffect(() => {
     getAllBookings();
-  } , []);
+  }, []);
 
   useEffect(() => {
-  console.log(upComing);
-  console.log(arivingSoon);
-  }, [upComing, arivingSoon]);
+    console.log("upcoming", upComing);
+    console.log("ariving", arivingSoon);
+    console.log("currently Hosting", currentlyHosting_);
+    console.log("checking out", checkingOut_);
+  }, [upComing, arivingSoon, currentlyHosting_, checkingOut_]);
 
   const checkingOut = () => {
     SetlistType("checkingOut");
@@ -122,6 +135,161 @@ const ManagementHome = () => {
     navigate("/newlisting", { state: { draft_experience: [drafts[0]] } });
   };
 
+  const getUpcoming = () => {
+    if (upComing.length > 0) {
+      return (
+            <div className="container my-10">
+              <br />
+              <br />
+              <ul className="list-group">
+                {upComing.map((item, index) => {
+                  return (
+                    <Link
+                      key={index}
+                      to={`/hostings/booking/${item._id}`}
+                      state={{ item: item, listType: listType }}
+                      className="list-group-item list-group-item-info"
+                    >
+                      <div className="d-flex w-100 justify-content-between">
+                        <h4 className="mb-1">
+                          {item.user.firstName} {item.user.lastName}
+                        </h4>
+                        <small>{item.noOfGuests} Guests</small>
+                      </div>
+                      <p className="mb-1">
+                        Hosting Title: {item.hostingID.hostingTitle}
+                      </p>
+                      <small>not paid</small>
+                    </Link>
+                  );
+                })}
+              </ul>
+            </div>
+          )
+    }
+    else {
+      return (
+        <div>no item in upcoming</div>
+      )
+    }
+  };
+
+  const getArivingSoon = () => {
+    if (arivingSoon.length > 0) {
+      return (
+            <div className="container my-10">
+              <br />
+              <br />
+              <ul className="list-group">
+                {arivingSoon.map((item, index) => {
+                  return (
+                    <Link
+                      key={index}
+                      to={`/hostings/booking/${item._id}`}
+                      state={{ item: item, listType: listType }}
+                      className="list-group-item list-group-item-info"
+                    >
+                      <div className="d-flex w-100 justify-content-between">
+                        <h4 className="mb-1">
+                          {item.user.firstName} {item.user.lastName}
+                        </h4>
+                        <small>{item.noOfGuests} Guests</small>
+                      </div>
+                      <p className="mb-1">
+                        Hosting Title: {item.hostingID.hostingTitle}
+                      </p>
+                      <small>not paid</small>
+                    </Link>
+                  );
+                })}
+              </ul>
+            </div>
+          )
+    } else {
+      return (
+        <div>no item in ariving soon</div>
+      )
+    }
+  }
+
+  const getCheckingOut = () => {
+    if (checkingOut_.length > 0) {
+      return (
+            <div className="container my-10">
+              <br />
+              <br />
+              <ul className="list-group">
+                {checkingOut_.map((item, index) => {
+                  return (
+                    <Link
+                      key={index}
+                      to={`/hostings/booking/${item._id}`}
+                      state={{ item: item, listType: listType }}
+                      className="list-group-item list-group-item-info"
+                    >
+                      <div className="d-flex w-100 justify-content-between">
+                        <h4 className="mb-1">
+                          {item.user.firstName} {item.user.lastName}
+                        </h4>
+                        <small>{item.noOfGuests} Guests</small>
+                      </div>
+                      <p className="mb-1">
+                        Hosting Title: {item.hostingID.hostingTitle}
+                      </p>
+                      <small>not paid</small>
+                    </Link>
+                  );
+                })}
+              </ul>
+            </div>
+          )
+    } else {
+      return (
+        <div>no item in checking out</div>
+      )
+    }
+  }
+
+  const getCurrentlyHosting = () => {
+    if (currentlyHosting_.length > 0) {
+      return (
+            <div className="container my-10">
+              <br />
+              <br />
+              <ul className="list-group">
+                {currentlyHosting_.map((item, index) => {
+                  return (
+                    <Link
+                      key={index}
+                      to={`/hostings/booking/${item._id}`}
+                      state={{ item: item, listType: listType }}
+                      className="list-group-item list-group-item-info"
+                    >
+                      <div className="d-flex w-100 justify-content-between">
+                        <h4 className="mb-1">
+                          {item.user.firstName} {item.user.lastName}
+                        </h4>
+                        <small>{item.noOfGuests} Guests</small>
+                      </div>
+                      <p className="mb-1">
+                        Hosting Title: {item.hostingID.hostingTitle}
+                      </p>
+                      <small>not paid</small>
+                    </Link>
+                  );
+                })}
+              </ul>
+            </div>
+          )
+    } else {
+      return (
+        <div>no item in currently hosting</div>
+      )
+    }
+  }
+
+
+
   return (
     <>
       <div id="management-home">
@@ -135,7 +303,7 @@ const ManagementHome = () => {
             <Card.Body>
               <div className="container">
                 <div id="no-draft">
-                  <h4 style={{ color: "white", textAlign: "center" }}>
+                  <h4 style={{ color: "black", textAlign: "center" }}>
                     Booking Management Dashboard
                   </h4>
                 </div>
@@ -209,63 +377,10 @@ const ManagementHome = () => {
           </Container>
         </Navbar>
         <div id="home-bottom-container">
-          {listType === "checkingOut" && (
-            <div className="container my-10">
-              <br />
-              <br />
-              <ul className="list-group">
-                <Link to="#" className="list-group-item list-group-item-info">
-                  <div className="d-flex w-100 justify-content-between">
-                    <h4 className="mb-1">Booked By</h4>
-                    <small># of guests</small>
-                  </div>
-                  <p className="mb-1">Hosting Title </p>
-                  <small>paid/partially paid</small>
-                </Link>
-
-                <Link to="#" className="list-group-item list-group-item-info">
-                  <div className="d-flex w-100 justify-content-between">
-                    <h4 className="mb-1">Booked By</h4>
-                    <small># of guests</small>
-                  </div>
-                  <p className="mb-1">Hosting Title </p>
-                  <small>paid/partially paid</small>
-                </Link>
-              </ul>
-            </div>
-          )}
-          {listType === "currentlyHosting" && (
-            <div className="container my-10">
-              <br />
-              <br />
-              <ul className="list-group">
-                <li className="list-group-item list-group-item-info">
-                  This is a currently hosting
-                </li>
-              </ul>
-            </div>
-          )}
-          {listType === "arrivingSoon" && (
-            <div className="container my-10">
-              <br />
-              <br />
-              <ul className="list-group">
-                <li className="list-group-item list-group-item-info">
-                  This is a arriving soon
-                </li>
-              </ul>
-            </div>
-          )}
-          {listType === "upcoming" && (
-            <div className="container my-10">
-              <br /> <br />
-              <ul className="list-group">
-                <li className="list-group-item list-group-item-info">
-                  This is a upcoming
-                </li>
-              </ul>
-            </div>
-          )}
+          {listType === "checkingOut" && getCheckingOut()}
+          {listType === "currentlyHosting" && getCurrentlyHosting()}
+          {listType === "arrivingSoon" &&  getArivingSoon()}
+          {listType === "upcoming" && getUpcoming()}
         </div>
       </div>
     </>

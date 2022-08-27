@@ -40,6 +40,7 @@ const Hostings = () => {
   const [activities, setActivities] = useState([]);
   const [experienceId, setExperienceId] = useState(null);
   const [draftExperience, setDraftExperience] = useState(null);
+  const [newHostingId, setNewHostingId] = useState(null);
 
   const context = useContext(userContext);
   const { user, getUser } = context;
@@ -88,61 +89,63 @@ const Hostings = () => {
       //       },
       //     }
       //   );
-        const data = draftExperience;
-        console.log("here bro", data);
+      const data = draftExperience;
+      console.log("here bro", data);
 
-        if (data.length == 0) return;
-        if (data[0].categories.length > 0 && data[0].categories[0] !== null) {
-          setSelectedCategory({
-            category: data[0].categories[0].categoryName,
-            id: data[0].categories[0]._id,
-          });
-        }
-        if (data[0].subCategories.length > 0 && data[0].subCategories[0] !== null) {
-          setSelectedSubCategory({
-            subCategoryName: data[0].subCategories[0].subCategoryName,
-            id: data[0].subCategories[0]._id,
-            categoryName: data[0].categories[0].categoryName,
-          });
-        }
-        if (data[0].location !== null) {
-          setLocation({
-            x: data[0].location.longitude,
-            y: data[0].location.latitude,
-            label: data[0].location.address,
-            id: data[0].location._id,
-          });
-        }
-        setDescription(data[0].description);
-        setHostingDuration(data[0].hostingDuration);
-        setDayTimeSlot(data[0].hostAvailability);
-        setSelectedImages(data[0].hostingPhotos);
-        setTitle(data[0].hostingTitle);
-        setMinAgeRequirement(data[0].minAge);
-        setMaxGroupSize(data[0].maxGroupSize);
-        setItemsToBring(data[0].itemsToBring[0]);
-        setAdditionalRequirements(data[0].additionalRequirements[0]);
-        setTotalCost(data[0].totalCost);
-        setPartialPayAllowed(data[0].partialPayAllowed);
-        setMaxRefundDays(data[0].maxRefundDays);
-        //setDraft(data[0].draft);
-        setIndividual(data[0].individualOrTeam);
-        setActivities(() => {
-          return data[0].activities.map((current_activity) => {
-            return {
-              title: current_activity.activityTitle,
-              dayTimeSlot: current_activity.dayTimeSlots,
-              duration: current_activity.activityDuration,
-              activityCost: current_activity.activityCost,
-              additionalRequirements:
-                current_activity.additionalRequirements[0],
-              hostingId: current_activity.hostingId,
-              _id: current_activity._id,
-            };
-          });
+      if (data.length == 0) return;
+      if (data[0].categories.length > 0 && data[0].categories[0] !== null) {
+        setSelectedCategory({
+          category: data[0].categories[0].categoryName,
+          id: data[0].categories[0]._id,
         });
-        setExperienceId(data[0]._id);
-      };
+      }
+      if (
+        data[0].subCategories.length > 0 &&
+        data[0].subCategories[0] !== null
+      ) {
+        setSelectedSubCategory({
+          subCategoryName: data[0].subCategories[0].subCategoryName,
+          id: data[0].subCategories[0]._id,
+          categoryName: data[0].categories[0].categoryName,
+        });
+      }
+      if (data[0].location !== null) {
+        setLocation({
+          x: data[0].location.longitude,
+          y: data[0].location.latitude,
+          label: data[0].location.address,
+          id: data[0].location._id,
+        });
+      }
+      setDescription(data[0].description);
+      setHostingDuration(data[0].hostingDuration);
+      setDayTimeSlot(data[0].hostAvailability);
+      setSelectedImages(data[0].hostingPhotos);
+      setTitle(data[0].hostingTitle);
+      setMinAgeRequirement(data[0].minAge);
+      setMaxGroupSize(data[0].maxGroupSize);
+      setItemsToBring(data[0].itemsToBring[0]);
+      setAdditionalRequirements(data[0].additionalRequirements[0]);
+      setTotalCost(data[0].totalCost);
+      setPartialPayAllowed(data[0].partialPayAllowed);
+      setMaxRefundDays(data[0].maxRefundDays);
+      //setDraft(data[0].draft);
+      setIndividual(data[0].individualOrTeam);
+      setActivities(() => {
+        return data[0].activities.map((current_activity) => {
+          return {
+            title: current_activity.activityTitle,
+            dayTimeSlot: current_activity.dayTimeSlots,
+            duration: current_activity.activityDuration,
+            activityCost: current_activity.activityCost,
+            additionalRequirements: current_activity.additionalRequirements[0],
+            hostingId: current_activity.hostingId,
+            _id: current_activity._id,
+          };
+        });
+      });
+      setExperienceId(data[0]._id);
+    }
   }, [draftExperience]);
 
   useEffect(() => {
@@ -162,7 +165,6 @@ const Hostings = () => {
     }
   }, [experienceId]);
 
-  
   useEffect(() => {
     console.log("draft outside");
     if (draft) {
@@ -194,11 +196,10 @@ const Hostings = () => {
       const data = await response.json();
       console.log("activity", data);
     } catch (err) {
-    
       console.log(err);
     }
   };
-  
+
   const locationState = useLocation().state;
   //setDraftExperience(draft_experience);
   useEffect(() => {
@@ -207,9 +208,6 @@ const Hostings = () => {
       setDraftExperience(locationState.draft_experience);
     }
   }, [locationState]);
-
-
-
 
   const saveAndExit = () => {
     console.log("saveAndExit");
@@ -259,6 +257,7 @@ const Hostings = () => {
         if (draft) {
           navigate("/hostings");
         } else {
+          setNewHostingId(json.experienceHosting._id);
           setPageNo(12);
         }
       } else {
@@ -414,8 +413,7 @@ const Hostings = () => {
 
   const setlocation = (val) => {
     setLocation(val);
-    if (location !== null)
-        delete location.id;
+    if (location !== null) delete location.id;
   };
 
   const selectSubCategory = (category) => {
@@ -664,7 +662,7 @@ const Hostings = () => {
             publishHosting={() => {
               publishHosting();
             }}
-            user = {() => user}
+            user={() => user}
             activities={() => activities}
           />
         </div>
@@ -672,17 +670,19 @@ const Hostings = () => {
     } else if (pageNo == 12) {
       return (
         <div>
-          <HostingComplete nextPage={nextPage} prevPage={prevPage} />
+          <HostingComplete
+            nextPage={nextPage}
+            prevPage={prevPage}
+            hostingId={() => newHostingId}
+          />
         </div>
       );
-    }
-    else if (pageNo == 13)
-    {
+    } else if (pageNo == 13) {
       return (
         <div>
-          <HostingError/>
+          <HostingError />
         </div>
-      )
+      );
     }
 
     return (
