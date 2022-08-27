@@ -10,6 +10,7 @@ import SignUp from "./components/authentication/Signup";
 import AddBookingDetails from "./components/bookings/AddBookingDetails";
 import Bookings from "./components/bookings/Bookings";
 import Payment from "./components/bookings/Payment";
+import SingleBooking from "./components/bookings/SingleBooking";
 import Experiences from "./components/experiences/Experiences";
 import SingleExperience from "./components/experiences/SingleExperience";
 import About from "./components/home/About";
@@ -127,6 +128,11 @@ function App() {
                         exact
                         path="/bookingrequest/:bookingId/:notificationId/:type"
                         element={<Request />}
+                      />
+                      <Route
+                        exact
+                        path="/bookingview/:bookingId"
+                        element={<SingleBooking />}
                       />
                       <Route
                         exact path = "/hostings/booking/:id"

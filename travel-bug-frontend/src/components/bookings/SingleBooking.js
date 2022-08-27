@@ -1,13 +1,10 @@
-
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { Container, Row } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
-import StripeCheckout from 'react-stripe-checkout';
-import './request.css';
+import '../notifications/request.css';
 
-export default function Request() {
-    // state booking
+const SingleBooking = () => {
     const [booking, setBooking] = useState({});
     // get params from url
     const { bookingId } = useParams();
@@ -168,15 +165,8 @@ export default function Request() {
                     <center>
                         <div className="card-footer">
                             {booking.status === "waiting" && (
-
-                            <div className="d-flex">
-
-                                <button type="button" className="btn btn-success mx-2 " onClick={approveRequest}>Approve</button>
-
-
-                                <button type="button" className="btn btn-danger mx-2" onClick={declineRequest}>Decline</button>
-
-                            </div>)}{
+                                <li class="list-group-item list-group-item-dark">This Request has been Waiting for approval</li>
+                            )}{
                             booking.status === "approved" && (
                                 <li class="list-group-item list-group-item-success">This Request has been Approved</li>
                             )
@@ -190,16 +180,11 @@ export default function Request() {
 
                         </div>
                     </center>
-                    {type=="reply" && booking.status=="approved" && (
-                        <StripeCheckout stripeKey="pk_test_51LbLZjLOMUpyuAnrdPiTUuHC5zH8qH6O9VY8BfSO4TI9vKK6a1LjwGNnQNq3Z3jPTXwAIfTpK957wr4HBOe0KbsB00NJVCBzV6" token={makePayment} name="Make Payment"
-                        shippingAddress amount={booking.totalPrice*100} 
-                       >
-                         <button className="btn btn-primary">Pay Now</button>
-                       </StripeCheckout>
-                        )}
+                    
                 </div>
             </Container >
         </div >
     )
-
 }
+
+export default SingleBooking

@@ -34,7 +34,7 @@ const SingleExperience = () => {
                 hostingID: "",
                 bookingStartDate: "",
                 bookingEndDate: "",
-                noOfGuests: '',
+                noOfGuests: 1,
                 user: "",
                 paymentInfo: "",
                 selectedActivities: [],
@@ -234,6 +234,10 @@ const SingleExperience = () => {
                         name="noOfGuests"
                         placeholder="Enter No Of Guests"
                         onChange={onChange}
+                        min="1"
+                        value={reservation.noOfGuests}
+                        
+                        
                       />
                     </div>
                   </div>
