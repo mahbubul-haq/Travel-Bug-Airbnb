@@ -211,12 +211,12 @@ router.get("/all", fetchuser, async (req, res) => {
   var success = false;
   try {
     const userId = req.user.id;
-    const bookings = await Booking.find({host: userId }).populate("hostingID user host");
+    const bookings = await Booking.find({host: userId }).populate("hostingID user host paymentID");
     success = true;
     res.json({
       success: success,
       bookings: bookings,
-    });
+    }); 
   } catch (error) {
     console.log(error.message);
     res.status(500).json({

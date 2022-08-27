@@ -18,9 +18,7 @@ const Messages = () => {
   const [leftUsers, setLeftUsers] = useState([]);
   const [receiverMessages, setReceiverMessages] = useState([]);
   const [fetchedMessages, setFetchedMessages] = useState([]);
-  // const [newMessages, setNewMessages] = useState([]);
-
-  //Dummy
+  // const [newMessages, setNewMessages] = useState([]);  const loc = useLocation()  //Dummy
 
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState({
@@ -104,7 +102,7 @@ const Messages = () => {
         return tempMessages;
       });
     }
-  }, [newMessage.receiver, messages]);
+  }, [newMessage.receiver, messages, users]);
 
   const hostAddress = "http://localhost:5000";
   const getAllMessages = async () => {
@@ -172,11 +170,14 @@ const Messages = () => {
   });
 
   useEffect(() => {
-    setInterval(async () => {
+    const interval = setInterval(async () => {
       await getAllMessages();
       await getAllUsers();
 
     }, 1000);
+
+    return () => clearInterval(interval);
+  
   }, []);
 
   // useEffect(() => {

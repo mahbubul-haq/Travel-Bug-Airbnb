@@ -52,14 +52,16 @@ const ManagementHome = () => {
     const data = await res.json();
     console.log("----------", data);
 
-    setCurrentlyHosting_(() => {
+    setCurrentlyHosting_( () => {
       var temp_data = data.bookings.filter(
         (item) =>
           item.status === "approved" &&
           Date.parse(item.bookingStartDate) <= Date.now() &&
           Date.parse(item.bookingEndDate) >= Date.now()
       );
-      return temp_data;
+
+      console.log("temp data", temp_data);
+        return temp_data;
     });
 
     setCheckingOut_(() => {
@@ -111,6 +113,21 @@ const ManagementHome = () => {
     getAllBookings();
   }, []);
 
+  const getPaymentInfo = async (id) => {
+    const res = await fetch(`http://localhost:5000//payment/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": localStorage.getItem("token"),
+      },
+    });
+    const data = await res.json();
+    console.log(data);
+    return data;
+  }
+
+
+
   useEffect(() => {
     console.log("upcoming", upComing);
     console.log("ariving", arivingSoon);
@@ -159,7 +176,12 @@ const ManagementHome = () => {
                       <p className="mb-1">
                         Hosting Title: {item.hostingID.hostingTitle}
                       </p>
-                      <small>not paid</small>
+                      {"paymentID" in item && (
+                        <small>Paid</small>
+                      )}
+                      {!("paymentID" in item) && (
+                        <small>Not Paid</small>
+                        )}
                     </Link>
                   );
                 })}
@@ -198,7 +220,8 @@ const ManagementHome = () => {
                       <p className="mb-1">
                         Hosting Title: {item.hostingID.hostingTitle}
                       </p>
-                      <small>not paid</small>
+                      {"paymentID" in item && <small>Paid</small>}
+                      {!("paymentID" in item) && <small>Not Paid</small>}
                     </Link>
                   );
                 })}
@@ -236,7 +259,8 @@ const ManagementHome = () => {
                       <p className="mb-1">
                         Hosting Title: {item.hostingID.hostingTitle}
                       </p>
-                      <small>not paid</small>
+                      {"paymentID" in item && <small>Paid</small>}
+                      {!("paymentID" in item) && <small>Not Paid</small>}
                     </Link>
                   );
                 })}
@@ -274,7 +298,8 @@ const ManagementHome = () => {
                       <p className="mb-1">
                         Hosting Title: {item.hostingID.hostingTitle}
                       </p>
-                      <small>not paid</small>
+                      {"paymentID" in item && <small>Paid</small>}
+                      {!("paymentID" in item) && <small>Not Paid</small>}
                     </Link>
                   );
                 })}
@@ -377,10 +402,12 @@ const ManagementHome = () => {
           </Container>
         </Navbar>
         <div id="home-bottom-container">
-          {listType === "checkingOut" && getCheckingOut()}
-          {listType === "currentlyHosting" && getCurrentlyHosting()}
-          {listType === "arrivingSoon" &&  getArivingSoon()}
-          {listType === "upcoming" && getUpcoming()}
+          <div id="management-bottom-inner">
+            {listType === "checkingOut" && getCheckingOut()}
+            {listType === "currentlyHosting" && getCurrentlyHosting()}
+            {listType === "arrivingSoon" && getArivingSoon()}
+            {listType === "upcoming" && getUpcoming()}
+          </div>
         </div>
       </div>
     </>
