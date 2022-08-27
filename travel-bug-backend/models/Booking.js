@@ -52,6 +52,7 @@ const BookingSchema = new Schema({
     min: 1,
     required: true,
   },
+ 
 
 });
 const Booking = mongoose.model("Booking", BookingSchema);

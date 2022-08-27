@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import CustomMap from './map/CustomMap';
 import './map/CustomMap.css';
+import RouteCustomMap from './map/RouteCustomMap';
 
 const TransportGuidelines = () => {
   const [positions, setPositions] = useState([]);
@@ -34,26 +35,27 @@ const TransportGuidelines = () => {
     setComponentNo(componentNo - 1);
   }
 
-  const getDetails = async () =>{
+  const getDetails = async () => {
     const response = await fetch("http://localhost:5000/transport/getguideline", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "source": {
+          "long": source.long,
+          "lat": source.lat
         },
-        body: JSON.stringify({
-          "source":{
-              "long": source.long,
-              "lat": source.lat
-          },
-          "destination":{
-            "long":destination.long,
-            "lat":destination.lat
-          }
-        })
+        "destination": {
+          "long": destination.long,
+          "lat": destination.lat
+        }
+      })
     });
     const json = await response.json();
-    console.log("My desired stops");
-    console.log(json);
+    // console.log("My desired stops");
+    // console.log(json);
+    console.log("My stopages", typeof(json.guideline[0].stopages),json.guideline[0].stopages);
     setGuidelineData(json.guideline);
   }
 
@@ -133,7 +135,9 @@ const TransportGuidelines = () => {
         <button type="button" className="btn btn-primary btn-lg mx-1"
           onClick={
             () => {
+              console.log("ALL INPUT DONE. Fetching data");
               getDetails();
+              console.log("Fetching data done");
               nextComponent();
             }
           }>
@@ -143,21 +147,48 @@ const TransportGuidelines = () => {
     )
   }
 
-  const ViewGuidelines = () =>{
+  const ViewGuidelines = () => {
     return (
-      <div>
-        <h3>Guidelines</h3>
+      <div className='my-4'>
+        <h3>Here are the available transports</h3>
         {guidelineData.map((guideline, index) => {
           return (
             <div key={index}>
-              <h5>Transport Name: {guideline.transportName}</h5>
-              <h5>Transport Category: {guideline.transportCategory}</h5>
-              <h5>Total Cost: {guideline.totalCost}</h5>
-              <br/>
+              {ViewMoreModal(guideline)}
+              <br />
             </div>
           )
         })}
       </div>
+    )
+  }
+
+  const ViewMoreModal = (guideline) => {
+    return (
+      <table className="table">
+        <thead>
+          <tr>
+            <th scope="col">Transport Name</th>
+            <th scope="col">Transport Category</th>
+            <th scope="col">Start</th>
+            <th scope="col">Gatelock</th>
+            <th scope="col">Cost</th>
+            <th scope="col">Stopages in Map</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{guideline.transportName}</td>
+            <td>{guideline.transportCategory}</td>
+            <td>Start Stopage</td>
+            <td>End Stopage</td>
+            <td>{guideline.totalCost} BDT</td>
+            <td><div id='transport-guideline-map'>
+              <RouteCustomMap setPositions={(e) => setPositions(e)} stopages={guideline.stopages} />
+            </div></td>
+          </tr>
+        </tbody>
+      </table>
     )
   }
 
@@ -168,7 +199,7 @@ const TransportGuidelines = () => {
           <center>
             <h2>Step {componentNo} - Enter your source</h2>
             <div id='transport-guideline-map'>
-            <CustomMap setPositions={(e) => setPositions(e)} />
+              <CustomMap setPositions={(e) => setPositions(e)} />
             </div>
             {SourceInput()}
           </center>
@@ -179,7 +210,7 @@ const TransportGuidelines = () => {
           <center>
             <h2>Step {componentNo} - Enter your destination</h2>
             <div id='transport-guideline-map'>
-            <CustomMap setPositions={(e) => setPositions(e)} />
+              <CustomMap setPositions={(e) => setPositions(e)} />
             </div>
             {DestinationInput()}
           </center>
@@ -190,7 +221,7 @@ const TransportGuidelines = () => {
           <center>
             <h2 className='text-center'>Details for you</h2>
             <div id='transport-guideline-map'>
-            <CustomMap setPositions={(e) => setPositions(e)} />
+              <CustomMap setPositions={(e) => setPositions(e)} />
             </div>
             {ViewInputs()}
           </center>
@@ -200,7 +231,7 @@ const TransportGuidelines = () => {
           <center>
             <h2 className='text-center'>Details for you</h2>
             <div id='transport-guideline-map'>
-            <CustomMap setPositions={(e) => setPositions(e)} />
+              <CustomMap setPositions={(e) => setPositions(e)} />
             </div>
             {ViewGuidelines()}
           </center>

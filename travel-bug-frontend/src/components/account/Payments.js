@@ -1,10 +1,8 @@
-import React from 'react'
-
+import React from 'react';
 const Payments = () => {
   return (
     <div>
-      This is Payments
-    </div>
+      </div>
   )
 }
 
