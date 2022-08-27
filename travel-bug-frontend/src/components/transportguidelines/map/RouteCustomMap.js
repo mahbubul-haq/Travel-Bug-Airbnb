@@ -116,11 +116,15 @@ function CustomMap(props) {
 //remove null positions from positions
 
   useEffect(() => {
-    let temp = [];
-    const { stopages } = props;
+    const { source, destination, stopages } = props;
+    if (source !== null){
+        setpositions([source.long, source.lat]);
+    }
+    if (destination !== null){
+        setpositions([destination.long, destination.lat]);
+    }
     for(let i = 0; i < stopages.length; i++){
         if(stopages[i] !== null){
-            temp.push([stopages[i].lat,stopages[i].long]);
             setpositions([stopages[i].long,stopages[i].lat]);
         }
     }

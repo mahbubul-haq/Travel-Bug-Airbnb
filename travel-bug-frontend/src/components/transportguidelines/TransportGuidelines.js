@@ -55,7 +55,7 @@ const TransportGuidelines = () => {
     const json = await response.json();
     // console.log("My desired stops");
     // console.log(json);
-    console.log("My stopages", typeof(json.guideline[0].stopages),json.guideline[0].stopages);
+    console.log("My stopages", typeof (json.guideline[0].stopages), json.guideline[0].stopages);
     setGuidelineData(json.guideline);
   }
 
@@ -183,10 +183,25 @@ const TransportGuidelines = () => {
             <td>Start Stopage</td>
             <td>End Stopage</td>
             <td>{guideline.totalCost} BDT</td>
-            <td><div id='transport-guideline-map'>
-              <RouteCustomMap setPositions={(e) => setPositions(e)} stopages={guideline.stopages} />
+            <td rowSpan={guideline.timeSlots.length + 2}><div id='transport-guideline-map'>
+              <RouteCustomMap setPositions={(e) => setPositions(e)} source={guideline.source} destination={guideline.destination} stopages={guideline.stopages} />
             </div></td>
           </tr>
+          <tr>
+            <th scope="col">Time Slot</th>
+            <th scope="col">Start Time</th>
+            <th scope="col">Arrival Time</th>
+          </tr>
+
+            {guideline.timeSlots.map((time, index) => {
+              return (
+                <tr key={index}>
+                <td>{index + 1}</td>
+                <td> {time.start} {time.startTag.toLowerCase()} </td>
+                <td> {time.end} {time.endTag.toLowerCase()} </td>
+                </tr>
+              )
+            })}
         </tbody>
       </table>
     )
