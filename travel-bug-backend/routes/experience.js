@@ -9,10 +9,9 @@ router = express.Router();
 router.get("/all", async (req, res) => {
   try {
     //get all the experiences
-    const experiences = await ExperienceHosting.find().populate(
-      "host",
-      "-password"
-    ); //except the password
+    const experiences = await ExperienceHosting.find()
+    .populate("host", "-password")
+    .populate("activities categories subCategories location"); //except the password
 
     //send a response after getting experiences
     res.json(experiences);
