@@ -27,7 +27,6 @@ router.post("/", fetchuser, async (req, res) => {
       bookingEndDate: req.body.bookingEndDate,
       noOfGuests: req.body.noOfGuests,
       user: userId,
-      paymentInfo: req.body.paymentInfo,
       selectedActivities: req.body.selectedActivities,
       status: req.body.status,
       cost: req.body.cost,
