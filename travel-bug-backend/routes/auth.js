@@ -141,6 +141,7 @@ router.post('/updateuser', fetchuser, async (req, res) => {
                     phoneNo: req.body.phoneNo,
                     nid: req.body.nid,
                     userDetails: req.body.userDetails,
+                    profilePictureLink: req.body.profilePictureLink,
                 }
             },
             { new: false }

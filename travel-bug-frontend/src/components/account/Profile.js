@@ -1,6 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import './profile.css'
 import userContext from "../../context/user/userContext";
+import axios from "axios";
+
+const imageUrl = "http://localhost:5000/host/experience/getimage/";
 
 const Profile = () => {
   const context = useContext(userContext);
@@ -12,6 +15,7 @@ const Profile = () => {
     email: "",
     nid: "",
     userDetails: "",
+    profilePictureLink: ""
   });
 
   useEffect(() => {
@@ -26,6 +30,7 @@ const Profile = () => {
       email: user.email,
       nid: user.nid,
       userDetails: user.userDetails,
+      profilePictureLink: user.profilePictureLink
     })
   }, [user]);
 
@@ -57,12 +62,36 @@ const Profile = () => {
     }
   }
 
+  const profileImageUpload = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    const file = document.getElementById("profileImage").files[0];
+    formData.append("image", file);
+
+    axios
+      .post("http://localhost:5000/host/experience/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        return res.data;
+      })
+      .then((res) => {
+        //props.setSelectedImages("uploads/" + res);
+        console.log("data ", res);
+        // props.setSelectedImages(imageUrl + res);
+        setUserData({ ...userData, profilePictureLink: imageUrl + res });
+      })
+      .catch((err) => console.log("error here axios", err));
+  }
+
   return (
     <div>
       <div class="container rounded bg-white mt-5 mb-5">
         <div class="row">
           <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"/><span class="font-weight-bold">{user.firstName} {user.lastName}</span><span class="text-black-50">{user.email}</span><span> </span></div>
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src={userData.profilePictureLink}/><span class="font-weight-bold">{user.firstName} {user.lastName}</span><span class="text-black-50">{user.email}</span><span> </span></div>
           </div>
           <div class="col-md-5 border-right">
             <div class="p-3 py-5">
@@ -77,6 +106,12 @@ const Profile = () => {
                 <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" placeholder="enter phone number" name='phoneNo' value={userData.phoneNo} onChange={onChange} /></div>
                 <div class="col-md-12"><label class="labels">National ID Number</label><input type="text" class="form-control" placeholder="enter national number" name='nid' value={userData.nid} onChange={onChange} /></div>
                 <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control" placeholder="enter email id" name='email' value={user.email} /></div>
+
+                <div class="col-md-12">
+                  <label class="labels">Profile Image</label>
+                  <input type="file" class="form-control" placeholder="enter email id" id='profileImage' name='profileimage'
+                  accept="image/png, image/jpeg" onChange={profileImageUpload}/>
+                  </div>
               </div>
               <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button" onClick={handleSaveProfile}>Save Profile</button></div>
             </div>
