@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import userContext from "../../context/user/userContext";
 
-import Dummy from "../../images/dummy_profile_pic.webp";
 
 import "./Messages.css";
 
@@ -111,6 +110,7 @@ const Messages = () => {
     }
   }, [newMessage.receiver, messages, users]);
 
+
   const hostAddress = "http://localhost:5000";
   const getAllMessages = async () => {
     const response = await fetch(`${hostAddress}/message/all`, {
@@ -208,6 +208,14 @@ const Messages = () => {
   //   console.log("fetched messages", fetchedMessages);
   // }, [fetchedMessages]);
 
+  useEffect(() => {
+    for (let i = 0; i < users.length; i++) {
+      if (users[i]._id.toString() == newMessage.receiver.toString()) {
+        setNewMessage({ ...newMessage, profilePictureLink: users[i].profilePictureLink });
+      }
+    }
+  }, [newMessage.receiver]);
+
   const getLeftUsers = () => {
     let taken = {};
     let tempUsers = [];
@@ -277,7 +285,7 @@ const Messages = () => {
                   //getReceiverMessages();
                 }}
               >
-                <img id="message-right-image" src={Dummy} alt="profile" />
+                <img id="message-right-image" src={user_.profilePictureLink} alt="profile" />
 
                 <div id="message-right-name">
                   {user_.firstName} {user_.lastName}
@@ -302,7 +310,7 @@ const Messages = () => {
           </div>
 
           <div id="message-right-prof">
-            <img id="right-prof-image" src={Dummy} alt="profile" />
+            <img id="right-prof-image" src={newMessage.profilePictureLink} alt="profile" />
 
             <div id="right-prof-name">
               <h3>{newMessage.receiverName}</h3>
@@ -332,7 +340,7 @@ const Messages = () => {
                   //getReceiverMessages();
                 }}
               >
-                <img id="message-left-image" src={Dummy} alt="profile" />
+                <img id="message-left-image" src={user_.profilePictureLink} alt="profile" />
 
                 <div id="message-left-name">
                   {user_.firstName + " " + user_.lastName}
@@ -360,7 +368,7 @@ const Messages = () => {
                   //getReceiverMessages();
                 }}
               >
-                <img id="message-left-image" src={Dummy} alt="profile" />
+                <img id="message-left-image" src={user_.profilePictureLink} alt="profile" />
 
                 <div id="message-left-name">
                   {user_.firstName + " " + user_.lastName}
