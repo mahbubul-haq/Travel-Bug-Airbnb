@@ -89,27 +89,40 @@ const Nav = () => {
           </NavbarBrand>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <NavItem>
-                <Link
-                  className="nav-link active text-dark"
-                  aria-current="page"
-                  to="/"
-                >
-                  Home
-                </Link>
-              </NavItem>
-              <NavItem>
-                <Link
-                  className="nav-link text-dark"
-                  to={
-                    localStorage.getItem("isHost")
-                      ? "/hostings/listings"
-                      : "/about"
-                  }
-                >
-                  {localStorage.getItem("isHost") ? "Listings" : "About"}
-                </Link>
-              </NavItem>
+              {
+                localStorage.getItem("isHost")
+                  ? <NavItem>
+                    <Link
+                      className="nav-link text-dark"
+                      to="/hostings"
+                    >
+                      Home
+                    </Link>
+                  </NavItem>
+                  :
+                  <NavItem>
+                    <Link
+                      className="nav-link active text-dark"
+                      aria-current="page"
+                      to="/"
+                    >
+                      Home
+                    </Link>
+                  </NavItem>
+              }
+
+              {
+                localStorage.getItem("isHost")
+                  ? <NavItem>
+                    <Link
+                      className="nav-link text-dark"
+                      to="/hostings/listings"
+                    >
+                      Listings
+                    </Link>
+                  </NavItem>
+                  : <></>
+              }
               <NavItem>
                 <Link
                   className="nav-link text-dark"
@@ -124,20 +137,31 @@ const Nav = () => {
                     : "Experiences"}
                 </Link>
               </NavItem>
-              <NavItem>
-                <Link
-                  className="nav-link text-dark"
-                  to={
-                    localStorage.getItem("isHost")
-                      ? "/messages"
-                      : "/transportguidelines"
-                  }
-                >
-                  {localStorage.getItem("isHost")
-                    ? "Inbox"
-                    : "Transport Guidelines"}
-                </Link>
-              </NavItem>
+              {
+                localStorage.getItem("isHost")
+                  ? <NavItem>
+                    <Link
+                      className="nav-link text-dark"
+                      to="/messages"
+                    >
+                      Inbox
+                    </Link>
+                  </NavItem>
+                  : <></>
+              }
+              {
+                !localStorage.getItem("isHost")
+                  ? <NavItem>
+                    <Link
+                      className="nav-link text-dark"
+                      to="/transportguidelines"
+                    >
+                      Transport Guidelines
+                    </Link>
+                  </NavItem>
+                  : <></>
+              }
+
             </ul>
             {!localStorage.getItem("token") ? (
               <form className="d-flex" role="button">

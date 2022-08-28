@@ -176,6 +176,12 @@ const SingleBooking = () => {
                                     <li class="list-group-item list-group-item-danger">This Request has been Rejected</li>
                                 )
                             }
+                            {
+                                booking.status === "confirmed" && (
+                                    <li class="list-group-item list-group-item-primary">This Request has been Paid and Confirmed</li>
+                                )
+                            }
+
 
 
                         </div>

@@ -62,6 +62,7 @@ const ExperienceHostingSchema = new Schema({
   },
   partialPayAllowed: {
     type: Boolean,
+    default: false,
   },
   additionalRequirements: [
     {

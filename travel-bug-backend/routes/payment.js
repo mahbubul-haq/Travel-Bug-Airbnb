@@ -65,7 +65,8 @@ router.post("/create", fetchuser, async (req, res) => {
         console.log("payment", paymentInfo);
         const bookin = Booking.findByIdAndUpdate(
             booking._id,
-            { paymentID: paymentInfo._id }).then((booking) => {
+            { paymentID: paymentInfo._id, status:"confirmed"
+             }).then((booking) => {
                 console.log("booking", booking);
             }).catch((err) => {
                 console.log(err);

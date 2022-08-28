@@ -27,13 +27,22 @@ const Experiences = () => {
     if (search.hostingTitle !== '') {
       updatedExperiences = updatedExperiences.filter(experience => experience.hostingTitle.toLowerCase().includes(search.hostingTitle.toLowerCase()));
     }
+
+    //location filter
+    if (search.location !== '') {
+      updatedExperiences = updatedExperiences.filter(experience => {
+        if(experience.location.address !== undefined){
+          return experience.location.address.toLowerCase().includes(search.location.toLowerCase());
+        } 
+      });
+    }
     
     // category filter
     if(checkedCategories.length > 0){
       updatedExperiences = updatedExperiences.filter(experience => {
         for(let i = 0; i < checkedCategories.length; i++){
           for(let j = 0; j < experience.categories.length; j++){
-            if(experience.categories[j] === checkedCategories[i]._id){
+            if(experience.categories[j]._id === checkedCategories[i]._id){
               return true;
             }
           }
@@ -129,7 +138,7 @@ const Experiences = () => {
         </div>
         <br />
         <h2 className="text-center">Experiences</h2>
-        <h5 className="text-center">Searching...  Theme: {search.hostingTitle} | Guest No: {search.lguests} | {checkedCategories.join(", ")}</h5>
+        <h5 className="text-center">Theme: {search.hostingTitle} | Location: {search.location} | Guest No: {search.lguests}</h5>
         <div className="row my-10">
           {list.map((experience, index) => (
             <div className="col-lg-4 mb-4">
@@ -157,7 +166,7 @@ const Experiences = () => {
   }
 
   const renderMain = ()=>{
-    if(search.hostingTitle === '' && search.checkin === '' && search.checkout === '' && search.lguests === '' && search.maxCost === ''  && checkedCategories.length === 0){
+    if(search.hostingTitle === '' && search.location === '' && search.checkin === '' && search.checkout === '' && search.lguests === '' && search.maxCost === ''  && checkedCategories.length === 0){
       return renderPage(experiences);
     } else {
       return renderPage(filteredExperiences);

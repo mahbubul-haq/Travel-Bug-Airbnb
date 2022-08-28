@@ -9,6 +9,7 @@ import './request.css';
 export default function Request() {
     // state booking
     const [booking, setBooking] = useState({});
+    const [paid , setPaid] = useState(false);
     // get params from url
     const { bookingId } = useParams();
     const {notificationId} = useParams();
@@ -31,6 +32,7 @@ export default function Request() {
         if (data.success) {
             console.log(data);
             setBooking(data.booking);
+            setPaid(true);
         }
     }
     //useEffect to fetch booking details
@@ -167,7 +169,7 @@ export default function Request() {
                     </div>
                     <center>
                         <div className="card-footer">
-                            {booking.status === "waiting" && (
+                            {booking.status === "waiting"&& paid==false && (
 
                             <div className="d-flex">
 
@@ -177,20 +179,25 @@ export default function Request() {
                                 <button type="button" className="btn btn-danger mx-2" onClick={declineRequest}>Decline</button>
 
                             </div>)}{
-                            booking.status === "approved" && (
+                            booking.status === "approved" && paid==false && (
                                 <li class="list-group-item list-group-item-success">This Request has been Approved</li>
                             )
                             }
                             {
-                                booking.status === "rejected" && (
+                                booking.status === "rejected" && paid==false &&  (
                                     <li class="list-group-item list-group-item-danger">This Request has been Rejected</li>
+                                )
+                            }
+                            {
+                                paid &&  (
+                                    <li class="list-group-item list-group-item-primary">This Request has been Paid</li>
                                 )
                             }
 
 
                         </div>
                     </center>
-                    {type=="reply" && booking.status=="approved" && (
+                    {type=="reply" && booking.status=="approved" && paid==false&& (
                         <StripeCheckout stripeKey="pk_test_51LbLZjLOMUpyuAnrdPiTUuHC5zH8qH6O9VY8BfSO4TI9vKK6a1LjwGNnQNq3Z3jPTXwAIfTpK957wr4HBOe0KbsB00NJVCBzV6" token={makePayment} name="Make Payment"
                         shippingAddress amount={booking.totalPrice*100} 
                        >

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import CustomMap from './map/CustomMap';
 import './map/CustomMap.css';
 import RouteCustomMap from './map/RouteCustomMap';
+import { Navigate } from 'react-router-dom';
 
 const TransportGuidelines = () => {
   const [positions, setPositions] = useState([]);
@@ -298,9 +299,8 @@ const TransportGuidelines = () => {
 
   return (
     <div className='container'>
-      {renderComponent()}
+      {localStorage.getItem("token") ? renderComponent() : <Navigate to="/login" />}
     </div>
-
   )
 }
 
