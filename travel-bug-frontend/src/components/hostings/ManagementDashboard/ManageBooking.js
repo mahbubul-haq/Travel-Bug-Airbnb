@@ -78,10 +78,13 @@ const ManageBooking = () => {
     } else if (listType === "currentlyHosting" || listType === "checkingOut") {
       return (
         <>
-          <button className="btn btn-primary" id="m-b-complete-button"
-          onClick={() => {
-            completeHosting();
-          }}>
+          <button
+            className="btn btn-primary"
+            id="m-b-complete-button"
+            onClick={() => {
+              completeHosting();
+            }}
+          >
             Complete
           </button>
         </>
@@ -102,7 +105,7 @@ const ManageBooking = () => {
             </Link>
           </div>
           <div id="manage-booking-user">
-            Hosted By {item.user.firstName} {item.user.lastName}
+            Booked By {item.user.firstName} {item.user.lastName}
           </div>
           <div id="manage-booking-more">
             <div id="manage-booking-date">
@@ -117,6 +120,12 @@ const ManageBooking = () => {
               <div id="m-b-total-cost">Total Cost : ${item.cost}</div>
               <div id="m-b-no-of-guests">No of guests : {item.noOfGuests}</div>
             </div>
+          </div>
+          <div id="m-b-paid">
+            {"paymentID" in item && <div style={{ color: "green" }}>PAID</div>}
+            {!("paymentID" in item) && (
+              <div style={{ color: "red" }}>NOT PAID</div>
+            )}
           </div>
 
           <div id="m-b-activities">
@@ -133,6 +142,11 @@ const ManageBooking = () => {
               Back
             </button>
             {getButton()}
+            <button onClick={() => {
+              navigate("/messages", {state: {"receiverId": item.user._id, "receiverName": item.user.firstName + " " + item.user.lastName}})
+            }} className="btn btn-primary" id="m-b-contact-button">
+              Contact User
+            </button>
           </div>
         </div>
       </div>

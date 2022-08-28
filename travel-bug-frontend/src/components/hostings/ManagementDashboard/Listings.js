@@ -47,20 +47,20 @@ const Listings = () => {
   } ,[myHostings]);
 
   return (
-    <div className="container">
-      
-      <br/><br/>
-        <h2>My Listings</h2>
+    <div className="listings-container">
+      <div id="listings-header">My Listings</div>
+      <div id="listings-mid">
         <Container>
-        <ul class="list-group">
-         <br/>
-        {myHostings.map((hostItem) => {
-          return < HostitemCard hostItem={hostItem} />;
-        })}
-        </ul>
+          <ul class="list-group list-item-listings" id="list-item-listings">
+            <br />
+            {myHostings.map((hostItem) => {
+              return <HostitemCard hostItem={hostItem} />;
+            })}
+          </ul>
         </Container>
       </div>
-  )
+    </div>
+  );
 }
 
 export default Listings

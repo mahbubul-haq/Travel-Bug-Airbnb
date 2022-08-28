@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import userContext from "../../context/user/userContext";
 
 import Dummy from "../../images/dummy_profile_pic.webp";
@@ -20,6 +20,7 @@ const Messages = () => {
   const [fetchedMessages, setFetchedMessages] = useState([]);
   // const [newMessages, setNewMessages] = useState([]);  const loc = useLocation()  //Dummy
 
+
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState({
     receiver: null,
@@ -27,6 +28,12 @@ const Messages = () => {
     receiverName: "",
     timeStamp: null,
   });
+
+  const location = useLocation().state;
+  useEffect(() => {
+  if (location !== null && "receiverId" in location) {
+    setNewMessage({ ...newMessage, receiver: location.receiverId, receiverName: location.receiverName });
+  }} , [location]);
 
   const getAllUsers = async () => {
     const response = await fetch("http://localhost:5000/message/users", {
