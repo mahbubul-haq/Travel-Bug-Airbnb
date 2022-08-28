@@ -193,6 +193,11 @@ export default function Request() {
                                     <li class="list-group-item list-group-item-primary">This Request has been Paid</li>
                                 )
                             }
+                            {
+                                booking.status === "confirmed" && paid==false &&  (
+                                    <li class="list-group-item list-group-item-primary">This Request has been Paid</li>
+                                )
+                            }
 
 
                         </div>
