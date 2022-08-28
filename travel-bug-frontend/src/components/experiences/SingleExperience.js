@@ -92,6 +92,11 @@ const SingleExperience = () => {
 
     }*/
 
+    const handleContactHost = (e) => {
+        e.preventDefault();
+        navigate('/messages/');
+    }
+
 
     return (
       <div>
@@ -271,7 +276,7 @@ const SingleExperience = () => {
                           Hosting Date: {experience.hostingDate}
                         </small>
                       </p>
-                      <button type="button" className="btn btn-outline-primary">
+                      <button type="button" className="btn btn-outline-primary" onClick={handleContactHost}>
                         Contact Host
                       </button>
                     </div>
