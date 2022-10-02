@@ -211,7 +211,7 @@ router.get("/all", fetchuser, async (req, res) => {
   var success = false;
   try {
     const userId = req.user.id;
-    const bookings = await Booking.find({host: userId }).populate("hostingID user host paymentID");
+    const bookings = await Booking.find({host: userId }).populate("selectedActivities hostingID user host paymentID");
     success = true;
     res.json({
       success: success,

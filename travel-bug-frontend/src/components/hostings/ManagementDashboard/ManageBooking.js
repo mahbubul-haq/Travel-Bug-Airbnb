@@ -130,6 +130,9 @@ const ManageBooking = () => {
 
           <div id="m-b-activities">
             <h3>selected activities</h3>
+            <ul>
+             <li>No activity selected</li>
+              </ul>
           </div>
           <div id="m-b-buttons">
             <button
