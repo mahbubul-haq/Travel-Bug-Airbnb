@@ -1,6 +1,6 @@
 ## CSE 408 Term Project - Travel Bug
 
-### CSE 108 - Software Development Sessional
+### CSE 408 - Software Development Sessional
 
 #### Travel Bug is an online platform for making travel experience more elegant. It offers experience hosting, experience booking, traveling guideline for visiting a particular place and many more.
 
@@ -28,7 +28,7 @@ Bangladesh University of Engineering & Technology (BUET)\
 ### Clone the Repository
 
 ```sh
-git clone git@github.com:kawshikbuet17/CSE-408-Project-Travel-Bug.git
+git clone https://github.com/mahbubul-haq/Travel-Bug-Airbnb.git
 ```
 
 ### Install the Packages
